@@ -42,14 +42,17 @@
 
 ## Skill obligatoria para UI: `frontend-design`
 
-- El plugin `frontend-design@anthropic-plugin-directory` está instalado y
-  habilitado en `.claude/settings.json` de este repositorio.
+- La skill está versionada en el repositorio en
+  `.agents/skills/frontend-design/SKILL.md` (licencia Apache 2.0 en
+  `LICENSE.txt`). **Todos los agentes de IA** deben leerla, no solo Claude.
 - Antes de crear o modificar cualquier interfaz visual (páginas, componentes,
-  layouts, estilos o clases de Tailwind), **es obligatorio** invocar la skill
-  `frontend-design:frontend-design` con la herramienta `Skill`. Hacerlo antes
-  de escribir código, no después.
+  layouts, estilos o clases de Tailwind), **es obligatorio** aplicar esa skill.
+  Hacerlo antes de escribir código, no después.
+- Si tu agente tiene un mecanismo nativo de skills, usalo también: en Claude
+  Code, invocá `frontend-design:frontend-design` con la herramienta `Skill`
+  (el plugin está habilitado en `.claude/settings.json`).
 - Si la tarea no toca la UI (configuración de build, scripts, documentación),
-  no hace falta invocarla.
+  no hace falta.
 
 ## Development
 
