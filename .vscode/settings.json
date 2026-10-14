@@ -1,0 +1,55 @@
+{
+  // --- Saltos de línea y archivos ---
+  // Fuerza LF en el editor para que coincida con .gitattributes/.editorconfig.
+  "files.eol": "\n",
+  "files.encoding": "utf8",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
+
+  // --- Indentación (coincide con .editorconfig) ---
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+
+  // --- Formato al guardar ---
+  "editor.formatOnSave": true,
+  // Astro usa la extensión oficial; el resto de lenguajes, los formateadores
+  // integrados de VS Code (no forzamos Prettier, que no está instalado).
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "vscode.markdown-language-features"
+  },
+
+  // --- Astro ---
+  "astro.contentIntellisense.enabled": true,
+  "astro.updateImportsOnFileMove.enabled": true,
+
+  // --- Gestor de paquetes: solo pnpm ---
+  "npm.packageManager": "pnpm",
+  "npm.scriptRunner": "pnpm",
+
+  // --- Búsquedas y ruido visual ---
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.astro": true,
+    "pnpm-lock.yaml": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/.astro/**": true
+  }
+}
