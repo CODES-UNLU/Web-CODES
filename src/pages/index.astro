@@ -1,11 +1,14 @@
 ---
+// `BASE_URL` respeta el `base` definido en astro.config.mjs (ej. /Web-CODES),
+// así los assets de /public siguen resolviendo bien en GitHub Pages.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+		<link rel="icon" href={`${base}/favicon.ico`} />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro</title>

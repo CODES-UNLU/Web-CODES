@@ -1,0 +1,46 @@
+name: Deploy a GitHub Pages
+
+on:
+  # Se dispara en cada push a `main`.
+  push:
+    branches: [main]
+  # Permite ejecutarlo manualmente desde la pestaña "Actions".
+  workflow_dispatch:
+
+# Permisos mínimos necesarios para publicar en Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un solo deploy a la vez; si llega un push nuevo, cancela el anterior.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v7
+
+      # Detecta pnpm automáticamente por `pnpm-lock.yaml`, instala
+      # dependencias, corre el build y sube el artefacto de Pages.
+      - name: Instalar dependencias, build y subir artefacto
+        uses: withastro/action@v6
+        with:
+          node-version: 24
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

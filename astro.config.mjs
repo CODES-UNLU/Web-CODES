@@ -2,4 +2,9 @@
 import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  // Sitio publicado en GitHub Pages (CODES-UNLU/Web-CODES).
+  site: 'https://codes-unlu.github.io',
+  // `base` es obligatorio para project pages: la web vive en /Web-CODES/.
+  base: '/Web-CODES',
+});
