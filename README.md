@@ -1,43 +1,57 @@
-# Astro Starter Kit: Minimal
+# Web-CODES
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+Sitio web de [CODES-UNLU](https://github.com/CODES-UNLU), construido con
+[Astro](https://astro.build).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- **Repositorio:** https://github.com/CODES-UNLU/Web-CODES
+- **Sitio publicado:** https://codes-unlu.github.io/Web-CODES/
 
-## 🚀 Project Structure
+## Requisitos
 
-Inside of your Astro project, you'll see the following folders and files:
+- Node.js `>= 22.12.0`
+- [pnpm](https://pnpm.io) (único gestor de paquetes permitido)
+
+## Comandos
+
+| Comando            | Acción                                              |
+| :----------------- | :-------------------------------------------------- |
+| `pnpm install`     | Instala las dependencias                            |
+| `pnpm dev`         | Levanta el servidor de desarrollo en `localhost:4321` |
+| `pnpm build`       | Genera el sitio de producción en `./dist/`          |
+| `pnpm preview`     | Previsualiza el build localmente                    |
+| `pnpm astro ...`   | Ejecuta comandos de la CLI de Astro                 |
+
+> El dev server se puede levantar en segundo plano con `pnpm dev --background`
+> y administrar con `pnpm dev stop`, `pnpm dev status` y `pnpm dev logs`.
+
+## Estructura
 
 ```text
 /
-├── public/
+├── public/              # Assets estáticos (se copian tal cual)
 ├── src/
-│   └── pages/
+│   └── pages/           # Rutas: cada archivo es una página
 │       └── index.astro
+├── .github/workflows/   # CI/CD (deploy a GitHub Pages)
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Deploy
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+El deploy es automático: cada push a `main` dispara el workflow
+`.github/workflows/deploy.yml`, que construye el sitio con el
+[Astro Action oficial](https://github.com/withastro/action) y lo publica en
+GitHub Pages.
 
-Any static assets, like images, can be placed in the `public/` directory.
+- URL de producción: https://codes-unlu.github.io/Web-CODES/
+- El `site` y el `base` correspondientes están definidos en `astro.config.mjs`.
 
-## 🧞 Commands
+## Convenciones
 
-All commands are run from the root of the project, from a terminal:
+- **Solo pnpm** para instalar dependencias y correr scripts.
+- **Conventional Commits en español** (ej.: `feat(nav): agrega menú responsive`).
+- Los finales de línea se normalizan a **LF** vía `.gitattributes` /
+  `.editorconfig`; los editores ya incluyen la configuración recomendada en
+  `.vscode/`.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Ver [`AGENTS.md`](./AGENTS.md) para el detalle de las reglas.
