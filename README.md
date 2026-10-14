@@ -1,10 +1,12 @@
 # Web-CODES
 
-Sitio web de [CODES-UNLU](https://github.com/CODES-UNLU), construido con
-[Astro](https://astro.build).
+Sitio web oficial de **CODES++** (Centro Organizado de Estudiantes de Sistemas de la
+Universidad Nacional de Luján), construido con [Astro](https://astro.build).
 
 - **Repositorio:** https://github.com/CODES-UNLU/Web-CODES
 - **Sitio publicado:** https://codes-unlu.github.io/Web-CODES/
+- **Organización:** https://github.com/CODES-UNLU
+- **Redes:** https://link.codesunlu.com.ar/
 
 ## Requisitos
 
