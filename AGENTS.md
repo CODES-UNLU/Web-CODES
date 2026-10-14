@@ -40,6 +40,17 @@
 - Si un archivo aparece como modificado por completo, es casi seguro CRLF vs LF:
   no lo commitees así, revisá el editor y volvé a normalizar.
 
+## Skill obligatoria para UI: `frontend-design`
+
+- El plugin `frontend-design@anthropic-plugin-directory` está instalado y
+  habilitado en `.claude/settings.json` de este repositorio.
+- Antes de crear o modificar cualquier interfaz visual (páginas, componentes,
+  layouts, estilos o clases de Tailwind), **es obligatorio** invocar la skill
+  `frontend-design:frontend-design` con la herramienta `Skill`. Hacerlo antes
+  de escribir código, no después.
+- Si la tarea no toca la UI (configuración de build, scripts, documentación),
+  no hace falta invocarla.
+
 ## Development
 
 When starting the dev server, use background mode:
