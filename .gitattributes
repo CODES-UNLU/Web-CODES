@@ -1,0 +1,84 @@
+# =============================================================================
+# .gitattributes
+#
+# Objetivo: que el repositorio guarde SIEMPRE texto con LF, sin importar el
+# sistema operativo del que hace el commit. Git normaliza al hacer `git add`,
+# así que nadie ve "diffs fantasma" (archivos que aparecen 100% cambiados)
+# por culpa de CRLF vs LF.
+#
+# Si necesitás que un archivo conserve CRLF en el working tree, agregá una
+# regla más específica al final de este archivo.
+# =============================================================================
+
+# --- Regla por defecto --------------------------------------------------------
+# Detecta automáticamente texto vs. binario y fuerza LF en el working tree.
+* text=auto eol=lf
+
+# --- Texto: LF explícito ------------------------------------------------------
+# Se declaran las extensiones del proyecto para que ni un `core.autocrlf`
+# local ni un editor mal configurado puedan meter CRLF al repositorio.
+*.astro   text eol=lf
+*.html    text eol=lf
+*.css     text eol=lf
+*.scss    text eol=lf
+*.js      text eol=lf
+*.cjs     text eol=lf
+*.mjs     text eol=lf
+*.jsx     text eol=lf
+*.ts      text eol=lf
+*.tsx     text eol=lf
+*.json    text eol=lf
+*.jsonc   text eol=lf
+*.md      text eol=lf
+*.mdx     text eol=lf
+*.yml     text eol=lf
+*.yaml    text eol=lf
+*.toml    text eol=lf
+*.xml     text eol=lf
+*.svg     text eol=lf
+*.txt     text eol=lf
+
+# --- CRLF explícito -----------------------------------------------------------
+# Scripts que Windows espera con CRLF.
+*.bat     text eol=crlf
+*.cmd     text eol=crlf
+*.ps1     text eol=crlf
+
+# --- Binarios -----------------------------------------------------------------
+# `binary` = `-text -diff`: nunca se normalizan ni se intenta diffear texto.
+*.ico     binary
+*.icns    binary
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.gif     binary
+*.webp    binary
+*.avif    binary
+*.bmp     binary
+*.tiff    binary
+*.pdf     binary
+*.zip     binary
+*.gz      binary
+*.tar     binary
+*.7z      binary
+*.woff    binary
+*.woff2   binary
+*.ttf     binary
+*.otf     binary
+*.eot     binary
+*.mp3     binary
+*.mp4     binary
+*.webm    binary
+*.mov     binary
+*.wasm    binary
+
+# --- Lockfiles ----------------------------------------------------------------
+# Sin diff de texto (evita ruido y falsos conflictos) y marcados como generados.
+pnpm-lock.yaml      -diff linguist-generated=true
+package-lock.json   -diff linguist-generated=true
+yarn.lock           -diff linguist-generated=true
+
+# --- Artefactos generados -----------------------------------------------------
+*.min.js    -diff linguist-generated=true
+*.min.css   -diff linguist-generated=true
+dist/**     -diff linguist-generated=true
