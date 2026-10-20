@@ -1,0 +1,29 @@
+---
+import type { AcademicTopic } from '../data/academicData';
+import Badge from '../../../components/ui/Badge.astro';
+
+interface Props {
+  topic: AcademicTopic;
+}
+
+const { topic } = Astro.props;
+---
+
+<article class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 sm:p-6 shadow-xs transition-all hover:border-[var(--brand-400)]" id={topic.id}>
+  <div class="flex items-center justify-between gap-2 mb-2">
+    <h3 class="text-lg sm:text-xl font-bold text-[var(--color-text-heading)] m-0">
+      {topic.title}
+    </h3>
+    <Badge variant="neutral">{topic.badge}</Badge>
+  </div>
+
+  <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4">
+    {topic.summary}
+  </p>
+
+  <ul class="space-y-2 list-disc pl-5 text-xs sm:text-sm text-[var(--color-text-main)] leading-relaxed">
+    {topic.content.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+</article>

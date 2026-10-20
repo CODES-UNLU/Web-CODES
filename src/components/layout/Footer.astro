@@ -1,0 +1,137 @@
+---
+import { withBase } from '../../lib/paths';
+---
+
+<footer class="mt-auto border-t border-[var(--color-border)] bg-[var(--color-bg-subtle)] text-[var(--color-text-muted)] text-sm transition-colors">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+      <!-- Columna 1: Identidad institucional -->
+      <div class="md:col-span-2 space-y-3">
+        <div class="flex items-center gap-2">
+          <img
+            src={withBase('/brand/logo-claro.svg')}
+            alt=""
+            class="h-7 w-auto dark:hidden"
+            width="34"
+            height="28"
+          />
+          <img
+            src={withBase('/brand/logo-oscuro.svg')}
+            alt=""
+            class="h-7 w-auto hidden dark:block"
+            width="34"
+            height="28"
+          />
+          <span class="font-bold text-base text-[var(--color-text-heading)]">
+            CODES<span class="text-[var(--brand-500)]">++</span> UNLu
+          </span>
+        </div>
+        <p class="text-xs sm:text-sm leading-relaxed max-w-md">
+          Centro Organizado de Estudiantes de Sistemas de la Universidad Nacional de Luján. 
+          Un espacio abierto y voluntario dedicado a orientar, acompañar y representar a la comunidad estudiantil.
+        </p>
+        <p class="text-xs text-[var(--color-text-muted)]">
+          Sitio estático de código abierto desarrollado colaborativamente.
+        </p>
+      </div>
+
+      <!-- Columna 2: Navegación y atajos -->
+      <div>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-[var(--color-text-heading)] mb-3">
+          Secciones
+        </h3>
+        <ul class="space-y-2 text-xs sm:text-sm list-none p-0 m-0">
+          <li>
+            <a href={withBase('/ingresantes')} class="no-underline hover:text-[var(--color-interactive)]">
+              Guía de Ingresantes
+            </a>
+          </li>
+          <li>
+            <a href={withBase('/vida-academica')} class="no-underline hover:text-[var(--color-interactive)]">
+              Vida Académica y Trámites
+            </a>
+          </li>
+          <li>
+            <a href={withBase('/calendario')} class="no-underline hover:text-[var(--color-interactive)]">
+              Calendario Académico
+            </a>
+          </li>
+          <li>
+            <a href={withBase('/comunidad')} class="no-underline hover:text-[var(--color-interactive)]">
+              Comunidad y Canales
+            </a>
+          </li>
+          <li>
+            <a href={withBase('/actividades')} class="no-underline hover:text-[var(--color-interactive)]">
+              Actividades y Talleres
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Enlaces verificados y contacto -->
+      <div>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-[var(--color-text-heading)] mb-3">
+          Canales oficiales
+        </h3>
+        <ul class="space-y-2 text-xs sm:text-sm list-none p-0 m-0">
+          <li>
+            <a
+              href="https://link.codesunlu.com.ar/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="no-underline hover:text-[var(--color-interactive)] inline-flex items-center gap-1.5"
+            >
+              <span>Redes y Enlaces CODES++</span>
+              <svg class="w-3.5 h-3.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/CODES-UNLU"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="no-underline hover:text-[var(--color-interactive)] inline-flex items-center gap-1.5"
+            >
+              <span>GitHub Organización</span>
+              <svg class="w-3.5 h-3.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/CODES-UNLU/Web-CODES"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="no-underline hover:text-[var(--color-interactive)] inline-flex items-center gap-1.5"
+            >
+              <span>Código fuente del sitio</span>
+              <svg class="w-3.5 h-3.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </li>
+          <li class="pt-2 text-xs text-[var(--color-text-muted)]">
+            <span class="block font-medium text-[var(--color-text-main)]">Sede Central y San Miguel</span>
+            <span>Mesita estudiantil durante el cuatrimestre</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Barra inferior institucional -->
+    <div class="pt-6 border-t border-[var(--color-border)] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--color-text-muted)]">
+      <p class="m-0">
+        CODES++ no reemplaza a las vías administrativas de la UNLu. Para gestiones oficiales, consultá las plataformas académicas oficiales (SAWEB / Sistema de Gestión de Estudiantes) y los canales institucionales.
+      </p>
+      <div class="flex items-center gap-3">
+        <a href="#top" class="hover:text-[var(--color-interactive)] no-underline">
+          Volver arriba ↑
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,72 @@
+---
+import type { OnboardingStep } from '../data/steps';
+import { withBase } from '../../../lib/paths';
+import Button from '../../../components/ui/Button.astro';
+import Badge from '../../../components/ui/Badge.astro';
+
+interface Props {
+  step: OnboardingStep;
+  isLast?: boolean;
+}
+
+const { step, isLast = false } = Astro.props;
+---
+
+<article class="relative flex gap-4 sm:gap-6 group" id={step.id}>
+  <!-- Línea vertical conectora -->
+  {
+    !isLast && (
+      <div
+        class="absolute left-4 sm:left-5 top-12 -bottom-6 w-0.5 bg-[var(--color-border)] group-hover:bg-[var(--brand-300)] transition-colors"
+        aria-hidden="true"
+      />
+    )
+  }
+
+  <!-- Indicador circular del paso -->
+  <div class="relative z-10 shrink-0">
+    <div
+      class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base bg-[var(--brand-700)] text-white dark:bg-[var(--brand-400)] dark:text-neutral-950 shadow-xs ring-4 ring-[var(--color-bg)]"
+      aria-hidden="true"
+    >
+      {step.number}
+    </div>
+  </div>
+
+  <!-- Contenido del paso -->
+  <div class="flex-1 pb-8 sm:pb-10">
+    <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 sm:p-6 shadow-xs transition-all hover:border-[var(--brand-400)]">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+        <h3 class="text-lg sm:text-xl font-bold text-[var(--color-text-heading)] m-0">
+          {step.title}
+        </h3>
+        {step.badge && <Badge variant="brand">{step.badge}</Badge>}
+      </div>
+
+      <p class="text-sm sm:text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
+        {step.summary}
+      </p>
+
+      <ul class="space-y-2 mb-5 list-disc pl-5 text-xs sm:text-sm text-[var(--color-text-main)] leading-relaxed">
+        {step.details.map((point) => (
+          <li>{point}</li>
+        ))}
+      </ul>
+
+      {
+        step.actionHref && step.actionLabel && (
+          <div class="pt-2">
+            <Button
+              href={withBase(step.actionHref)}
+              variant="secondary"
+              size="sm"
+            >
+              <span>{step.actionLabel}</span>
+              <span aria-hidden="true">→</span>
+            </Button>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</article>

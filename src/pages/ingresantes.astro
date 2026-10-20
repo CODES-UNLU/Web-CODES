@@ -1,0 +1,66 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Callout from '../components/ui/Callout.astro';
+import Button from '../components/ui/Button.astro';
+import OnboardingStepCard from '../features/ingresantes/components/OnboardingStepCard.astro';
+import { onboardingSteps } from '../features/ingresantes/data/steps';
+import { withBase } from '../lib/paths';
+---
+
+<PageLayout
+  title="Guía de Ingresantes"
+  description="Recorrido paso a paso para estudiantes que comienzan la carrera de Sistemas en la Universidad Nacional de Luján: plataformas digitales (PlatDig, SAWEB, Gestión de Estudiantes), materias, sedes y comunidad."
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    <Breadcrumbs items={[{ label: 'Ingresantes' }]} />
+
+    <SectionHeading
+      title="Guía de primeros pasos para ingresantes"
+      subtitle="Todo lo que necesitás saber para comenzar a cursar en la UNLu sin perderte en el intento."
+      badge="Recorrido guiado"
+    />
+
+    <div class="mb-10">
+      <Callout variant="brand" title="¿Acabás de ingresar a la universidad?">
+        <p>
+          Empezar la facultad genera muchas dudas y un vocabulario nuevo (correlatividades, plataformas virtuales, regularidad, comisiones).
+          Este recorrido fue armado por compañeros de años avanzados de CODES++ para que vayas resolviendo cada paso de forma ordenada, sin apuro y con información clara.
+        </p>
+      </Callout>
+    </div>
+
+    <!-- Lista de pasos guiados (Mobile-first vertical timeline) -->
+    <div class="space-y-2 mb-12">
+      {
+        onboardingSteps.map((step, index) => (
+          <OnboardingStepCard
+            step={step}
+            isLast={index === onboardingSteps.length - 1}
+          />
+        ))
+      }
+    </div>
+
+    <!-- Bloque de cierre y ayuda -->
+    <section class="bg-[var(--color-bg-subtle)] border border-[var(--color-border)] rounded-xl p-6 sm:p-8 text-center space-y-4">
+      <h3 class="text-xl font-bold text-[var(--color-text-heading)]">
+        ¿Tenés dudas que no están en esta guía?
+      </h3>
+      <p class="text-sm text-[var(--color-text-muted)] max-w-lg mx-auto leading-relaxed">
+        Los miembros del centro de estudiantes estamos para acompañarte en los pasillos de la facultad o mediante nuestros grupos de estudio.
+      </p>
+      <div class="pt-2 flex flex-wrap justify-center gap-3">
+        <Button href={withBase('/comunidad')} variant="primary" size="sm">
+          <span>Unirse a la comunidad de WhatsApp</span>
+          <span aria-hidden="true">→</span>
+        </Button>
+        <Button href={withBase('/vida-academica')} variant="secondary" size="sm">
+          <span>Explorar trámites y normativas</span>
+          <span aria-hidden="true">→</span>
+        </Button>
+      </div>
+    </section>
+  </div>
+</PageLayout>

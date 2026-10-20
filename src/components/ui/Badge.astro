@@ -1,0 +1,33 @@
+---
+interface Props {
+  variant?: 'brand' | 'info' | 'success' | 'warning' | 'danger' | 'neutral';
+  size?: 'sm' | 'md';
+  class?: string;
+}
+
+const {
+  variant = 'neutral',
+  size = 'md',
+  class: className = '',
+} = Astro.props;
+
+const sizeStyles = {
+  sm: 'text-xs px-2 py-0.5',
+  md: 'text-xs font-medium px-2.5 py-1',
+};
+
+const variantStyles = {
+  brand: 'bg-[var(--brand-50)] text-[var(--brand-800)] border border-[var(--brand-200)] dark:bg-[var(--brand-950)] dark:text-[var(--brand-200)] dark:border-[var(--brand-800)]',
+  info: 'bg-[var(--color-info-bg)] text-[var(--color-info)] border border-[var(--color-info-border)]',
+  success: 'bg-[var(--color-success-bg)] text-[var(--color-success)] border border-[var(--color-success-border)]',
+  warning: 'bg-[var(--color-warning-bg)] text-[var(--color-warning)] border border-[var(--color-warning-border)]',
+  danger: 'bg-[var(--color-danger-bg)] text-[var(--color-danger)] border border-[var(--color-danger-border)]',
+  neutral: 'bg-[var(--color-bg-subtle)] text-[var(--color-text-muted)] border border-[var(--color-border)]',
+};
+
+const computedClass = `inline-flex items-center gap-1.5 rounded-full uppercase tracking-wider select-none font-semibold ${sizeStyles[size]} ${variantStyles[variant]} ${className}`;
+---
+
+<span class={computedClass}>
+  <slot />
+</span>

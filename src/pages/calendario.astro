@@ -1,0 +1,47 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Callout from '../components/ui/Callout.astro';
+import CalendarTimeline from '../features/calendario/components/CalendarTimeline.astro';
+---
+
+<PageLayout
+  title="Calendario Académico"
+  description="Cronograma del ciclo lectivo de la UNLu: períodos de inscripción a materias, turnos de exámenes finales, receso de invierno y fechas clave."
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
+    <div>
+      <Breadcrumbs items={[{ label: 'Calendario' }]} />
+
+      <SectionHeading
+        title="Calendario académico oficial"
+        subtitle="Cronograma cronológico de fechas de inscripción, finales y recesos en la Universidad Nacional de Luján."
+        badge="Ciclo Lectivo"
+      />
+
+      <Callout variant="warning" title="Estado de vigencia de las fechas">
+        <p>
+          Las fechas marcadas como <strong>«Provisoria · Sujeta a ratificación»</strong> reflejan los períodos habituales del calendario de la UNLu y se actualizarán inmediatamente una vez que el Consejo Superior apruebe la resolución definitiva para cada sede.
+        </p>
+      </Callout>
+    </div>
+
+    <!-- Timeline vertical accesible -->
+    <div class="pt-4">
+      <CalendarTimeline />
+    </div>
+
+    <!-- Recomendaciones útiles -->
+    <section class="bg-[var(--color-bg-subtle)] border border-[var(--color-border)] rounded-xl p-5 sm:p-6 text-xs sm:text-sm text-[var(--color-text-muted)] space-y-2">
+      <h3 class="font-bold text-sm text-[var(--color-text-heading)]">
+        Consejos prácticos para las semanas de inscripción
+      </h3>
+      <ul class="space-y-1 list-disc pl-4 leading-relaxed text-[var(--color-text-main)]">
+        <li>Comprobá el acceso a tu plataforma académica (SAWEB o Sistema de Gestión de Estudiantes según tu cohorte) varios días antes de la apertura de inscripciones para evitar demoras de restablecimiento de contraseña.</li>
+        <li>Tené a mano una opción principal y comisiones alternativas por si se agotan los cupos del horario que preferís.</li>
+        <li>Para inscribirte a finales, recordá que el sistema cierra la inscripción 48 horas hábiles antes de la fecha de examen.</li>
+      </ul>
+    </section>
+  </div>
+</PageLayout>

@@ -1,0 +1,43 @@
+---
+interface Props {
+  as?: 'article' | 'div' | 'section' | 'a';
+  href?: string;
+  variant?: 'default' | 'subtle' | 'highlight';
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+  class?: string;
+  id?: string;
+}
+
+const {
+  as: Tag = Astro.props.href ? 'a' : 'article',
+  href,
+  variant = 'default',
+  padding = 'md',
+  class: className = '',
+  id,
+  ...rest
+} = Astro.props;
+
+const paddingStyles = {
+  none: '',
+  sm: 'p-4',
+  md: 'p-5 sm:p-6',
+  lg: 'p-6 sm:p-8',
+};
+
+const variantStyles = {
+  default: 'bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs',
+  subtle: 'bg-[var(--color-bg-subtle)] border border-[var(--color-border-subtle)]',
+  highlight: 'bg-[var(--color-surface)] border-2 border-[var(--brand-400)] shadow-sm',
+};
+
+const interactiveStyles = href
+  ? 'no-underline transition-all duration-150 hover:border-[var(--brand-500)] hover:shadow-md cursor-pointer block'
+  : '';
+
+const computedClass = `rounded-xl ${variantStyles[variant]} ${paddingStyles[padding]} ${interactiveStyles} ${className}`;
+---
+
+<Tag href={href} class={computedClass} id={id} {...rest}>
+  <slot />
+</Tag>

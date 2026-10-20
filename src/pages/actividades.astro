@@ -1,0 +1,57 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Callout from '../components/ui/Callout.astro';
+import ActivityCard from '../features/actividades/components/ActivityCard.astro';
+import { activitiesData } from '../features/actividades/data/activitiesData';
+---
+
+<PageLayout
+  title="Actividades y Publicaciones"
+  description="Videoteca de charlas técnicas pasadas, talleres de desarrollo y actividades extracurriculares de CODES++ UNLu."
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
+    <div>
+      <Breadcrumbs items={[{ label: 'Actividades' }]} />
+
+      <SectionHeading
+        title="Actividades, charlas y videoteca"
+        subtitle="Contenido audiovisual, talleres prácticos de software y encuentros técnicos organizados por el centro."
+        badge="Formación continua"
+      />
+
+      <Callout variant="info" title="Carga ligera y optimizada">
+        <p>
+          Para mantener la web veloz y respetuosa del consumo de datos móviles, no incrustamos reproductores pesados de YouTube en la carga inicial. Podés hacer clic en cada actividad para acceder a la grabación oficial en la plataforma correspondiente.
+        </p>
+      </Callout>
+    </div>
+
+    <!-- Grilla de actividades -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {activitiesData.map((activity) => <ActivityCard activity={activity} />)}
+    </div>
+
+    <!-- Convocatoria a talleres -->
+    <section class="bg-[var(--color-bg-subtle)] border border-[var(--color-border)] rounded-xl p-6 sm:p-8 text-center space-y-3">
+      <h3 class="text-lg sm:text-xl font-bold text-[var(--color-text-heading)]">
+        ¿Tenés ganas de dictar un taller o dar una charla?
+      </h3>
+      <p class="text-xs sm:text-sm text-[var(--color-text-muted)] max-w-lg mx-auto leading-relaxed">
+        CODES++ promueve que los estudiantes avanzados compartan sus conocimientos en herramientas, desarrollo web, DevOps, robótica o ciencia de datos. Contactanos para coordinar un espacio.
+      </p>
+      <div class="pt-2">
+        <a
+          href="https://link.codesunlu.com.ar/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[var(--color-interactive)] underline"
+        >
+          <span>Escribir a la Comisión de Actividades</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</PageLayout>

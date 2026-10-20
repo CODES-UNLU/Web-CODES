@@ -1,0 +1,90 @@
+---
+import Callout from '../../../components/ui/Callout.astro';
+import Button from '../../../components/ui/Button.astro';
+
+interface Props {
+  formUrl?: string;
+  title?: string;
+  description?: string;
+  alternativeContactEmail?: string;
+}
+
+const {
+  formUrl,
+  title = 'Formulario de Solicitud de Acceso a Grupos',
+  description = 'Completá tus datos para que los moderadores de CODES++ puedan verificar tu pertenencia a la carrera y enviarte los enlaces correspondientes.',
+  alternativeContactEmail,
+} = Astro.props;
+
+const hasValidUrl = Boolean(formUrl && formUrl.trim().startsWith('http'));
+---
+
+<div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 sm:p-8 shadow-xs">
+  <div class="max-w-2xl mb-6">
+    <h3 class="text-xl sm:text-2xl font-bold text-[var(--color-text-heading)] mb-2">
+      {title}
+    </h3>
+    <p class="text-sm sm:text-base text-[var(--color-text-muted)] leading-relaxed">
+      {description}
+    </p>
+  </div>
+
+  {
+    hasValidUrl ? (
+      <div class="space-y-4">
+        <!-- Contenedor responsive del iframe -->
+        <div class="w-full overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)]">
+          <iframe
+            src={formUrl}
+            title={title}
+            class="w-full min-h-[550px] border-0"
+            loading="lazy"
+          >
+            Cargando formulario...
+          </iframe>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 text-xs text-[var(--color-text-muted)]">
+          <span>¿Tenés problemas para visualizar el formulario integrado?</span>
+          <Button
+            href={formUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="outline"
+            size="sm"
+          >
+            <span>Abrir formulario en nueva pestaña</span>
+            <span aria-hidden="true">↗</span>
+          </Button>
+        </div>
+      </div>
+    ) : (
+      <div class="space-y-4">
+        <Callout variant="info" title="Mecanismo de verificación en etapa de definición">
+          <p>
+            El Centro de Estudiantes se encuentra evaluando un mecanismo simplificado y accesible para moderar el ingreso a los grupos de estudio de WhatsApp (mediante Google Forms o recepción de consultas directas), garantizando que los espacios permanezcan libres de spam y cuidando la privacidad de cada estudiante.
+          </p>
+          <p class="font-medium mt-2">
+            No solicitamos contraseñas de tus plataformas universitarias (SAWEB, Sistema de Gestión de Estudiantes ni PlatDig), certificados médicos ni documentación confidencial.
+          </p>
+        </Callout>
+
+        <div class="p-4 sm:p-5 rounded-lg bg-[var(--color-bg-subtle)] border border-[var(--color-border-subtle)] text-xs sm:text-sm text-[var(--color-text-muted)] space-y-2">
+          <h4 class="font-bold text-[var(--color-text-heading)] text-sm">
+            ¿Cómo participar mientras tanto?
+          </h4>
+          <p>
+            Podés consultar los enlaces en la mesita presencial de CODES++ en la Sede Central Luján y San Miguel, o ingresar a través del canal oficial de difusión institucional en nuestras redes.
+          </p>
+          {
+            alternativeContactEmail && (
+              <p class="pt-1">
+                Contacto directo verificado: <a href={`mailto:${alternativeContactEmail}`} class="text-[var(--color-interactive)] underline">{alternativeContactEmail}</a>
+              </p>
+            )
+          }
+        </div>
+      </div>
+    )
+  }
+</div>

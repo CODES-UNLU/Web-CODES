@@ -1,0 +1,107 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Callout from '../components/ui/Callout.astro';
+import AcademicGuideCard from '../features/vida-academica/components/AcademicGuideCard.astro';
+import ProcedureCard from '../features/vida-academica/components/ProcedureCard.astro';
+import CodesInitiativeCard from '../features/vida-academica/components/CodesInitiativeCard.astro';
+import DigitalPlatformsGuide from '../features/vida-academica/components/DigitalPlatformsGuide.astro';
+import {
+  academicTopics,
+  universityProcedures,
+  codesInitiatives,
+} from '../features/vida-academica/data/academicData';
+---
+
+<PageLayout
+  title="Vida Académica y Trámites"
+  description="Plataformas oficiales de la UNLu (PlatDig, SAWEB, Sistema de Gestión de Estudiantes), cursadas, finales, trámites (Boleto SUBE) y gestiones de CODES++."
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
+    <div>
+      <Breadcrumbs items={[{ label: 'Vida académica' }]} />
+
+      <SectionHeading
+        title="Vida académica y trámites"
+        subtitle="Información clara sobre el funcionamiento de las materias, plataformas oficiales de la UNLu, gestiones administrativas y reclamos estudiantiles."
+      />
+
+      <Callout variant="info" title="Fuentes oficiales y asesoramiento estudiantil">
+        <p>
+          Las explicaciones de esta sección buscan traducir la jerga administrativa a un lenguaje claro para estudiantes. Para trámites formales o resoluciones específicas de expedientes, remitite siempre a la Dirección General de Asuntos Académicos o al Departamento de Alumnos de la UNLu.
+        </p>
+      </Callout>
+    </div>
+
+    <!-- NAVEGACIÓN RÁPIDA INTERNA -->
+    <nav class="flex flex-wrap gap-2 text-xs sm:text-sm" aria-label="Atajos de la página">
+      <a
+        href="#plataformas-unlu"
+        class="no-underline px-3 py-1.5 rounded-lg bg-[var(--brand-50)] dark:bg-[var(--brand-950)] border border-[var(--brand-200)] dark:border-[var(--brand-800)] text-[var(--brand-800)] dark:text-[var(--brand-200)] font-semibold"
+      >
+        Plataformas digitales UNLu ↓
+      </a>
+      <a
+        href="#orientacion-academica"
+        class="no-underline px-3 py-1.5 rounded-lg bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)] text-[var(--color-text-main)] font-medium"
+      >
+        Orientación académica ↓
+      </a>
+      <a
+        href="#gestiones-oficiales"
+        class="no-underline px-3 py-1.5 rounded-lg bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)] text-[var(--color-text-main)] font-medium"
+      >
+        Trámites oficiales UNLu ↓
+      </a>
+      <a
+        href="#gestiones-codes"
+        class="no-underline px-3 py-1.5 rounded-lg bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)] text-[var(--color-text-main)] font-medium"
+      >
+        Gestiones CODES++ ↓
+      </a>
+    </nav>
+
+    <!-- GUÍA DE PLATAFORMAS DIGITALES DE LA UNLU -->
+    <DigitalPlatformsGuide id="plataformas-unlu" />
+
+    <!-- SECCIÓN 1: Orientación Académica -->
+    <section id="orientacion-academica" class="space-y-6 pt-6 border-t border-[var(--color-border)]">
+      <SectionHeading
+        title="Orientación sobre cursadas y exámenes"
+        subtitle="Cómo funciona la cursada, qué significa regularizar o promocionar y cómo planificar los exámenes finales."
+        level={3}
+      />
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {academicTopics.map((topic) => <AcademicGuideCard topic={topic} />)}
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: Gestiones Universitarias Oficiales -->
+    <section id="gestiones-oficiales" class="space-y-6 pt-6 border-t border-[var(--color-border)]">
+      <SectionHeading
+        title="Gestiones universitarias (UNLu / Provincia)"
+        subtitle="Guías paso a paso para realizar trámites formales en los sistemas de la universidad y acceder a beneficios estudiantiles."
+        level={3}
+      />
+
+      <div class="space-y-6">
+        {universityProcedures.map((proc) => <ProcedureCard procedure={proc} />)}
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: Gestiones Organizadas por CODES++ -->
+    <section id="gestiones-codes" class="space-y-6 pt-6 border-t border-[var(--color-border)]">
+      <SectionHeading
+        title="Gestiones e iniciativas organizadas por CODES++"
+        subtitle="Procesos y reclamos colectivos impulsados por el centro de estudiantes ante los departamentos académicos."
+        level={3}
+      />
+
+      <div class="space-y-6">
+        {codesInitiatives.map((init) => <CodesInitiativeCard initiative={init} />)}
+      </div>
+    </section>
+  </div>
+</PageLayout>

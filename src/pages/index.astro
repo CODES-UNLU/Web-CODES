@@ -1,19 +1,251 @@
 ---
-// `BASE_URL` respeta el `base` definido en astro.config.mjs (ej. /Web-CODES),
-// así los assets de /public siguen resolviendo bien en GitHub Pages.
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+import PageLayout from '../layouts/PageLayout.astro';
+import SearchBar from '../components/ui/SearchBar.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Callout from '../components/ui/Callout.astro';
+import { withBase } from '../lib/paths';
+import { activitiesData } from '../features/actividades/data/activitiesData';
+
+const recentActivities = activitiesData.slice(0, 2);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
-		<link rel="icon" href={`${base}/favicon.ico`} />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<PageLayout
+  title="Inicio"
+  description="Centro Organizado de Estudiantes de Sistemas de la UNLu. Guías para ingresantes, trámites académicos, calendario oficial y comunidad estudiantil."
+>
+  <!-- BLOQUE 1: Bienvenida, Orientación y Búsqueda -->
+  <section class="py-10 sm:py-16 px-4 sm:px-6 bg-[var(--color-bg-subtle)] border-b border-[var(--color-border)]">
+    <div class="max-w-4xl mx-auto text-center space-y-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--brand-50)] dark:bg-[var(--brand-950)] border border-[var(--brand-200)] dark:border-[var(--brand-800)] text-xs font-semibold text-[var(--brand-800)] dark:text-[var(--brand-200)]">
+        <span>Comunidad Estudiantil · UNLu Sistemas</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-[var(--color-text-heading)] leading-tight sm:leading-none">
+        ¿Qué necesitás resolver hoy?
+      </h1>
+
+      <p class="text-base sm:text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto leading-relaxed">
+        Orientación, fechas académicas y gestiones universitarias explicadas por y para estudiantes de la Universidad Nacional de Luján.
+      </p>
+
+      <!-- Barra de búsqueda accesible en tiempo real -->
+      <div class="pt-2 sm:pt-4">
+        <SearchBar />
+      </div>
+
+      <!-- Acceso destacado directo a Ingresantes -->
+      <div class="pt-3 flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm">
+        <span class="text-[var(--color-text-muted)]">¿Empezás la carrera este cuatrimestre?</span>
+        <Button href={withBase('/ingresantes')} variant="primary" size="sm">
+          <span>Ver recorrido para ingresantes</span>
+          <span aria-hidden="true">→</span>
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOQUE 2: Accesos Principales -->
+  <section class="py-12 px-4 sm:px-6 max-w-6xl mx-auto">
+    <SectionHeading
+      title="Accesos principales"
+      subtitle="Elegí la sección según lo que necesites consultar o gestionar en tu vida universitaria."
+    />
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <!-- Card Ingresantes -->
+      <Card href={withBase('/ingresantes')} class="flex flex-col justify-between group">
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-[var(--brand-50)] dark:bg-[var(--brand-950)] text-[var(--brand-700)] dark:text-[var(--brand-300)] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform" aria-hidden="true">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-1 group-hover:text-[var(--brand-700)] dark:group-hover:text-[var(--brand-300)]">
+            Soy Ingresante
+          </h3>
+          <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
+            Primeros pasos: plataformas universitarias (PlatDig, SAWEB / Gestión de Estudiantes), materias de 1° año y sedes.
+          </p>
+        </div>
+        <div class="pt-4 text-xs font-semibold text-[var(--color-interactive)] flex items-center gap-1">
+          <span>Abrir guía paso a paso</span>
+          <span aria-hidden="true">→</span>
+        </div>
+      </Card>
+
+      <!-- Card Vida Académica -->
+      <Card href={withBase('/vida-academica')} class="flex flex-col justify-between group">
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-[var(--color-info-bg)] text-[var(--color-info)] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform" aria-hidden="true">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-1 group-hover:text-[var(--brand-700)] dark:group-hover:text-[var(--brand-300)]">
+            Vida Académica
+          </h3>
+          <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
+            Régimen de cursadas, exámenes finales, trámite del Boleto SUBE y regularidad.
+          </p>
+        </div>
+        <div class="pt-4 text-xs font-semibold text-[var(--color-interactive)] flex items-center gap-1">
+          <span>Ver trámites y normas</span>
+          <span aria-hidden="true">→</span>
+        </div>
+      </Card>
+
+      <!-- Card Calendario -->
+      <Card href={withBase('/calendario')} class="flex flex-col justify-between group">
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-[var(--color-warning-bg)] text-[var(--color-warning)] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform" aria-hidden="true">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-1 group-hover:text-[var(--brand-700)] dark:group-hover:text-[var(--brand-300)]">
+            Calendario Académico
+          </h3>
+          <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
+            Fechas de inscripción a materias, mesas de examen final, recesos y feriados.
+          </p>
+        </div>
+        <div class="pt-4 text-xs font-semibold text-[var(--color-interactive)] flex items-center gap-1">
+          <span>Consultar cronograma</span>
+          <span aria-hidden="true">→</span>
+        </div>
+      </Card>
+
+      <!-- Card Comunidad -->
+      <Card href={withBase('/comunidad')} class="flex flex-col justify-between group">
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-[var(--color-success-bg)] text-[var(--color-success)] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform" aria-hidden="true">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-1 group-hover:text-[var(--brand-700)] dark:group-hover:text-[var(--brand-300)]">
+            Comunidad y Grupos
+          </h3>
+          <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
+            Canales oficiales de WhatsApp, grupos de estudio por materia y convivencia universitaria.
+          </p>
+        </div>
+        <div class="pt-4 text-xs font-semibold text-[var(--color-interactive)] flex items-center gap-1">
+          <span>Ver canales y grupos</span>
+          <span aria-hidden="true">→</span>
+        </div>
+      </Card>
+    </div>
+  </section>
+
+  <!-- BLOQUE 3: Información Útil y Gestiones Relevantes -->
+  <section class="py-12 px-4 sm:px-6 bg-[var(--color-bg-subtle)] border-y border-[var(--color-border)]">
+    <div class="max-w-6xl mx-auto space-y-6">
+      <SectionHeading
+        title="Información importante y trámites frecuentes"
+        subtitle="Aspectos clave para tener en cuenta durante el ciclo lectivo actual."
+      />
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Callout de Fechas Académicas -->
+        <Callout variant="warning" title="Calendario y Fechas en Proceso de Ratificación">
+          <p>
+            Las fechas de inscripción a asignaturas y turnos de exámenes finales publicadas en este portal son de carácter orientativo hasta que la Secretaría Académica de la UNLu publique la resolución definitiva del ciclo.
+          </p>
+          <div class="pt-2">
+            <a href={withBase('/calendario')} class="text-xs font-semibold underline text-[var(--color-warning)]">
+              Ver cronograma y aclaraciones →
+            </a>
+          </div>
+        </Callout>
+
+        <!-- Callout de Trámites Frecuentes -->
+        <Callout variant="info" title="Activación del Boleto Estudiantil Universitario">
+          <p>
+            Si viajás en transporte público provincial a la Sede Central Luján o San Miguel, recordá que la solicitud se gestiona desde el sistema académico de tu cohorte (SAWEB o Sistema de Gestión de Estudiantes) y requiere tener la SUBE a tu nombre.
+          </p>
+          <div class="pt-2">
+            <a href={withBase('/vida-academica#tramite-boleto')} class="text-xs font-semibold underline text-[var(--color-info)]">
+              Consultar instructivo paso a paso →
+            </a>
+          </div>
+        </Callout>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOQUE 4: Actividades y Contenido Destacado -->
+  <section class="py-12 px-4 sm:px-6 max-w-6xl mx-auto">
+    <SectionHeading
+      title="Actividades y talleres"
+      subtitle="Charlas técnicas grabadas, talleres de programación y espacios extracurriculares organizados por el centro."
+    >
+      <div slot="action">
+        <Button href={withBase('/actividades')} variant="outline" size="sm">
+          <span>Ver todas las actividades</span>
+          <span aria-hidden="true">→</span>
+        </Button>
+      </div>
+    </SectionHeading>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {
+        recentActivities.map((act) => (
+          <article class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <Badge variant="brand">{act.type}</Badge>
+                <span class="text-xs text-[var(--color-text-muted)]">{act.dateDisplay}</span>
+              </div>
+              <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-2">
+                {act.title}
+              </h3>
+              <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed mb-4">
+                {act.description}
+              </p>
+            </div>
+            <div class="pt-3 border-t border-[var(--color-border-subtle)] flex items-center justify-between text-xs">
+              <span class="text-[var(--color-text-muted)] font-medium">Plataforma: {act.platform}</span>
+              {act.externalUrl && (
+                <a
+                  href={act.externalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="font-semibold text-[var(--color-interactive)] no-underline hover:underline flex items-center gap-1"
+                >
+                  <span>Ver en {act.platform}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- BLOQUE 5: Ayuda y Contacto (hacia el final) -->
+  <section class="py-12 px-4 sm:px-6 bg-[var(--color-surface)] border-t border-[var(--color-border)]">
+    <div class="max-w-4xl mx-auto text-center space-y-4">
+      <h2 class="text-2xl sm:text-3xl font-bold text-[var(--color-text-heading)]">
+        ¿No encontraste lo que buscabas?
+      </h2>
+      <p class="text-sm sm:text-base text-[var(--color-text-muted)] max-w-xl mx-auto leading-relaxed">
+        Acercate a la mesita presencial de CODES++ en el campus durante los días de cursada o escribinos a través de nuestros canales oficiales de difusión.
+      </p>
+      <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
+        <Button href="https://link.codesunlu.com.ar/" target="_blank" variant="secondary" size="md">
+          <span>Abrir canales de contacto</span>
+          <span aria-hidden="true">↗</span>
+        </Button>
+        <Button href={withBase('/comunidad')} variant="ghost" size="md">
+          <span>Ver información de comunidad</span>
+          <span aria-hidden="true">→</span>
+        </Button>
+      </div>
+    </div>
+  </section>
+</PageLayout>

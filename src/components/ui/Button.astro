@@ -1,0 +1,77 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  target?: string;
+  rel?: string;
+  id?: string;
+  'aria-label'?: string;
+  'aria-expanded'?: boolean | 'true' | 'false';
+  'aria-controls'?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  type = 'button',
+  class: className = '',
+  target,
+  rel,
+  id,
+  'aria-label': ariaLabel,
+  'aria-expanded': ariaExpanded,
+  'aria-controls': ariaControls,
+  ...rest
+} = Astro.props;
+
+const baseStyles = 'inline-flex items-center justify-center font-medium no-underline rounded-lg transition-colors duration-150 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 disabled:pointer-events-none select-none';
+
+const sizeStyles = {
+  sm: 'text-xs px-3 py-1.5 min-h-[38px] gap-1.5',
+  md: 'text-sm px-4 py-2 min-h-[44px] gap-2',
+  lg: 'text-base px-5 py-2.5 min-h-[48px] gap-2.5',
+};
+
+const variantStyles = {
+  primary: 'bg-[var(--brand-700)] text-white hover:bg-[var(--brand-800)] dark:bg-[var(--brand-400)] dark:text-neutral-950 dark:hover:bg-[var(--brand-300)] shadow-xs',
+  secondary: 'bg-[var(--color-bg-subtle)] text-[var(--color-text-main)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)] shadow-xs',
+  outline: 'border border-[var(--brand-700)] text-[var(--brand-700)] hover:bg-[var(--brand-50)] dark:border-[var(--brand-300)] dark:text-[var(--brand-300)] dark:hover:bg-[var(--brand-950)]',
+  ghost: 'text-[var(--color-text-main)] hover:bg-[var(--color-surface-hover)]',
+};
+
+const computedClass = `${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`;
+const isExternal = href?.startsWith('http') || target === '_blank';
+const computedRel = rel || (isExternal ? 'noopener noreferrer' : undefined);
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      class={computedClass}
+      target={target}
+      rel={computedRel}
+      id={id}
+      aria-label={ariaLabel}
+      {...rest}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button
+      type={type}
+      class={computedClass}
+      id={id}
+      aria-label={ariaLabel}
+      aria-expanded={ariaExpanded}
+      aria-controls={ariaControls}
+      {...rest}
+    >
+      <slot />
+    </button>
+  )
+}
