@@ -29,7 +29,7 @@ const { items, class: className = '' } = Astro.props;
         const isLast = index === items.length - 1;
         return (
           <li class="flex items-center gap-1.5">
-            <span class="text-[var(--color-border)] select-none" aria-hidden="true">/</span>
+            <span class="text-[var(--color-text-muted)] select-none" aria-hidden="true">/</span>
             {isLast || !item.href ? (
               <span class="font-medium text-[var(--color-text-main)]" aria-current={isLast ? 'page' : undefined}>
                 {item.label}

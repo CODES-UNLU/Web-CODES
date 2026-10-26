@@ -19,21 +19,22 @@
   --brand-950: #022324;
 
   /* --- MODO CLARO (Default Light Surfaces) --- */
+  /* Superficies gris verdoso en lugar de blanco puro para reducir el encandilamiento */
   color-scheme: light;
-  --color-bg: #ffffff;
-  --color-bg-subtle: #f8fafb;
-  --color-surface: #ffffff;
-  --color-surface-hover: #f1f5f5;
-  --color-surface-active: #e7fafa;
-  --color-border: #dfe7e7;
-  --color-border-subtle: #edf2f2;
-  --color-border-strong: #95e7e8;
+  --color-bg: #eef3f3;
+  --color-bg-subtle: #e6eded;
+  --color-surface: #f9fbfb;
+  --color-surface-hover: #e9f0f0;
+  --color-surface-active: #ddf2f2;
+  --color-border: #d2dddd;
+  --color-border-subtle: #e0e8e8;
+  --color-border-strong: #5dd5d8;
 
-  --color-text-main: #1a1a1a;
-  --color-text-muted: #555f5f;
-  --color-text-heading: #0f0f0f;
+  --color-text-main: #1c2626;
+  --color-text-muted: #4a5757;
+  --color-text-heading: #0e1717;
 
-  /* Color interactivo con contraste garantizado en blanco (Teal 700 -> 4.9:1) */
+  /* Color interactivo con contraste garantizado sobre las superficies claras (Teal 700 -> 5.1:1 o más) */
   --color-interactive: #1d6d6f;
   --color-interactive-hover: #125355;
   --color-interactive-focus: #39c0c3;
