@@ -19,6 +19,8 @@ Web-CODES/
 │   │   └── avatar-1024.png        # Avatar cuadrado: imagen de Open Graph y Twitter
 │   ├── favicon.ico                # Respaldo 16/32/48 px derivado de png/logo-claro-2048.png
 │   ├── apple-touch-icon.png       # 180 px derivado de png/avatar-1024.png (iOS)
+│   ├── icon-192.png / icon-512.png # Íconos del manifest (Android), derivados de png/avatar-1024.png
+│   ├── site.webmanifest           # Nombre, colores e íconos al instalar el sitio en Android
 ├── src/
 │   ├── components/
 │   │   ├── layout/                # Estructura del marco visual
