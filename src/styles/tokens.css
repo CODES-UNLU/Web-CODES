@@ -19,6 +19,7 @@
   --brand-950: #022324;
 
   /* --- MODO CLARO (Default Light Surfaces) --- */
+  color-scheme: light;
   --color-bg: #ffffff;
   --color-bg-subtle: #f8fafb;
   --color-surface: #ffffff;
@@ -70,6 +71,7 @@
 /* --- MODO OSCURO (Dark Surfaces) --- */
 :root[data-theme="dark"],
 .dark {
+  color-scheme: dark;
   --color-bg: #0f0f0f;
   --color-bg-subtle: #161818;
   --color-surface: #1a1a1a;
