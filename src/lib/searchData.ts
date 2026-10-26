@@ -1,7 +1,7 @@
 export interface SearchItem {
   id: string;
   title: string;
-  category: 'Ingresantes' | 'Vida Académica' | 'Calendario' | 'Comunidad' | 'Actividades';
+  category: 'Ingresantes' | 'Vida Académica' | 'Calendario' | 'Comunidad' | 'Actividades' | 'Herramientas';
   description: string;
   url: string;
   keywords: string[];
@@ -109,5 +109,37 @@ export const searchIndex: SearchItem[] = [
     description: 'Charlas pasadas grabadas en YouTube, entrevistas a profesionales, talleres de software y eventos.',
     url: '/actividades',
     keywords: ['actividades', 'talleres', 'charlas', 'youtube', 'eventos', 'podcasts', 'entrevistas', 'videos', 'software']
+  },
+  {
+    id: 'herramientas-catalogo',
+    title: 'Banco de Herramientas y Software de Desarrollo',
+    category: 'Herramientas',
+    description: 'Catálogo orientativo de software, editores, control de versiones, bases de datos y plataformas de despliegue.',
+    url: '/herramientas',
+    keywords: ['herramientas', 'software', 'programas', 'recursos', 'banco de recursos', 'ides', 'editores', 'utilidades', 'desarrollo', 'programar', 'git', 'vscode', 'docker', 'postman']
+  },
+  {
+    id: 'herramientas-despliegue',
+    title: 'Desplegar y publicar proyectos (GitHub Pages, Vercel, Netlify, Render, Railway, Supabase)',
+    category: 'Herramientas',
+    description: 'Guía para publicar sitios web estáticos, frontends, APIs backend y bases de datos en internet.',
+    url: '/herramientas#cat-despliegue',
+    keywords: ['despliegue', 'publicar', 'deploy', 'hosting', 'github pages', 'vercel', 'netlify', 'render', 'railway', 'supabase', 'backend', 'frontend', 'bases de datos', 'servidores']
+  },
+  {
+    id: 'herramientas-empezar',
+    title: 'Herramientas para empezar a programar (VS Code, Git, Geany, Code::Blocks, PyCharm)',
+    category: 'Herramientas',
+    description: 'Software básico y ligero para dar los primeros pasos en materias de programación de la UNLu.',
+    url: '/herramientas#cat-empezar',
+    keywords: ['empezar a programar', 'vscode', 'visual studio code', 'git', 'geany', 'codeblocks', 'c++', 'python', 'primer año', 'introduccion a la programacion', 'editores']
+  },
+  {
+    id: 'herramientas-testing',
+    title: 'Herramientas para probar y depurar APIs (Postman, Bruno, HTTPie, DevTools)',
+    category: 'Herramientas',
+    description: 'Clientes HTTP y herramientas de depuración para probar endpoints y desarrollo web.',
+    url: '/herramientas#cat-testing',
+    keywords: ['testing', 'apis', 'postman', 'bruno', 'httpie', 'devtools', 'depurar', 'inspeccionar', 'red', 'http', 'endpoints']
   }
 ];

@@ -1,0 +1,756 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Callout from '../components/ui/Callout.astro';
+import ToolCard from '../features/herramientas/components/ToolCard.astro';
+import { toolsData, toolCategories } from '../features/herramientas/data/toolsData';
+import { withBase } from '../lib/paths';
+
+// Agrupamos herramientas por categoría para renderizado semántico estático
+const categoriesWithTools = toolCategories.map((category) => {
+  const tools = toolsData.filter((tool) => tool.categories.includes(category.id));
+  return {
+    ...category,
+    tools,
+  };
+});
+
+const getTool = (id: string) => toolsData.find((t) => t.id === id);
+const ghPages = getTool('github-pages');
+const netlify = getTool('netlify');
+const vercel = getTool('vercel');
+const render = getTool('render');
+const railway = getTool('railway');
+const supabase = getTool('supabase');
+---
+
+<PageLayout
+  title="Banco de Herramientas y Software"
+  description="Catálogo orientativo de software, servicios y utilidades recomendadas para estudiantes de desarrollo de la UNLu."
+>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
+    <!-- Encabezado y migas de pan -->
+    <div>
+      <Breadcrumbs items={[{ label: 'Herramientas' }]} />
+
+      <SectionHeading
+        title="Banco de herramientas y software de desarrollo"
+        subtitle="Guía orientativa de programas, plataformas y servicios verificados para acompañarte en tus cursadas y proyectos."
+        badge="Catálogo orientativo"
+      />
+
+      <div class="pt-4">
+        <Callout variant="info" title="Cómo utilizar este catálogo">
+          <p>
+            Esta guía fue armada por y para estudiantes. No necesitás instalar todo de golpe: cada tarjeta explica <strong>para qué sirve</strong>, <strong>en qué situación concreta te ayuda</strong> y <strong>qué conocimientos previos son recomendables</strong>.
+          </p>
+          <p class="mt-2 text-xs text-[var(--color-text-muted)]">
+            Todas las herramientas listadas cuentan con licencias libres, versiones de código abierto o planes gratuitos verificados para estudiantes.
+          </p>
+        </Callout>
+      </div>
+    </div>
+
+    <!-- 1. GUÍA DESPLEGABLE DE DESPLIEGUE (Ubicada al inicio, antes del catálogo) -->
+    <details
+      class="group bg-[var(--brand-50)]/40 dark:bg-[var(--brand-950)]/30 border-2 border-[var(--brand-200)] dark:border-[var(--brand-800)] [&:not([open])]:hover:border-[var(--brand-500)] dark:[&:not([open])]:hover:border-[var(--brand-400)] [&:not([open])]:hover:bg-[var(--brand-50)]/75 dark:[&:not([open])]:hover:bg-[var(--brand-950)]/60 [&:not([open])]:hover:shadow-md [&:not([open])]:cursor-pointer [&[open]]:cursor-default rounded-2xl p-4 sm:p-6 transition-all duration-200"
+      id="guia-despliegue"
+    >
+      <summary class="group/summary flex items-start sm:items-center justify-between gap-4 cursor-pointer select-none list-none focus-visible:outline-2 focus-visible:outline-[var(--brand-500)] rounded-lg">
+        <div class="space-y-1.5">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[var(--brand-100)] text-[var(--brand-800)] dark:bg-[var(--brand-900)] dark:text-[var(--brand-200)] text-[11px] font-bold uppercase tracking-wider group-hover/summary:bg-[var(--brand-200)] dark:group-hover/summary:bg-[var(--brand-800)] transition-colors">
+              Orientación práctica para entregas
+            </span>
+            <span class="text-xs font-semibold text-[var(--color-interactive)] group-open:hidden inline-flex items-center gap-1">
+              <span>Hacé clic para desplegar la guía</span>
+              <span aria-hidden="true">↓</span>
+            </span>
+          </div>
+          <h2 class="text-lg sm:text-xl font-bold text-[var(--color-text-heading)] group-hover/summary:text-[var(--brand-800)] dark:group-hover/summary:text-[var(--brand-300)] transition-colors m-0">
+            ¿Querés compartir tu proyecto y no sabés cómo publicarlo?
+          </h2>
+          <p class="text-xs sm:text-sm text-[var(--color-text-muted)] m-0">
+            Hacé clic para desplegar una guía orientativa que te ayuda a identificar qué necesita tu proyecto según lo que construiste (páginas simples, apps interactivas, servidores backend o bases de datos).
+          </p>
+        </div>
+
+        <!-- Indicador visual de expansión / contracción -->
+        <div class="w-9 h-9 rounded-full bg-[var(--color-surface)] border border-[var(--brand-300)] dark:border-[var(--brand-700)] group-hover/summary:border-[var(--brand-500)] group-hover/summary:bg-[var(--brand-100)] dark:group-hover/summary:bg-[var(--brand-900)] flex items-center justify-center shrink-0 group-open:rotate-180 transition-all duration-200 text-[var(--brand-700)] dark:text-[var(--brand-300)] shadow-2xs" aria-hidden="true">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </summary>
+
+      <!-- Contenido de la guía reescrito desde situaciones concretas -->
+      <div class="pt-6 mt-4 border-t border-[var(--brand-200)] dark:border-[var(--brand-800)] space-y-6 text-xs sm:text-sm cursor-default">
+        <p class="text-[var(--color-text-main)] leading-relaxed">
+          Publicar un proyecto no requiere memorizar nombres complejos de servidores. El secreto está en reconocer <strong>qué hace tu código</strong> y <strong>dónde se ejecuta realmente</strong>. A continuación repasamos las cuatro situaciones más comunes en la facultad:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Caso 1 -->
+          <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-[var(--color-info)] mb-1">
+                <span>Situación 1</span>
+              </div>
+              <h3 class="text-base font-bold text-[var(--color-text-heading)] mb-2">
+                «Hice una página con información, imágenes y enlaces y quiero compartirla»
+              </h3>
+              <div class="space-y-2 text-xs leading-relaxed text-[var(--color-text-main)]">
+                <p>
+                  <strong>Qué tipo de proyecto suele ser:</strong> La web de presentación de un trabajo práctico, tu currículum o portafolio personal, o apuntes de una materia. Son archivos HTML, CSS y JavaScript (o un sitio generado con Astro o Vite) que el navegador lee directamente sin necesidad de procesar nada en una computadora intermedia.
+                </p>
+                <p>
+                  <strong>Qué necesita para estar en internet:</strong> Únicamente un espacio de alojamiento web estático que envíe tus archivos tal como están cuando alguien abre el enlace.
+                </p>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-[var(--color-border-subtle)] space-y-2 text-xs">
+              <div class="text-[var(--color-text-main)] flex flex-wrap items-center gap-1.5">
+                <span class="font-bold">Herramientas recomendadas:</span>
+                {ghPages && (
+                  <a
+                    href={ghPages.officialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--color-surface)] border border-[var(--brand-300)] dark:border-[var(--brand-700)] text-[var(--color-interactive)] font-semibold text-xs no-underline shadow-2xs hover:border-[var(--brand-500)] hover:bg-[var(--brand-50)] dark:hover:bg-[var(--brand-950)] hover:text-[var(--brand-800)] dark:hover:text-[var(--brand-200)] hover:shadow-xs transition-all cursor-pointer"
+                    title={`Abrir página oficial de ${ghPages.name} (se abre en nueva pestaña)`}
+                  >
+                    <img src={withBase(ghPages.logo)} alt="" class="w-3.5 h-3.5 object-contain" width="14" height="14" />
+                    <span>{ghPages.name}</span>
+                    <svg class="w-3 h-3 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+                {netlify && (
+                  <a
+                    href={netlify.officialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--color-surface)] border border-[var(--brand-300)] dark:border-[var(--brand-700)] text-[var(--color-interactive)] font-semibold text-xs no-underline shadow-2xs hover:border-[var(--brand-500)] hover:bg-[var(--brand-50)] dark:hover:bg-[var(--brand-950)] hover:text-[var(--brand-800)] dark:hover:text-[var(--brand-200)] hover:shadow-xs transition-all cursor-pointer"
+                    title={`Abrir página oficial de ${netlify.name} (se abre en nueva pestaña)`}
+                  >
+                    <img src={withBase(netlify.logo)} alt="" class="w-3.5 h-3.5 object-contain" width="14" height="14" />
+                    <span>{netlify.name}</span>
+                    <svg class="w-3 h-3 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+              <p class="text-[11px] text-[var(--color-text-muted)] m-0">
+                <strong>Qué comprobar:</strong> Que tu repositorio sea público (GitHub Pages gratuito requiere repo público) y que las rutas a imágenes y estilos sean relativas para que no se rompan.
+              </p>
+            </div>
+          </div>
+
+          <!-- Caso 2 -->
+          <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-[var(--brand-700)] dark:text-[var(--brand-300)] mb-1">
+                <span>Situación 2</span>
+              </div>
+              <h3 class="text-base font-bold text-[var(--color-text-heading)] mb-2">
+                «Hice una aplicación interactiva y quiero que mis compañeros la prueben»
+              </h3>
+              <div class="space-y-2 text-xs leading-relaxed text-[var(--color-text-main)]">
+                <p>
+                  <strong>Qué tipo de proyecto suele ser:</strong> Una aplicación con interfaz dinámica que corre en el navegador del usuario (por ejemplo construida con React, Vue, Svelte o JavaScript moderno: calculadoras, juegos de mesa interactivos o tableros de tareas con datos en memoria).
+                </p>
+                <p>
+                  <strong>Qué necesita para estar en internet:</strong> Una plataforma que compile automáticamente tu proyecto con cada push a Git y entregue los archivos procesados al navegador.
+                </p>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-[var(--color-border-subtle)] space-y-2 text-xs">
+              <div class="text-[var(--color-text-main)] flex flex-wrap items-center gap-1.5">
+                <span class="font-bold">Herramientas recomendadas:</span>
+                {vercel && (
+                  <a
+                    href={vercel.officialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--color-surface)] border border-[var(--brand-300)] dark:border-[var(--brand-700)] text-[var(--color-interactive)] font-semibold text-xs no-underline shadow-2xs hover:border-[var(--brand-500)] hover:bg-[var(--brand-50)] dark:hover:bg-[var(--brand-950)] hover:text-[var(--brand-800)] dark:hover:text-[var(--brand-200)] hover:shadow-xs transition-all cursor-pointer"
+                    title={`Abrir página oficial de ${vercel.name} (se abre en nueva pestaña)`}
+                  >
+                    <img src={withBase(vercel.logo)} alt="" class="w-3.5 h-3.5 object-contain" width="14" height="14" />
+                    <span>{vercel.name}</span>
+                    <svg class="w-3 h-3 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+                {netlify && (
+                  <a
+                    href={netlify.officialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--color-surface)] border border-[var(--brand-300)] dark:border-[var(--brand-700)] text-[var(--color-interactive)] font-semibold text-xs no-underline shadow-2xs hover:border-[var(--brand-500)] hover:bg-[var(--brand-50)] dark:hover:bg-[var(--brand-950)] hover:text-[var(--brand-800)] dark:hover:text-[var(--brand-200)] hover:shadow-xs transition-all cursor-pointer"
+                    title={`Abrir página oficial de ${netlify.name} (se abre en nueva pestaña)`}
+                  >
+                    <img src={withBase(netlify.logo)} alt="" class="w-3.5 h-3.5 object-contain" width="14" height="14" />
+                    <span>{netlify.name}</span>
+                    <svg class="w-3 h-3 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+              <p class="text-[11px] text-[var(--color-text-muted)] m-0">
+                <strong>Aclaración clave:</strong> Una app en React <em>no necesita necesariamente un servidor backend</em>. Si no guardás datos compartidos ni procesás pagos en un servidor propio, te alcanza con estas plataformas frontend.
+              </p>
+            </div>
+          </div>
+
+          <!-- Caso 3 -->
+          <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-[var(--color-warning)] mb-1">
+                <span>Situación 3</span>
+              </div>
+              <h3 class="text-base font-bold text-[var(--color-text-heading)] mb-2">
+                «Hice un programa que necesita ejecutar código en un servidor»
+              </h3>
+              <div class="space-y-2 text-xs leading-relaxed text-[var(--color-text-main)]">
+                <p>
+                  <strong>Qué tipo de proyecto suele ser:</strong> Una API REST o un servidor programado en Node.js/Express, Python/FastAPI/Flask, Java/Spring o contenedores Docker. Es un programa que no corre en la máquina de quien visita la web, sino que debe estar despierto en una computadora remota escuchando peticiones y procesando lógica de negocio.
+                </p>
+                <p>
+                  <strong>Qué necesita para estar en internet:</strong> Un servicio de hosting de backend (Web Service o contenedor) que mantenga tu proceso en ejecución continua y le asigne una URL pública segura (HTTPS).
+                </p>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-[var(--color-border-subtle)] space-y-2 text-xs">
+              <div class="text-[var(--color-text-main)] flex flex-wrap items-center gap-1.5">
+                <span class="font-bold">Herramientas recomendadas:</span>
+                {render && (
+                  <a
+                    href={render.officialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--color-surface)] border border-[var(--brand-300)] dark:border-[var(--brand-700)] text-[var(--color-interactive)] font-semibold text-xs no-underline shadow-2xs hover:border-[var(--brand-500)] hover:bg-[var(--brand-50)] dark:hover:bg-[var(--brand-950)] hover:text-[var(--brand-800)] dark:hover:text-[var(--brand-200)] hover:shadow-xs transition-all cursor-pointer"
+                    title={`Abrir página oficial de ${render.name} (se abre en nueva pestaña)`}
+                  >
+                    <img src={withBase(render.logo)} alt="" class="w-3.5 h-3.5 object-contain" width="14" height="14" />
+                    <span>{render.name}</span>
+                    <svg class="w-3 h-3 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+                {railway && (
+                  <a
+                    href={railway.officialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--color-surface)] border border-[var(--brand-300)] dark:border-[var(--brand-700)] text-[var(--color-interactive)] font-semibold text-xs no-underline shadow-2xs hover:border-[var(--brand-500)] hover:bg-[var(--brand-50)] dark:hover:bg-[var(--brand-950)] hover:text-[var(--brand-800)] dark:hover:text-[var(--brand-200)] hover:shadow-xs transition-all cursor-pointer"
+                    title={`Abrir página oficial de ${railway.name} (se abre en nueva pestaña)`}
+                  >
+                    <img src={withBase(railway.logo)} alt="" class="w-3.5 h-3.5 object-contain" width="14" height="14" />
+                    <span>{railway.name}</span>
+                    <svg class="w-3 h-3 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+              <p class="text-[11px] text-[var(--color-text-muted)] m-0">
+                <strong>Qué comprobar:</strong> En planes gratuitos de Render, el servidor entra en suspensión tras 15 minutos sin visitas. La primera petición puede tardar entre 30 y 50 segundos en despertar mientras la máquina inicia.
+              </p>
+            </div>
+          </div>
+
+          <!-- Caso 4 -->
+          <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-[var(--color-success)] mb-1">
+                <span>Situación 4</span>
+              </div>
+              <h3 class="text-base font-bold text-[var(--color-text-heading)] mb-2">
+                «Mi aplicación necesita guardar información para que siga disponible después de cerrarla»
+              </h3>
+              <div class="space-y-2 text-xs leading-relaxed text-[var(--color-text-main)]">
+                <p>
+                  <strong>Qué tipo de proyecto suele ser:</strong> Un sistema donde los usuarios se registran, crean publicaciones, guardan productos o gestionan información que no debe perderse al recargar la página o al entrar desde otro dispositivo.
+                </p>
+                <p>
+                  <strong>Qué necesita para estar en internet:</strong> Una base de datos relacional (como PostgreSQL) o un Backend-as-a-Service (BaaS) en la nube.
+                </p>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-[var(--color-border-subtle)] space-y-2 text-xs">
+              <div class="text-[var(--color-text-main)] flex flex-wrap items-center gap-1.5">
+                <span class="font-bold">Herramientas recomendadas:</span>
+                {supabase && (
+                  <a
+                    href={supabase.officialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--color-surface)] border border-[var(--brand-300)] dark:border-[var(--brand-700)] text-[var(--color-interactive)] font-semibold text-xs no-underline shadow-2xs hover:border-[var(--brand-500)] hover:bg-[var(--brand-50)] dark:hover:bg-[var(--brand-950)] hover:text-[var(--brand-800)] dark:hover:text-[var(--brand-200)] hover:shadow-xs transition-all cursor-pointer"
+                    title={`Abrir página oficial de ${supabase.name} (se abre en nueva pestaña)`}
+                  >
+                    <img src={withBase(supabase.logo)} alt="" class="w-3.5 h-3.5 object-contain" width="14" height="14" />
+                    <span>{supabase.name}</span>
+                    <svg class="w-3 h-3 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+                {render && (
+                  <a
+                    href="https://render.com/docs/databases"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--color-surface)] border border-[var(--brand-300)] dark:border-[var(--brand-700)] text-[var(--color-interactive)] font-semibold text-xs no-underline shadow-2xs hover:border-[var(--brand-500)] hover:bg-[var(--brand-50)] dark:hover:bg-[var(--brand-950)] hover:text-[var(--brand-800)] dark:hover:text-[var(--brand-200)] hover:shadow-xs transition-all cursor-pointer"
+                    title="Abrir página oficial de bases de datos PostgreSQL en Render (se abre en nueva pestaña)"
+                  >
+                    <img src={withBase(render.logo)} alt="" class="w-3.5 h-3.5 object-contain" width="14" height="14" />
+                    <span>Render PostgreSQL</span>
+                    <svg class="w-3 h-3 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+              <p class="text-[11px] text-[var(--color-text-muted)] m-0">
+                <strong>Aclaraciones clave:</strong> Una base de datos <em>no es lo mismo que un servidor backend</em>; y tener un formulario en tu web <em>no implica obligatoriamente tener una base de datos</em> (podés enviar correos con servicios como Formspree sin bases de datos).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-[var(--color-surface)] border border-[var(--brand-300)] dark:border-[var(--brand-800)] text-xs text-[var(--color-text-muted)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs">
+          <div class="flex items-start gap-2.5">
+            <svg class="w-4 h-4 text-[var(--brand-600)] dark:text-[var(--brand-400)] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p class="m-0 leading-relaxed text-[var(--color-text-main)]">
+              <strong>Arquitecturas combinadas:</strong> Muchos proyectos reales utilizan más de un servicio a la vez. Por ejemplo, podés alojar tu frontend en <strong>Vercel</strong>, tu API en <strong>Render</strong> y tus tablas relacionales en <strong>Supabase</strong>.
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5 shrink-0 pl-6 sm:pl-0">
+            {vercel && (
+              <a
+                href={vercel.officialUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[var(--color-bg-subtle)] border border-[var(--color-border)] text-[var(--color-interactive)] font-semibold text-[11px] hover:border-[var(--brand-500)] hover:bg-[var(--brand-50)] dark:hover:bg-[var(--brand-950)] transition-all no-underline"
+              >
+                <img src={withBase(vercel.logo)} alt="" class="w-3 h-3 object-contain" width="12" height="12" />
+                <span>Vercel</span>
+              </a>
+            )}
+            {render && (
+              <a
+                href={render.officialUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[var(--color-bg-subtle)] border border-[var(--color-border)] text-[var(--color-interactive)] font-semibold text-[11px] hover:border-[var(--brand-500)] hover:bg-[var(--brand-50)] dark:hover:bg-[var(--brand-950)] transition-all no-underline"
+              >
+                <img src={withBase(render.logo)} alt="" class="w-3 h-3 object-contain" width="12" height="12" />
+                <span>Render</span>
+              </a>
+            )}
+            {supabase && (
+              <a
+                href={supabase.officialUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[var(--color-bg-subtle)] border border-[var(--color-border)] text-[var(--color-interactive)] font-semibold text-[11px] hover:border-[var(--brand-500)] hover:bg-[var(--brand-50)] dark:hover:bg-[var(--brand-950)] transition-all no-underline"
+              >
+                <img src={withBase(supabase.logo)} alt="" class="w-3 h-3 object-contain" width="12" height="12" />
+                <span>Supabase</span>
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- 2. NAVEGACIÓN Y FILTRADO DEL CATÁLOGO (Control de scroll infinito) -->
+    <section class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-4 sm:p-6 shadow-xs space-y-4" aria-label="Controles del catálogo de herramientas">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)]">
+            Catálogo de herramientas
+          </h2>
+          <p class="text-xs text-[var(--color-text-muted)]">
+            Seleccioná una categoría para enfocar el catálogo o buscá por nombre en todas las herramientas.
+          </p>
+        </div>
+
+        <!-- Buscador rápido en vivo (busca en todo el catálogo sin importar categoría) -->
+        <div class="w-full sm:w-80 relative">
+          <label for="tools-search-input" class="sr-only">Buscar herramientas por nombre, tecnología o caso de uso</label>
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[var(--color-text-muted)]" aria-hidden="true">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <input
+            type="search"
+            id="tools-search-input"
+            class="w-full pl-9 pr-8 py-2 bg-[var(--color-bg-subtle)] border border-[var(--color-border)] rounded-lg text-xs sm:text-sm text-[var(--color-text-heading)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--brand-500)] focus:ring-1 focus:ring-[var(--brand-500)] transition-colors"
+            placeholder="Buscar en todas las herramientas..."
+            autocomplete="off"
+          />
+          <button
+            type="button"
+            id="tools-search-clear"
+            class="absolute inset-y-0 right-0 pr-2.5 flex items-center text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] hidden"
+            aria-label="Limpiar búsqueda de herramientas"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Controles de las 6 Categorías (Inicia en 'empezar') -->
+      <nav class="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-2 border-t border-[var(--color-border-subtle)]" aria-label="Filtro de categorías de herramientas">
+        {
+          toolCategories.map((cat) => {
+            const isInitial = cat.id === 'empezar';
+            const count = toolsData.filter((t) => t.categories.includes(cat.id)).length;
+            return (
+              <button
+                type="button"
+                class={`category-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border ${
+                  isInitial
+                    ? 'active bg-[var(--brand-50)] text-[var(--brand-800)] dark:bg-[var(--brand-950)] dark:text-[var(--brand-200)] border-[var(--brand-400)] dark:border-[var(--brand-700)] shadow-2xs'
+                    : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-heading)] hover:bg-[var(--color-surface-hover)] border-[var(--color-border)]'
+                }`}
+                data-category={cat.id}
+                aria-pressed={isInitial ? 'true' : 'false'}
+              >
+                <span>{cat.name}</span>
+                <span class="opacity-70 font-normal">({count})</span>
+              </button>
+            );
+          })
+        }
+        <button
+          type="button"
+          class="category-tab px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-[var(--color-text-muted)] hover:text-[var(--color-text-heading)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)]"
+          data-category="todas"
+          aria-pressed="false"
+        >
+          Ver todas ({toolsData.length})
+        </button>
+      </nav>
+
+      <!-- Mensaje dinámico de conteo y estado de filtros -->
+      <div id="tools-filter-status" class="text-xs font-medium text-[var(--color-text-muted)] pt-1" role="status" aria-live="polite">
+        Mostrando <span id="tools-visible-count">{toolsData.filter(t => t.categories.includes('empezar')).length}</span> herramientas en <strong id="tools-category-name" class="text-[var(--color-text-heading)]">Empezar a programar</strong>.
+      </div>
+    </section>
+
+    <!-- 3. CONTENEDOR DEL CATÁLOGO -->
+    <div id="catalog-container" class="space-y-8 min-h-[400px]">
+      <!-- Vista orientada por categorías -->
+      {
+        categoriesWithTools.map((category) => (
+          <section
+            id={`cat-${category.id}`}
+            class={`category-section space-y-4 ${category.id === 'empezar' ? '' : 'hidden-by-tab'}`}
+            data-category-id={category.id}
+          >
+            <!-- Cabecera explicativa de la categoría activa -->
+            <div class="p-4 rounded-xl bg-[var(--color-bg-subtle)] border border-[var(--color-border)] space-y-1">
+              <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                <h3 class="text-lg sm:text-xl font-bold text-[var(--color-text-heading)] tracking-tight">
+                  {category.name}
+                </h3>
+                <span class="text-xs font-semibold text-[var(--brand-700)] dark:text-[var(--brand-300)]">
+                  {category.tools.length} herramientas recomendadas
+                </span>
+              </div>
+              <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed m-0">
+                {category.description}
+              </p>
+              {category.contextAdvice && (
+                <p class="text-xs text-[var(--brand-800)] dark:text-[var(--brand-200)] pt-1 m-0">
+                  💡 {category.contextAdvice}
+                </p>
+              )}
+            </div>
+
+            <!-- Grilla de herramientas -->
+            <div class="tools-grid grid grid-cols-1 md:grid-cols-2 gap-5">
+              {category.tools.map((tool) => (
+                <ToolCard tool={tool} highlightCategory={category.id} />
+              ))}
+            </div>
+          </section>
+        ))
+      }
+
+      <!-- Mensaje útil cuando ninguna herramienta coincide con la búsqueda -->
+      <div id="tools-empty-message" class="hidden text-center py-12 px-4 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] space-y-3">
+        <div class="w-12 h-12 rounded-full bg-[var(--color-bg-subtle)] text-[var(--color-text-muted)] flex items-center justify-center mx-auto" aria-hidden="true">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 class="text-base font-bold text-[var(--color-text-heading)]">
+          No encontramos herramientas con ese término
+        </h3>
+        <p class="text-xs sm:text-sm text-[var(--color-text-muted)] max-w-md mx-auto leading-relaxed">
+          Probá buscando por lenguaje o función, como <button type="button" class="empty-suggestion text-[var(--color-interactive)] underline">Git</button>, <button type="button" class="empty-suggestion text-[var(--color-interactive)] underline">Python</button>, <button type="button" class="empty-suggestion text-[var(--color-interactive)] underline">PostgreSQL</button>, <button type="button" class="empty-suggestion text-[var(--color-interactive)] underline">Docker</button> o <button type="button" class="empty-suggestion text-[var(--color-interactive)] underline">Vercel</button>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Fallback accesible sin JavaScript -->
+    <noscript>
+      <style>
+        .hidden-by-tab {
+          display: block !important;
+        }
+      </style>
+      <div class="p-4 rounded-xl bg-[var(--color-bg-subtle)] border border-[var(--color-border)] text-xs text-[var(--color-text-muted)] mt-6">
+        <p class="m-0">
+          Nota: Estás navegando con JavaScript desactivado. Todas las categorías y herramientas del catálogo se muestran completas arriba para garantizar acceso total sin dependencias de scripts.
+        </p>
+      </div>
+    </noscript>
+
+    <!-- 4. SECCIÓN COMUNITARIA -->
+    <section class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-6 sm:p-8 text-center space-y-3">
+      <h3 class="text-lg sm:text-xl font-bold text-[var(--color-text-heading)]">
+        ¿Conocés otra herramienta útil para la comunidad?
+      </h3>
+      <p class="text-xs sm:text-sm text-[var(--color-text-muted)] max-w-lg mx-auto leading-relaxed">
+        El banco de herramientas se actualiza periódicamente a partir de las necesidades de las materias y las recomendaciones de estudiantes avanzados de CODES++.
+      </p>
+      <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="https://link.codesunlu.com.ar/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[var(--color-interactive)] underline"
+        >
+          <span>Sugerir herramienta en los canales de CODES++</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</PageLayout>
+
+<style>
+  /* Clase para ocultar secciones cuando no coinciden con la pestaña activa */
+  .hidden-by-tab {
+    display: none;
+  }
+</style>
+
+<!-- Script ligero de navegación por categorías y búsqueda unificada -->
+<script is:inline>
+  (() => {
+    const searchInput = document.getElementById('tools-search-input');
+    const clearBtn = document.getElementById('tools-search-clear');
+    const tabs = document.querySelectorAll('.category-tab');
+    const sections = document.querySelectorAll('.category-section');
+    const emptyMsg = document.getElementById('tools-empty-message');
+    const filterStatus = document.getElementById('tools-filter-status');
+    const visibleCountEl = document.getElementById('tools-visible-count');
+    const categoryNameEl = document.getElementById('tools-category-name');
+    const emptySuggestions = document.querySelectorAll('.empty-suggestion');
+
+    if (!tabs.length || !sections.length) return;
+
+    let activeCategory = 'empezar';
+    let searchQuery = '';
+
+    const categoryNames = {
+      'empezar': 'Empezar a programar',
+      'organizar': 'Organizar y compartir proyectos',
+      'desarrollo': 'Desarrollar aplicaciones',
+      'testing': 'Probar y depurar',
+      'diseno': 'Diseñar y documentar',
+      'despliegue': 'Desplegar y publicar proyectos',
+      'todas': 'Todas las categorías'
+    };
+
+    function normalize(text) {
+      return (text || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function updateView() {
+      const q = normalize(searchQuery.trim());
+      let totalVisible = 0;
+      const isSearching = q.length > 0;
+
+      // Si el usuario escribe una búsqueda, buscamos en TODAS las categorías simultáneamente
+      sections.forEach((sec) => {
+        const secCatId = sec.getAttribute('data-category-id');
+        const cards = sec.querySelectorAll('.tool-card');
+        let secVisibleCount = 0;
+
+        const matchesTab = (activeCategory === 'todas' || activeCategory === secCatId);
+
+        cards.forEach((card) => {
+          const name = card.getAttribute('data-name') || '';
+          const role = card.getAttribute('data-role') || '';
+          const text = normalize(card.textContent || '');
+
+          const matchesQuery = !isSearching || name.includes(q) || role.includes(q) || text.includes(q);
+
+          if (isSearching) {
+            // Durante búsqueda: visible si coincide con la query (en cualquier categoría)
+            if (matchesQuery) {
+              card.style.display = '';
+              secVisibleCount++;
+              totalVisible++;
+            } else {
+              card.style.display = 'none';
+            }
+          } else {
+            // Sin búsqueda: visible según pestaña activa
+            card.style.display = '';
+            if (matchesTab) {
+              secVisibleCount++;
+              totalVisible++;
+            }
+          }
+        });
+
+        // Mostrar u ocultar sección
+        if (isSearching) {
+          if (secVisibleCount > 0) {
+            sec.classList.remove('hidden-by-tab');
+          } else {
+            sec.classList.add('hidden-by-tab');
+          }
+        } else {
+          if (matchesTab) {
+            sec.classList.remove('hidden-by-tab');
+          } else {
+            sec.classList.add('hidden-by-tab');
+          }
+        }
+      });
+
+      // Estado de botón limpiar
+      if (clearBtn) {
+        if (isSearching) {
+          clearBtn.classList.remove('hidden');
+        } else {
+          clearBtn.classList.add('hidden');
+        }
+      }
+
+      // Mensaje de estado
+      if (emptyMsg) {
+        if (totalVisible === 0) {
+          emptyMsg.classList.remove('hidden');
+        } else {
+          emptyMsg.classList.add('hidden');
+        }
+      }
+
+      // Actualizar texto del contador
+      if (filterStatus && visibleCountEl && categoryNameEl) {
+        visibleCountEl.textContent = totalVisible;
+        if (isSearching) {
+          categoryNameEl.textContent = `búsqueda: "${searchQuery}" (en todas las categorías)`;
+        } else {
+          categoryNameEl.textContent = categoryNames[activeCategory] || activeCategory;
+        }
+      }
+    }
+
+    // Manejar clics en pestañas
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const cat = tab.getAttribute('data-category');
+        if (!cat) return;
+
+        activeCategory = cat;
+
+        // Limpiar búsqueda si se cambia de categoría
+        if (searchQuery) {
+          searchQuery = '';
+          if (searchInput) searchInput.value = '';
+        }
+
+        // Actualizar estilos activos de pestañas
+        tabs.forEach((t) => {
+          t.classList.remove(
+            'active',
+            'bg-[var(--brand-50)]',
+            'text-[var(--brand-800)]',
+            'dark:bg-[var(--brand-950)]',
+            'dark:text-[var(--brand-200)]',
+            'border-[var(--brand-400)]',
+            'dark:border-[var(--brand-700)]',
+            'shadow-2xs'
+          );
+          t.classList.add('text-[var(--color-text-muted)]', 'border-[var(--color-border)]');
+          t.setAttribute('aria-pressed', 'false');
+        });
+
+        tab.classList.add(
+          'active',
+          'bg-[var(--brand-50)]',
+          'text-[var(--brand-800)]',
+          'dark:bg-[var(--brand-950)]',
+          'dark:text-[var(--brand-200)]',
+          'border-[var(--brand-400)]',
+          'dark:border-[var(--brand-700)]',
+          'shadow-2xs'
+        );
+        tab.classList.remove('text-[var(--color-text-muted)]', 'border-[var(--color-border)]');
+        tab.setAttribute('aria-pressed', 'true');
+
+        updateView();
+      });
+    });
+
+    // Manejar input de búsqueda
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        updateView();
+      });
+    }
+
+    // Botón de limpiar búsqueda
+    if (clearBtn && searchInput) {
+      clearBtn.addEventListener('click', () => {
+        searchQuery = '';
+        searchInput.value = '';
+        searchInput.focus();
+        updateView();
+      });
+    }
+
+    // Sugerencias de búsqueda en estado vacío
+    emptySuggestions.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (!searchInput) return;
+        searchInput.value = btn.textContent.trim();
+        searchQuery = searchInput.value;
+        updateView();
+        searchInput.focus();
+      });
+    });
+
+    // Iniciar vista con 'empezar'
+    updateView();
+  })();
+</script>

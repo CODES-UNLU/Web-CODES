@@ -1,0 +1,119 @@
+---
+import type { ToolItem } from '../data/toolsData';
+import Badge from '../../../components/ui/Badge.astro';
+import { withBase } from '../../../lib/paths';
+
+interface Props {
+  tool: ToolItem;
+  highlightCategory?: string;
+}
+
+const { tool } = Astro.props;
+
+// Estilos semánticos para el nivel de despliegue si aplica
+const deploymentTierVariants = {
+  'Sitio estático': 'info',
+  'Frontend web': 'brand',
+  'Servicio backend / API': 'warning',
+  'Base de datos / BaaS': 'success',
+} as const;
+---
+
+<article
+  class="tool-card bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 sm:p-6 shadow-xs flex flex-col justify-between h-auto"
+  id={`herramienta-${tool.id}`}
+  data-tool-id={tool.id}
+  data-categories={tool.categories.join(',')}
+  data-name={tool.name.toLowerCase()}
+  data-role={tool.role.toLowerCase()}
+>
+  <div>
+    <!-- Encabezado de la tarjeta: Logo, Nombre, Rol y Licencia -->
+    <div class="flex items-start gap-3.5 mb-3.5">
+      <div class="w-11 h-11 rounded-xl bg-white dark:bg-neutral-900 border border-[var(--color-border)] flex items-center justify-center p-2 shrink-0 shadow-2xs">
+        <img
+          src={withBase(tool.logo)}
+          alt=""
+          class="w-full h-full object-contain"
+          width="32"
+          height="32"
+          loading="lazy"
+          onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');"
+        />
+        <div class="hidden text-xs font-bold text-[var(--color-text-muted)] select-none" aria-hidden="true">
+          {tool.name.slice(0, 2).toUpperCase()}
+        </div>
+      </div>
+
+      <div class="flex-1 min-w-0">
+        <div class="flex items-start justify-between gap-2 mb-1">
+          <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] leading-snug tracking-tight">
+            {tool.name}
+          </h3>
+          {tool.deploymentTier && (
+            <Badge variant={deploymentTierVariants[tool.deploymentTier] || 'neutral'} size="sm" class="shrink-0 text-[10px]">
+              {tool.deploymentTier}
+            </Badge>
+          )}
+        </div>
+
+        <div class="text-xs font-medium text-[var(--brand-700)] dark:text-[var(--brand-300)] flex flex-wrap items-center gap-1.5">
+          <span>{tool.role}</span>
+          <span class="text-[var(--color-text-muted)]" aria-hidden="true">·</span>
+          <span class="text-[var(--color-text-muted)] font-normal">{tool.license}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Descripción breve -->
+    <p class="text-xs sm:text-sm text-[var(--color-text-main)] leading-relaxed mb-4">
+      {tool.description}
+    </p>
+
+    <!-- Situación de uso: ¿Cuándo te sirve? -->
+    <div class="rounded-lg bg-[var(--color-bg-subtle)] border border-[var(--color-border-subtle)] p-3 mb-2.5 text-xs">
+      <h4 class="font-bold text-[11px] uppercase tracking-wider text-[var(--color-text-heading)] mb-1 flex items-center gap-1.5">
+        <svg class="w-3.5 h-3.5 text-[var(--brand-600)] dark:text-[var(--brand-400)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>¿Cuándo te sirve?</span>
+      </h4>
+      <p class="text-[var(--color-text-main)] leading-relaxed m-0">
+        {tool.whenToUse}
+      </p>
+    </div>
+
+    <!-- Perfil recomendado -->
+    <div class="rounded-lg bg-[var(--color-bg-subtle)] border border-[var(--color-border-subtle)] p-3 mb-4 text-xs">
+      <h4 class="font-bold text-[11px] uppercase tracking-wider text-[var(--color-text-heading)] mb-1 flex items-center gap-1.5">
+        <svg class="w-3.5 h-3.5 text-[var(--color-interactive)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        <span>Recomendado para:</span>
+      </h4>
+      <p class="text-[var(--color-text-main)] leading-relaxed m-0">
+        {tool.recommendedFor}
+      </p>
+    </div>
+  </div>
+
+  <!-- Pie de la tarjeta: Acción y enlace verificado -->
+  <footer class="pt-3 border-t border-[var(--color-border-subtle)] flex items-center justify-between gap-3">
+    <a
+      href={tool.officialUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[var(--color-interactive)] hover:underline focus-visible:outline-offset-2"
+      aria-label={`Ir a la página oficial de ${tool.name} (se abre en una nueva pestaña)`}
+    >
+      <span>Página oficial</span>
+      <svg class="w-3.5 h-3.5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+      </svg>
+    </a>
+
+    <span class="text-[11px] text-[var(--color-text-muted)] font-medium">
+      Enlace verificado
+    </span>
+  </footer>
+</article>
