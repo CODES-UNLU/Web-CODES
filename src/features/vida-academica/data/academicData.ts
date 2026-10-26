@@ -138,7 +138,7 @@ export const universityProcedures: UniversityProcedure[] = [
   }
 ];
 
-// 3. Gestiones Organizadas por CODES++
+// 3. Gestiones Organizadas por CODES
 export const codesInitiatives: CodesInitiative[] = [
   {
     id: 'gestion-contracursadas',
@@ -152,6 +152,6 @@ export const codesInitiatives: CodesInitiative[] = [
       'Elaborar el informe cuantitativo y presentarlo formalmente ante la Comisión de Carrera.',
       'Hacer seguimiento institucional de las respuestas departamentales e informar a los inscriptos.'
     ],
-    responsibleContact: 'Comisión de Asuntos Académicos CODES++'
+    responsibleContact: 'Comisión de Asuntos Académicos CODES'
   }
 ];

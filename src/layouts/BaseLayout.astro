@@ -9,13 +9,13 @@ interface Props {
 }
 
 const {
-  title = 'CODES++ · Centro Organizado de Estudiantes de Sistemas UNLu',
+  title = 'CODES · Centro Organizado de Estudiantes de Sistemas UNLu',
   description = 'Web oficial del Centro de Estudiantes de Sistemas de la Universidad Nacional de Luján. Guías para ingresantes, trámites académicos, calendario y comunidad.',
   image = '/brand/avatar-1024.png',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://codes-unlu.github.io');
-const fullTitle = title.includes('CODES++') ? title : `${title} | CODES++ UNLu`;
+const fullTitle = title.includes('CODES') ? title : `${title} | CODES UNLu`;
 const ogImageUrl = new URL(withBase(image), Astro.site || 'https://codes-unlu.github.io').href;
 ---
 

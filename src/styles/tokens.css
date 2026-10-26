@@ -1,5 +1,5 @@
 /**
- * Design Tokens oficiales de CODES++ (UNLu)
+ * Design Tokens oficiales de CODES (UNLu)
  * Basado en la Guía de Identidad Oficial (https://codes-unlu.github.io/Identidad-CODES/)
  * Espacio de color Teal OKLCH y roles semánticos desacoplados con contraste WCAG 2.2 AA/AAA.
  */
@@ -10,7 +10,7 @@
   --brand-100: #c8f3f4;
   --brand-200: #95e7e8;
   --brand-300: #5dd5d8;
-  --brand-400: #39c0c3; /* Color núcleo de marca CODES++ */
+  --brand-400: #39c0c3; /* Color núcleo de marca CODES */
   --brand-500: #30a5a8;
   --brand-600: #2a8a8d;
   --brand-700: #1d6d6f;

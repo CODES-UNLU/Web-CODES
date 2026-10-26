@@ -11,7 +11,7 @@ export interface CommunityChannel {
 export const communityChannels: CommunityChannel[] = [
   {
     id: 'redes-oficiales',
-    title: 'Portal de Redes y Enlaces CODES++',
+    title: 'Portal de Redes y Enlaces CODES',
     category: 'Canal de Difusión',
     description: 'Enlace centralizado con acceso a Instagram, canales de comunicación y avisos urgentes del centro de estudiantes.',
     status: 'Disponible',

@@ -42,7 +42,7 @@ export const searchIndex: SearchItem[] = [
     id: 'ingresantes-sedes',
     title: 'Sedes y Aulas: Luján, Chivilcoy y San Miguel',
     category: 'Ingresantes',
-    description: 'Ubicación física del campus, referencias de aulas y dónde encontrar la mesita de CODES++.',
+    description: 'Ubicación física del campus, referencias de aulas y dónde encontrar la mesita de CODES.',
     url: '/ingresantes#paso-sedes',
     keywords: ['sede', 'lujan', 'san miguel', 'chivilcoy', 'aulas', 'campus', 'pabellon', 'como llegar', 'mesita']
   },
@@ -80,7 +80,7 @@ export const searchIndex: SearchItem[] = [
   },
   {
     id: 'gestion-contracursadas',
-    title: 'Petición de Contracursadas (CODES++)',
+    title: 'Petición de Contracursadas (CODES)',
     category: 'Vida Académica',
     description: 'Iniciativa del centro de estudiantes para relevar necesidad de comisiones a contraturno y presentar ante el Departamento.',
     url: '/vida-academica#gestion-contracursadas',
