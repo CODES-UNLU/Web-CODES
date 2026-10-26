@@ -23,10 +23,10 @@ export const onboardingSteps: OnboardingStep[] = [
     details: [
       'Sede Central Luján: Cruce de Rutas 5 y 7. El Departamento de Ciencias Básicas y las aulas de informática se concentran en los pabellones principales.',
       'Centro Regional San Miguel: Fariña 2180. Se dictan los primeros años de las carreras de informática y sistemas.',
-      'Mesita estudiantil de CODES++: Espacio presencial atendido por compañeros de años avanzados para sacarte dudas en persona durante el ciclo lectivo.',
+      'Mesita estudiantil de CODES: Espacio presencial atendido por compañeros de años avanzados para sacarte dudas en persona durante el ciclo lectivo.',
     ],
     relatedSection: {
-      label: 'Consultar canales y mesita de CODES++',
+      label: 'Consultar canales y mesita de CODES',
       href: '/comunidad'
     }
   },
@@ -40,7 +40,7 @@ export const onboardingSteps: OnboardingStep[] = [
       'PlatDig (platdig.unlu.edu.ar): Es el campus virtual donde los docentes publican materiales de estudio, guías de trabajos prácticos, fechas de entrega y foros de consulta.',
       'Educativa Mobile: Aplicación móvil oficial para ingresar a tus aulas virtuales de PlatDig y recibir notificaciones desde tu celular.',
       'Inscripción a materias y finales: Si pertenecés a cohortes anteriores a 2027, utilizás SAWEB (saweb.unlu.edu.ar). Si sos ingresante de la cohorte 2027 en adelante, utilizás el Sistema de Gestión de Estudiantes (g3w3.unlu.edu.ar).',
-      'Dónde pedir ayuda: CODES++ nunca te solicitará tus contraseñas universitarias. Ante problemas de acceso, consultá en la mesita presencial o en el Departamento de Alumnos de la sede.'
+      'Dónde pedir ayuda: CODES nunca te solicitará tus contraseñas universitarias. Ante problemas de acceso, consultá en la mesita presencial o en el Departamento de Alumnos de la sede.'
     ],
     actionLabel: 'Ver guía de plataformas y servicios',
     actionHref: '/vida-academica#plataformas-unlu'
@@ -97,7 +97,7 @@ export const onboardingSteps: OnboardingStep[] = [
     details: [
       'Boleto Estudiantil Universitario: Descuento en transporte público provincial (SUBE) para traslados a la sede.',
       'Biblioteca y salas de estudio: Préstamo de libros de texto, calculadoras y computadoras de consulta en campus.',
-      'Tutorías y acompañamiento: Talleres de apoyo organizados por CODES++ y docentes antes de parciales.'
+      'Tutorías y acompañamiento: Talleres de apoyo organizados por CODES y docentes antes de parciales.'
     ],
     actionLabel: 'Ver trámite del Boleto SUBE',
     actionHref: '/vida-academica#tramite-boleto'

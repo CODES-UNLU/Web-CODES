@@ -1,6 +1,6 @@
-# Documentación de la Implementación Inicial · Web CODES++
+# Documentación de la Implementación Inicial · Web CODES
 
-Este documento detalla la arquitectura técnica, las convenciones de diseño y las guías de mantenimiento para la nueva presencia digital de **CODES++** (Centro Organizado de Estudiantes de Sistemas de la Universidad Nacional de Luján), construida con **Astro** y **Tailwind CSS v4**.
+Este documento detalla la arquitectura técnica, las convenciones de diseño y las guías de mantenimiento para la nueva presencia digital de **CODES** (Centro Organizado de Estudiantes de Sistemas de la Universidad Nacional de Luján), construida con **Astro** y **Tailwind CSS v4**.
 
 ---
 
@@ -87,7 +87,7 @@ Para evitar el acoplamiento y la deuda técnica detectada en la web React anteri
 
 ## 3. Design Tokens y Accesibilidad
 
-Los tokens residen en [`src/styles/tokens.css`](file:///d:/Universidad/Centro%20de%20estudiantes/codigods/pagina%20web/Web-CODES/src/styles/tokens.css) y siguen la [Identidad Oficial de CODES++](https://codes-unlu.github.io/Identidad-CODES/):
+Los tokens residen en [`src/styles/tokens.css`](file:///d:/Universidad/Centro%20de%20estudiantes/codigods/pagina%20web/Web-CODES/src/styles/tokens.css) y siguen la [Identidad Oficial de CODES](https://codes-unlu.github.io/Identidad-CODES/):
 
 - **Color Oficial de Marca:** `--brand-400: #39c0c3` (Teal 400).
 - **Escala Teal OKLCH:** Pasos del 50 (`#e7fafa`) al 950 (`#022324`).
@@ -124,7 +124,7 @@ Los tokens residen en [`src/styles/tokens.css`](file:///d:/Universidad/Centro%20
 1. Abrir [`src/features/vida-academica/data/academicData.ts`](file:///d:/Universidad/Centro%20de%20estudiantes/codigods/pagina%20web/Web-CODES/src/features/vida-academica/data/academicData.ts).
 2. Si es una guía de orientación, añadir un elemento al arreglo `academicTopics`.
 3. Si es un trámite formal administrado por la UNLu, agregarlo a `universityProcedures` especificando `requirements`, `steps` y `officialChannel`.
-4. Si es una gestión de reclamo colectivo de CODES++, agregarlo a `codesInitiatives` indicando período y contacto.
+4. Si es una gestión de reclamo colectivo de CODES, agregarlo a `codesInitiatives` indicando período y contacto.
 5. Si querés que sea indexable en la barra de búsqueda del Home, agregar un objeto en [`src/lib/searchData.ts`](file:///d:/Universidad/Centro%20de%20estudiantes/codigods/pagina%20web/Web-CODES/src/lib/searchData.ts).
 
 ### C. Cómo agregar una actividad, charla o podcast
@@ -161,7 +161,7 @@ Los tokens residen en [`src/styles/tokens.css`](file:///d:/Universidad/Centro%20
    ```astro
    <GoogleFormEmbed
      formUrl="https://docs.google.com/forms/d/e/.../viewform?embedded=true"
-     title="Formulario oficial de ingreso a la comunidad CODES++"
+     title="Formulario oficial de ingreso a la comunidad CODES"
      description="Completá tus datos para que los moderadores te envíen los accesos a los grupos de WhatsApp de tu sede y materias."
      alternativeContactEmail="contacto@codesunlu.com.ar"
    />
@@ -172,7 +172,7 @@ Los tokens residen en [`src/styles/tokens.css`](file:///d:/Universidad/Centro%20
 
 ## 5. Funcionalidades del Repositorio Anterior NO Migradas (Por Decisión Fundamentada)
 
-En cumplimiento de las decisiones de auditoría y directivas de CODES++:
+En cumplimiento de las decisiones de auditoría y directivas de CODES:
 - **Panel Administrativo (`/admin`, `/dashboard`):** Eliminado del frontend estático para prevenir brechas de seguridad.
 - **Base de Datos Supabase en el Cliente:** Descartada. Cero credenciales expuestas en build time.
 - **Inscripción con PDF.js y Detección de IP:** Eliminada por burocrática, punitiva e inaccesible para ingresantes.
@@ -223,7 +223,7 @@ Actualmente el proyecto está configurado para publicar en GitHub Pages:
   site: 'https://codes-unlu.github.io',
   base: '/Web-CODES',
   ```
-- **Cuando se realice la migración definitiva al dominio propio de CODES++:**
+- **Cuando se realice la migración definitiva al dominio propio de CODES:**
   1. Modificar `site` en `astro.config.mjs` (ej. `site: 'https://codesunlu.com.ar'`).
   2. Cambiar `base: '/'` (reemplazando `/Web-CODES`). Todas las rutas del proyecto utilizan la función `withBase()` de `src/lib/paths.ts`, por lo que el cambio será 100% transparente y automático en todos los enlaces y recursos.
   3. Configurar el archivo `CNAME` en `public/CNAME` con el dominio propio.
@@ -266,6 +266,6 @@ Todo procedimiento o guía administrativa modelada en `src/features/` debe conte
 - `sourceUrl`: Enlace web oficial verificable.
 - `lastVerifiedDate`: Fecha ISO de comprobación.
 - `applicableAudience`: Cohorte o público destinatario.
-- `editorialLead`: Comisión de CODES++ responsable.
+- `editorialLead`: Comisión de CODES responsable.
 - `validationStatus`: `'Verificado oficial'` | `'En revisión'` | `'Provisorio'`.
 

@@ -43,7 +43,7 @@ export const activitiesData: ActivityItem[] = [
     status: 'Próximamente',
     platform: 'Presencial',
     dateDisplay: 'A confirmar durante el 1° cuatrimestre',
-    speaker: 'Equipo de Software CODES++',
+    speaker: 'Equipo de Software CODES',
     description: 'Encuentro práctico para aprender a usar Git desde la terminal, trabajar en repositorios remotos y colaborar en proyectos grupales de materias.',
   },
   {
@@ -53,7 +53,7 @@ export const activitiesData: ActivityItem[] = [
     status: 'Próximamente',
     platform: 'Spotify',
     dateDisplay: 'En producción',
-    speaker: 'Comisión CODES++',
+    speaker: 'Comisión CODES',
     description: 'Episodio introductorio donde charlamos sobre mitos y realidades del ingreso, organización del tiempo y cómo no frustrarse con los primeros parciales.',
   }
 ];

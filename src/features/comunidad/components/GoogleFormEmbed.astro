@@ -12,7 +12,7 @@ interface Props {
 const {
   formUrl,
   title = 'Formulario de Solicitud de Acceso a Grupos',
-  description = 'Completá tus datos para que los moderadores de CODES++ puedan verificar tu pertenencia a la carrera y enviarte los enlaces correspondientes.',
+  description = 'Completá tus datos para que los moderadores de CODES puedan verificar tu pertenencia a la carrera y enviarte los enlaces correspondientes.',
   alternativeContactEmail,
 } = Astro.props;
 
@@ -74,7 +74,7 @@ const hasValidUrl = Boolean(formUrl && formUrl.trim().startsWith('http'));
             ¿Cómo participar mientras tanto?
           </h4>
           <p>
-            Podés consultar los enlaces en la mesita presencial de CODES++ en la Sede Central Luján y San Miguel, o ingresar a través del canal oficial de difusión institucional en nuestras redes.
+            Podés consultar los enlaces en la mesita presencial de CODES en la Sede Central Luján y San Miguel, o ingresar a través del canal oficial de difusión institucional en nuestras redes.
           </p>
           {
             alternativeContactEmail && (

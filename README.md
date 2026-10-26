@@ -1,6 +1,6 @@
 # Web-CODES
 
-Sitio web oficial de **CODES++** (Centro Organizado de Estudiantes de Sistemas de la
+Sitio web oficial de **CODES** (Centro Organizado de Estudiantes de Sistemas de la
 Universidad Nacional de Luján), construido con [Astro](https://astro.build).
 
 - **Repositorio:** https://github.com/CODES-UNLU/Web-CODES

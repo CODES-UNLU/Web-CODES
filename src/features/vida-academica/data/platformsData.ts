@@ -58,7 +58,7 @@ export const universityPlatforms: UniversityPlatform[] = [
       sourceUrl: 'https://www.unlu.edu.ar/acceso-inf-acad.html',
       lastVerifiedDate: '2026-10-19',
       applicableAudience: 'Cohortes anteriores a 2027',
-      editorialLead: 'Comisión de Asuntos Académicos CODES++',
+      editorialLead: 'Comisión de Asuntos Académicos CODES',
       validationStatus: 'Verificado oficial'
     }
   },
@@ -80,7 +80,7 @@ export const universityPlatforms: UniversityPlatform[] = [
       sourceUrl: 'https://www.ingresouniversitario.unlu.edu.ar/?q=node/4',
       lastVerifiedDate: '2026-10-19',
       applicableAudience: 'Cohorte 2027 en adelante',
-      editorialLead: 'Comisión de Asuntos Académicos CODES++',
+      editorialLead: 'Comisión de Asuntos Académicos CODES',
       validationStatus: 'Verificado oficial'
     }
   },
@@ -104,7 +104,7 @@ export const universityPlatforms: UniversityPlatform[] = [
       sourceUrl: 'https://www.basicas.unlu.edu.ar/?q=node/917',
       lastVerifiedDate: '2026-10-19',
       applicableAudience: 'Todas las cohortes',
-      editorialLead: 'Comisión de Asuntos Académicos CODES++',
+      editorialLead: 'Comisión de Asuntos Académicos CODES',
       validationStatus: 'Verificado oficial'
     }
   }
