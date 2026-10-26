@@ -12,12 +12,13 @@ El proyecto adopta una estructura **Feature-Driven Pragmática** combinada con e
 Web-CODES/
 ├── public/
 │   ├── brand/                     # Recursos gráficos oficiales descargados
-│   │   ├── logo.svg               # SVG reactivo al tema del sistema
-│   │   ├── logo-claro.svg         # SVG para fondos claros (Teal 400 a 700)
-│   │   ├── logo-oscuro.svg        # SVG para fondos oscuros (Teal 200 a 500)
+│   │   ├── logo.svg               # SVG reactivo al tema del sistema (favicon principal)
+│   │   ├── logo-claro.svg         # SVG para fondos claros (Teal 400 a 700): header y footer en modo claro
+│   │   ├── logo-oscuro.svg        # SVG para fondos oscuros (Teal 200 a 500): header y footer en modo oscuro
 │   │   ├── logo-mono.svg          # SVG monocromo para impresión o contraste
-│   │   └── avatar-1024.png        # Isotipo de alta resolución
-│   ├── favicon.svg / favicon.ico  # Favicons de navegador
+│   │   └── avatar-1024.png        # Avatar cuadrado: imagen de Open Graph y Twitter
+│   ├── favicon.ico                # Respaldo 16/32/48 px derivado de png/logo-claro-2048.png
+│   ├── apple-touch-icon.png       # 180 px derivado de png/avatar-1024.png (iOS)
 ├── src/
 │   ├── components/
 │   │   ├── layout/                # Estructura del marco visual
