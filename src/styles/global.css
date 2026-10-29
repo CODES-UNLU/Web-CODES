@@ -141,6 +141,25 @@
     animation: motion-target 1.6s var(--ease-out) 300ms backwards;
   }
 
+  /* Recorrido de ingresantes: la línea entre pasos se pinta a medida que pasa por el
+     centro de la pantalla. Animación ligada al scroll, sin JavaScript ni trabajo en el
+     hilo principal; sin soporte la línea queda gris como antes */
+  @supports (animation-timeline: view()) {
+    .step-line::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: var(--brand-500);
+      transform-origin: top;
+      animation: motion-fill linear both;
+      animation-timeline: view(50% 50%);
+    }
+
+    :where(.dark) .step-line::after {
+      background-color: var(--brand-400);
+    }
+  }
+
   /* Cambio de ícono del tema, solo después de que el usuario lo usó */
   .theme-switched svg {
     animation: motion-turn var(--motion-base) var(--ease-out) backwards;
@@ -188,6 +207,15 @@
   100% {
     outline: 2px solid transparent;
     outline-offset: 4px;
+  }
+}
+
+@keyframes motion-fill {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
   }
 }
 
