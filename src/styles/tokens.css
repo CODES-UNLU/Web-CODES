@@ -67,6 +67,13 @@
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+
+  /* --- MOVIMIENTO --- */
+  /* Duraciones cortas y desplazamientos chicos: el movimiento acompaña, no protagoniza */
+  --motion-fast: 160ms;
+  --motion-base: 240ms;
+  --motion-slow: 480ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* --- MODO OSCURO (Dark Surfaces) --- */

@@ -17,6 +17,8 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    /* Deja lugar para el header fijo (h-16) al saltar a un ancla */
+    scroll-padding-top: 5rem;
   }
 
   body {
@@ -52,8 +54,11 @@
     transition: color 0.15s ease, opacity 0.15s ease;
   }
 
-  a:hover {
-    color: var(--color-interactive-hover);
+  /* Solo con puntero real: en pantallas táctiles el hover queda "pegado" después del toque */
+  @media (hover: hover) {
+    a:hover {
+      color: var(--color-interactive-hover);
+    }
   }
 
   /* Encabezados legibles con jerarquía clara */
@@ -76,6 +81,216 @@
     background-color: var(--color-bg-subtle);
     border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-sm);
+  }
+}
+
+/* --- MOVIMIENTO --- */
+/* Solo CSS nativo, sin dependencias. Todo queda dentro de no-preference para respetar
+   la reducción de movimiento, y los navegadores sin soporte simplemente no animan. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Transición entre páginas (View Transitions entre documentos) */
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--motion-base);
+    animation-timing-function: var(--ease-out);
+  }
+
+  /* Despliegue de acordeones (<details>) */
+  @supports (interpolate-size: allow-keywords) {
+    details {
+      interpolate-size: allow-keywords;
+    }
+
+    details::details-content {
+      block-size: 0;
+      overflow-y: clip;
+      transition:
+        block-size var(--motion-base) var(--ease-out),
+        content-visibility var(--motion-base) allow-discrete;
+    }
+
+    details[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  /* Entrada escalonada: el único momento coreografiado, reservado al hero de inicio.
+     fill-mode backwards para no dejar transform aplicado (no crea stacking context
+     que tape el panel de búsqueda) */
+  .motion-stagger > * {
+    animation: motion-rise var(--motion-slow) var(--ease-out) backwards;
+  }
+  .motion-stagger > :nth-child(2) { animation-delay: 60ms; }
+  .motion-stagger > :nth-child(3) { animation-delay: 120ms; }
+  .motion-stagger > :nth-child(4) { animation-delay: 180ms; }
+  .motion-stagger > :nth-child(5) { animation-delay: 240ms; }
+
+  /* Menú móvil: aparece y desaparece; display se transiciona para que el cierre
+     también se vea (allow-discrete + @starting-style) */
+  .menu-panel {
+    transition:
+      opacity var(--motion-fast) var(--ease-out),
+      translate var(--motion-fast) var(--ease-out),
+      display var(--motion-fast) allow-discrete;
+  }
+
+  .menu-panel.hidden {
+    opacity: 0;
+    translate: 0 -4px;
+  }
+
+  @starting-style {
+    .menu-panel {
+      opacity: 0;
+      translate: 0 -4px;
+    }
+  }
+
+  /* Paneles que aparecen al pasar de display:none (resultados de búsqueda) */
+  .motion-drop {
+    animation: motion-drop var(--motion-fast) var(--ease-out) backwards;
+  }
+
+  /* Destino de un ancla (ej. resultado del buscador): un pulso breve indica qué tarjeta se buscó.
+     El retraso deja terminar el scroll suave antes de resaltar */
+  main [id]:target {
+    border-radius: var(--radius-xl);
+    animation: motion-target 1.6s var(--ease-out) 300ms backwards;
+  }
+
+  /* Recorrido de ingresantes: la línea entre pasos se pinta a medida que pasa por el
+     centro de la pantalla. Animación ligada al scroll, sin JavaScript ni trabajo en el
+     hilo principal; sin soporte la línea queda gris como antes */
+  @supports (animation-timeline: view()) {
+    .step-line::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: var(--brand-500);
+      transform-origin: top;
+      animation: motion-fill linear both;
+      animation-timeline: view(50% 50%);
+    }
+
+    :where(.dark) .step-line::after {
+      background-color: var(--brand-400);
+    }
+  }
+
+  /* Cambio de ícono del tema, solo después de que el usuario lo usó */
+  .theme-switched svg {
+    animation: motion-turn var(--motion-base) var(--ease-out) backwards;
+  }
+}
+
+/* Respuesta al toque: leve compresión al presionar, como en una app nativa.
+   Reemplaza el destello gris de WebKit; requiere que el elemento transicione `scale` */
+@utility pressable {
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    scale: 0.98;
+  }
+}
+
+/* Placeholder de iframes lentos (formulario de Google): cubre el hueco en blanco
+   hasta que el iframe dispara load. Solo anima opacidad, que es barato de componer */
+.form-skeleton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-bg-subtle);
+  pointer-events: none;
+}
+
+.form-skeleton.is-loaded::before {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .form-skeleton::before {
+    animation: motion-pulse 1.4s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes motion-pulse {
+  to {
+    opacity: 0.4;
+  }
+}
+
+/* Ícono del menú móvil: las barras de la hamburguesa forman la X al abrir */
+.menu-bar {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform var(--motion-base) var(--ease-out),
+    opacity var(--motion-fast) var(--ease-out);
+}
+
+[aria-expanded="true"] .menu-bar-top {
+  transform: translateY(6px) rotate(45deg);
+}
+
+[aria-expanded="true"] .menu-bar-mid {
+  opacity: 0;
+}
+
+[aria-expanded="true"] .menu-bar-bot {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* El header queda quieto durante la transición entre páginas */
+.site-header {
+  view-transition-name: site-header;
+}
+
+@keyframes motion-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes motion-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes motion-target {
+  0% {
+    outline: 2px solid var(--brand-400);
+    outline-offset: 8px;
+  }
+  35% {
+    outline: 2px solid var(--brand-400);
+    outline-offset: 4px;
+  }
+  100% {
+    outline: 2px solid transparent;
+    outline-offset: 4px;
+  }
+}
+
+@keyframes motion-fill {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes motion-turn {
+  from {
+    opacity: 0;
+    transform: rotate(-60deg) scale(0.8);
   }
 }
 

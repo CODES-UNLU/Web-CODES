@@ -425,7 +425,7 @@ const supabase = getTool('supabase');
             return (
               <button
                 type="button"
-                class={`category-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border ${
+                class={`category-tab pressable px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border ${
                   isInitial
                     ? 'active bg-[var(--brand-50)] text-[var(--brand-800)] dark:bg-[var(--brand-950)] dark:text-[var(--brand-200)] border-[var(--brand-400)] dark:border-[var(--brand-700)] shadow-2xs'
                     : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-heading)] hover:bg-[var(--color-surface-hover)] border-[var(--color-border)]'
@@ -441,7 +441,7 @@ const supabase = getTool('supabase');
         }
         <button
           type="button"
-          class="category-tab px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-[var(--color-text-muted)] hover:text-[var(--color-text-heading)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)]"
+          class="category-tab pressable px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-[var(--color-text-muted)] hover:text-[var(--color-text-heading)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)]"
           data-category="todas"
           aria-pressed="false"
         >
@@ -674,9 +674,19 @@ const supabase = getTool('supabase');
       }
     }
 
+    // Fundido entre categorías; la búsqueda en vivo no lo usa para no animar en cada tecla
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function withTransition(update) {
+      if (document.startViewTransition && !reduceMotion.matches) {
+        document.startViewTransition(update);
+      } else {
+        update();
+      }
+    }
+
     // Manejar clics en pestañas
     tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
+      tab.addEventListener('click', () => withTransition(() => {
         const cat = tab.getAttribute('data-category');
         if (!cat) return;
 
@@ -718,7 +728,7 @@ const supabase = getTool('supabase');
         tab.setAttribute('aria-pressed', 'true');
 
         updateView();
-      });
+      }));
     });
 
     // Manejar input de búsqueda
