@@ -129,7 +129,28 @@
   .motion-stagger > :nth-child(4) { animation-delay: 180ms; }
   .motion-stagger > :nth-child(5) { animation-delay: 240ms; }
 
-  /* Paneles que aparecen al pasar de display:none (menú móvil, resultados de búsqueda) */
+  /* Menú móvil: aparece y desaparece; display se transiciona para que el cierre
+     también se vea (allow-discrete + @starting-style) */
+  .menu-panel {
+    transition:
+      opacity var(--motion-fast) var(--ease-out),
+      translate var(--motion-fast) var(--ease-out),
+      display var(--motion-fast) allow-discrete;
+  }
+
+  .menu-panel.hidden {
+    opacity: 0;
+    translate: 0 -4px;
+  }
+
+  @starting-style {
+    .menu-panel {
+      opacity: 0;
+      translate: 0 -4px;
+    }
+  }
+
+  /* Paneles que aparecen al pasar de display:none (resultados de búsqueda) */
   .motion-drop {
     animation: motion-drop var(--motion-fast) var(--ease-out) backwards;
   }
@@ -174,6 +195,27 @@
   &:active {
     scale: 0.98;
   }
+}
+
+/* Ícono del menú móvil: las barras de la hamburguesa forman la X al abrir */
+.menu-bar {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform var(--motion-base) var(--ease-out),
+    opacity var(--motion-fast) var(--ease-out);
+}
+
+[aria-expanded="true"] .menu-bar-top {
+  transform: translateY(6px) rotate(45deg);
+}
+
+[aria-expanded="true"] .menu-bar-mid {
+  opacity: 0;
+}
+
+[aria-expanded="true"] .menu-bar-bot {
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 /* El header queda quieto durante la transición entre páginas */
