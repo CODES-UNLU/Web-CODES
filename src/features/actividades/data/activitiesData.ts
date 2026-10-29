@@ -95,25 +95,5 @@ export const activitiesData: ActivityItem[] = [
     externalUrl: 'https://www.youtube.com/watch?v=UrtPaE4EBPM',
     youtubeId: 'UrtPaE4EBPM',
     videoDuration: '1:36:17'
-  },
-  {
-    id: 'taller-git-github',
-    title: 'Taller Inicial de Control de Versiones con Git y GitHub',
-    type: 'Taller',
-    status: 'Próximamente',
-    platform: 'Presencial',
-    dateDisplay: 'A confirmar durante el 1° cuatrimestre',
-    speaker: 'Equipo de Software CODES',
-    description: 'Encuentro práctico para aprender a usar Git desde la terminal, trabajar en repositorios remotos y colaborar en proyectos grupales de materias.',
-  },
-  {
-    id: 'podcast-experiencia-sistemas',
-    title: 'Charlas de Pasillo: ¿Cómo sobrevivir al 1° año de Sistemas?',
-    type: 'Podcast',
-    status: 'Próximamente',
-    platform: 'Spotify',
-    dateDisplay: 'En producción',
-    speaker: 'Comisión CODES',
-    description: 'Episodio introductorio donde charlamos sobre mitos y realidades del ingreso, organización del tiempo y cómo no frustrarse con los primeros parciales.',
   }
 ];
