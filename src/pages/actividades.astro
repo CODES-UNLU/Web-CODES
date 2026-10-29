@@ -4,7 +4,7 @@ import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import Callout from '../components/ui/Callout.astro';
 import ActivityCard from '../features/actividades/components/ActivityCard.astro';
-import { activitiesData } from '../features/actividades/data/activitiesData';
+import { activitiesData, youtubeChannelUrl } from '../features/actividades/data/activitiesData';
 ---
 
 <PageLayout
@@ -21,9 +21,9 @@ import { activitiesData } from '../features/actividades/data/activitiesData';
         badge="Formación continua"
       />
 
-      <Callout variant="info" title="Carga ligera y optimizada">
+      <Callout variant="info" title="Pensado para tus datos móviles">
         <p>
-          Para mantener la web veloz y respetuosa del consumo de datos móviles, no incrustamos reproductores pesados de YouTube en la carga inicial. Podés hacer clic en cada actividad para acceder a la grabación oficial en la plataforma correspondiente.
+          Al entrar solo se cargan las miniaturas: el video empieza a descargarse cuando tocás reproducir. Todas las charlas están también en el <a href={youtubeChannelUrl} target="_blank" rel="noopener noreferrer">canal de YouTube de CODES</a>.
         </p>
       </Callout>
     </div>

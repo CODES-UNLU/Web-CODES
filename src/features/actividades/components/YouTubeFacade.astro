@@ -1,0 +1,97 @@
+---
+/**
+ * Fachada de YouTube: muestra solo la miniatura (~10 KB) y carga el reproductor
+ * (~1 MB de JavaScript) recién cuando la persona toca reproducir.
+ * Sin JavaScript funciona como un enlace común al video.
+ */
+interface Props {
+  id: string;
+  title: string;
+  duration?: string;
+  class?: string;
+}
+
+const { id, title, duration, class: className = '' } = Astro.props;
+
+const thumb = (size: string) => `https://i.ytimg.com/vi/${id}/${size}.jpg`;
+---
+
+<div class={`relative aspect-video overflow-hidden bg-[var(--brand-950)] ${className}`}>
+  <a
+    href={`https://www.youtube.com/watch?v=${id}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="yt-facade group pressable absolute inset-0 block transition"
+    data-youtube-id={id}
+    data-title={title}
+    aria-label={`Reproducir video: ${title}`}
+  >
+    <!-- hqdefault es 4:3 con franjas negras: object-cover las recorta justo en 16:9 -->
+    <img
+      src={thumb('mqdefault')}
+      srcset={`${thumb('mqdefault')} 320w, ${thumb('hqdefault')} 480w`}
+      sizes="(min-width: 768px) 460px, calc(100vw - 2rem)"
+      alt=""
+      width="320"
+      height="180"
+      loading="lazy"
+      decoding="async"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+
+    <span
+      class="absolute inset-0 m-auto w-14 h-14 rounded-full flex items-center justify-center bg-[var(--brand-700)]/90 text-white dark:bg-[var(--brand-400)]/90 dark:text-neutral-950 shadow-lg ring-4 ring-white/20 transition-transform duration-200 group-hover:scale-110"
+      aria-hidden="true"
+    >
+      <svg class="w-6 h-6 translate-x-0.5" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5.14v13.72a1 1 0 0 0 1.5.86l11.04-6.86a1 1 0 0 0 0-1.72L9.5 4.28A1 1 0 0 0 8 5.14z" />
+      </svg>
+    </span>
+
+    {
+      duration && (
+        <span class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-black/75 text-white text-[11px] font-semibold tabular-nums leading-tight">
+          <span class="sr-only">Duración: </span>{duration}
+        </span>
+      )
+    }
+  </a>
+</div>
+
+<script>
+  // Un solo listener delegado para todas las fachadas de la página
+  const EMBED_ORIGIN = 'https://www.youtube-nocookie.com';
+  let preconnected = false;
+
+  // Al apoyar el dedo, abre la conexión con YouTube: el reproductor arranca antes al soltar
+  document.addEventListener(
+    'pointerdown',
+    (event) => {
+      if (preconnected || !(event.target instanceof Element) || !event.target.closest('.yt-facade')) return;
+      preconnected = true;
+      const link = document.createElement('link');
+      link.rel = 'preconnect';
+      link.href = EMBED_ORIGIN;
+      document.head.append(link);
+    },
+    { passive: true }
+  );
+
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+    const facade = event.target.closest<HTMLAnchorElement>('.yt-facade');
+    // Ctrl/Cmd/Shift + clic conserva el comportamiento de abrir el enlace
+    if (!facade || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    event.preventDefault();
+
+    const iframe = document.createElement('iframe');
+    iframe.src = `${EMBED_ORIGIN}/embed/${facade.dataset.youtubeId}?autoplay=1&playsinline=1&rel=0`;
+    iframe.title = facade.dataset.title ?? 'Video de YouTube';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    iframe.className = 'absolute inset-0 w-full h-full border-0';
+
+    facade.replaceWith(iframe);
+    iframe.focus();
+  });
+</script>
