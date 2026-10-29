@@ -79,6 +79,88 @@
   }
 }
 
+/* --- MOVIMIENTO --- */
+/* Solo CSS nativo, sin dependencias. Todo queda dentro de no-preference para respetar
+   la reducción de movimiento, y los navegadores sin soporte simplemente no animan. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Transición entre páginas (View Transitions entre documentos) */
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--motion-base);
+    animation-timing-function: var(--ease-out);
+  }
+
+  /* Despliegue de acordeones (<details>) */
+  @supports (interpolate-size: allow-keywords) {
+    details {
+      interpolate-size: allow-keywords;
+    }
+
+    details::details-content {
+      block-size: 0;
+      overflow-y: clip;
+      transition:
+        block-size var(--motion-base) var(--ease-out),
+        content-visibility var(--motion-base) allow-discrete;
+    }
+
+    details[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  /* Entrada escalonada: el único momento coreografiado, reservado al hero de inicio.
+     fill-mode backwards para no dejar transform aplicado (no crea stacking context
+     que tape el panel de búsqueda) */
+  .motion-stagger > * {
+    animation: motion-rise var(--motion-slow) var(--ease-out) backwards;
+  }
+  .motion-stagger > :nth-child(2) { animation-delay: 60ms; }
+  .motion-stagger > :nth-child(3) { animation-delay: 120ms; }
+  .motion-stagger > :nth-child(4) { animation-delay: 180ms; }
+  .motion-stagger > :nth-child(5) { animation-delay: 240ms; }
+
+  /* Paneles que aparecen al pasar de display:none (menú móvil, resultados de búsqueda) */
+  .motion-drop {
+    animation: motion-drop var(--motion-fast) var(--ease-out) backwards;
+  }
+
+  /* Cambio de ícono del tema, solo después de que el usuario lo usó */
+  .theme-switched svg {
+    animation: motion-turn var(--motion-base) var(--ease-out) backwards;
+  }
+}
+
+/* El header queda quieto durante la transición entre páginas */
+.site-header {
+  view-transition-name: site-header;
+}
+
+@keyframes motion-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes motion-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes motion-turn {
+  from {
+    opacity: 0;
+    transform: rotate(-60deg) scale(0.8);
+  }
+}
+
 /* Clases utilitarias basadas en tokens semánticos */
 .bg-surface {
   background-color: var(--color-surface);

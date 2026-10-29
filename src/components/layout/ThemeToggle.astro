@@ -56,12 +56,25 @@ const { class: className = '' } = Astro.props;
       const isDark = document.documentElement.classList.contains('dark');
       const nextTheme = isDark ? 'light' : 'dark';
 
-      if (nextTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.documentElement.setAttribute('data-theme', 'dark');
+      const applyTheme = () => {
+        if (nextTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      };
+
+      // Habilita el giro del ícono solo a partir del primer cambio (no al cargar la página)
+      button.classList.add('theme-switched');
+
+      // Fundido único de toda la página en lugar de que cada elemento cambie a su ritmo
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (document.startViewTransition && !reduceMotion) {
+        document.startViewTransition(applyTheme);
       } else {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.setAttribute('data-theme', 'light');
+        applyTheme();
       }
 
       try {
