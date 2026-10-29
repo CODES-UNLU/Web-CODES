@@ -304,6 +304,19 @@ export const toolsData: ToolItem[] = [
     verified: true
   },
   {
+    id: 'virtualbox',
+    name: 'VirtualBox',
+    logo: '/tools-logos/virtualbox.svg',
+    role: 'Máquinas virtuales de escritorio',
+    license: 'Gratuito y de código abierto (GPL v3)',
+    categories: ['desarrollo'],
+    description: 'Permite instalar un sistema operativo completo (por ejemplo, Linux dentro de Windows) en una máquina virtual aislada, con su propio escritorio, disco y red. A diferencia de Docker, que comparte el núcleo del sistema y empaqueta solo una aplicación, acá virtualizás la computadora entera.',
+    whenToUse: 'Para probar Linux sin tocar tu sistema, practicar comandos y administración sin miedo a romper nada (con instantáneas para volver atrás), o armar el entorno que pide una materia.',
+    recommendedFor: 'Estudiantes que quieren dar sus primeros pasos en Linux o en sistemas operativos y redes, sobre todo desde Windows.',
+    officialUrl: 'https://www.virtualbox.org/',
+    verified: true
+  },
+  {
     id: 'windows-terminal',
     name: 'Windows Terminal',
     logo: '/tools-logos/windows-terminal.svg',
