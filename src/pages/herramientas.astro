@@ -674,9 +674,19 @@ const supabase = getTool('supabase');
       }
     }
 
+    // Fundido entre categorías; la búsqueda en vivo no lo usa para no animar en cada tecla
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function withTransition(update) {
+      if (document.startViewTransition && !reduceMotion.matches) {
+        document.startViewTransition(update);
+      } else {
+        update();
+      }
+    }
+
     // Manejar clics en pestañas
     tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
+      tab.addEventListener('click', () => withTransition(() => {
         const cat = tab.getAttribute('data-category');
         if (!cat) return;
 
@@ -718,7 +728,7 @@ const supabase = getTool('supabase');
         tab.setAttribute('aria-pressed', 'true');
 
         updateView();
-      });
+      }));
     });
 
     // Manejar input de búsqueda
