@@ -17,6 +17,8 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    /* Deja lugar para el header fijo (h-16) al saltar a un ancla */
+    scroll-padding-top: 5rem;
   }
 
   body {
