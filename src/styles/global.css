@@ -197,6 +197,32 @@
   }
 }
 
+/* Placeholder de iframes lentos (formulario de Google): cubre el hueco en blanco
+   hasta que el iframe dispara load. Solo anima opacidad, que es barato de componer */
+.form-skeleton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-bg-subtle);
+  pointer-events: none;
+}
+
+.form-skeleton.is-loaded::before {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .form-skeleton::before {
+    animation: motion-pulse 1.4s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes motion-pulse {
+  to {
+    opacity: 0.4;
+  }
+}
+
 /* Ícono del menú móvil: las barras de la hamburguesa forman la X al abrir */
 .menu-bar {
   transform-box: fill-box;
