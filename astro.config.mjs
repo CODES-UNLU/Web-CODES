@@ -11,6 +11,13 @@ export default defineConfig({
   // `base` es obligatorio para project pages: la web vive en /Web-CODES/.
   base: '/Web-CODES',
 
+  // Precarga cada enlace interno al tocarlo/presionarlo (antes de soltar), así la
+  // transición entre páginas se siente inmediata sin gastar datos en páginas que no se abren.
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'tap',
+  },
+
   vite: {
     plugins: [tailwindcss()],
   },
