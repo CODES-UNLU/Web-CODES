@@ -103,6 +103,32 @@ export const toolsData: ToolItem[] = [
     verified: true
   },
   {
+    id: 'vscodium',
+    name: 'VSCodium',
+    logo: '/tools-logos/vscodium.svg',
+    role: 'VS Code libre, sin IA ni telemetría',
+    license: 'Código abierto (MIT)',
+    categories: ['empezar'],
+    description: 'El mismo editor que VS Code (interfaz, atajos y extensiones), compilado sin las marcas de Microsoft, sin envío de métricas y sin Copilot precargado. Usa el registro libre Open VSX, donde están las extensiones de C/C++ y Python.',
+    whenToUse: 'Cuando querés la comodidad de VS Code para estudiar sin que una IA te complete los ejercicios y sin tener que apagar nada a mano.',
+    recommendedFor: 'Estudiantes de primeros años que ya se manejan con Geany y buscan un editor más completo para la carrera.',
+    officialUrl: 'https://vscodium.com/',
+    verified: true
+  },
+  {
+    id: 'zed',
+    name: 'Zed',
+    logo: '/tools-logos/zed.svg',
+    role: 'Editor de código ultrarrápido',
+    license: 'Código abierto (GPL v3)',
+    categories: ['empezar', 'desarrollo'],
+    description: 'Editor minimalista escrito en Rust: arranca al instante, consume poca memoria y tiene buen soporte de C y Python. Trae IA integrada, pero se apaga con dos líneas en settings.json.',
+    whenToUse: 'Cuando tu computadora sufre con editores pesados o preferís algo simple y veloz que se configura editando un archivo JSON.',
+    recommendedFor: 'Quienes valoran la velocidad por sobre el ecosistema de extensiones, sobre todo en equipos con pocos recursos.',
+    officialUrl: 'https://zed.dev/',
+    verified: true
+  },
+  {
     id: 'geany',
     name: 'Geany',
     logo: '/tools-logos/geany.svg',
@@ -207,6 +233,19 @@ export const toolsData: ToolItem[] = [
     whenToUse: 'Cuando querés centralizar apuntes teóricos de varias materias, compartir resúmenes con compañeros o documentar la arquitectura de un software.',
     recommendedFor: 'Quienes valoran tener notas académicas estructuradas y sincronizadas entre computadora y celular.',
     officialUrl: 'https://www.notion.so/',
+    verified: true
+  },
+  {
+    id: 'google-docs',
+    name: 'Google Docs',
+    logo: '/tools-logos/google-docs.svg',
+    role: 'Documentos, planillas y presentaciones en equipo',
+    license: 'Gratuito (con cualquier cuenta de Gmail)',
+    categories: ['organizar'],
+    description: 'Suite online de Google (Docs, Sheets, Slides y Forms) que funciona en el navegador sin instalar nada, guarda solo en Drive, tiene historial de versiones y exporta a .docx, .xlsx y .pptx para entregar.',
+    whenToUse: 'Para informes y presentaciones grupales: varias personas editan al mismo tiempo, con comentarios y sugerencias, y nunca más hay un "final_v3_ahora_si.docx".',
+    recommendedFor: 'Cualquier trabajo práctico en grupo. Sin internet necesitás haber activado el modo offline.',
+    officialUrl: 'https://docs.google.com/',
     verified: true
   },
 
