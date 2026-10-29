@@ -52,8 +52,11 @@
     transition: color 0.15s ease, opacity 0.15s ease;
   }
 
-  a:hover {
-    color: var(--color-interactive-hover);
+  /* Solo con puntero real: en pantallas táctiles el hover queda "pegado" después del toque */
+  @media (hover: hover) {
+    a:hover {
+      color: var(--color-interactive-hover);
+    }
   }
 
   /* Encabezados legibles con jerarquía clara */
