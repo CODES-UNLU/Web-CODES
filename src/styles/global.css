@@ -147,6 +147,16 @@
   }
 }
 
+/* Respuesta al toque: leve compresión al presionar, como en una app nativa.
+   Reemplaza el destello gris de WebKit; requiere que el elemento transicione `scale` */
+@utility pressable {
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    scale: 0.98;
+  }
+}
+
 /* El header queda quieto durante la transición entre páginas */
 .site-header {
   view-transition-name: site-header;

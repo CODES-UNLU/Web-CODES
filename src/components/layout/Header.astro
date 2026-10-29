@@ -107,7 +107,7 @@ const navItems = [
           return (
             <a
               href={withBase(item.href)}
-              class={`flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium no-underline transition-colors min-h-[44px] ${
+              class={`pressable flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium no-underline transition min-h-[44px] ${
                 active
                   ? 'bg-[var(--brand-50)] text-[var(--brand-800)] dark:bg-[var(--brand-950)] dark:text-[var(--brand-200)] font-semibold border border-[var(--brand-200)] dark:border-[var(--brand-800)]'
                   : 'text-[var(--color-text-main)] hover:bg-[var(--color-surface-hover)]'

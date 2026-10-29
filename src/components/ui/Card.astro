@@ -32,7 +32,7 @@ const variantStyles = {
 };
 
 const interactiveStyles = href
-  ? 'no-underline transition-all duration-150 hover:border-[var(--brand-500)] hover:shadow-md cursor-pointer block'
+  ? 'pressable no-underline transition-all duration-150 hover:border-[var(--brand-500)] hover:shadow-md cursor-pointer block'
   : '';
 
 const computedClass = `rounded-xl ${variantStyles[variant]} ${paddingStyles[padding]} ${interactiveStyles} ${className}`;
