@@ -134,6 +134,13 @@
     animation: motion-drop var(--motion-fast) var(--ease-out) backwards;
   }
 
+  /* Destino de un ancla (ej. resultado del buscador): un pulso breve indica qué tarjeta se buscó.
+     El retraso deja terminar el scroll suave antes de resaltar */
+  main [id]:target {
+    border-radius: var(--radius-xl);
+    animation: motion-target 1.6s var(--ease-out) 300ms backwards;
+  }
+
   /* Cambio de ícono del tema, solo después de que el usuario lo usó */
   .theme-switched svg {
     animation: motion-turn var(--motion-base) var(--ease-out) backwards;
@@ -156,6 +163,21 @@
   from {
     opacity: 0;
     transform: translateY(-4px);
+  }
+}
+
+@keyframes motion-target {
+  0% {
+    outline: 2px solid var(--brand-400);
+    outline-offset: 8px;
+  }
+  35% {
+    outline: 2px solid var(--brand-400);
+    outline-offset: 4px;
+  }
+  100% {
+    outline: 2px solid transparent;
+    outline-offset: 4px;
   }
 }
 
