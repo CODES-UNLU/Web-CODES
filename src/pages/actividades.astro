@@ -3,8 +3,30 @@ import PageLayout from '../layouts/PageLayout.astro';
 import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import Callout from '../components/ui/Callout.astro';
+import Badge from '../components/ui/Badge.astro';
 import ActivityCard from '../features/actividades/components/ActivityCard.astro';
 import { activitiesData, youtubeChannelUrl } from '../features/actividades/data/activitiesData';
+
+// Agrupa por el año que cierra dateDisplay ("Septiembre 2026" → "2026"), conservando el orden de los datos
+const activitiesByYear = Object.entries(
+  Object.groupBy(activitiesData, (activity) => activity.dateDisplay.split(' ').at(-1) ?? '')
+).sort(([a], [b]) => b.localeCompare(a));
+
+// Formatos en planificación, todavía sin fecha
+const upcomingFormats = [
+  {
+    type: 'Taller',
+    variant: 'info',
+    title: 'Talleres prácticos',
+    description: 'Encuentros para aprender herramientas y programación haciendo. Las fechas se anuncian en los canales de CODES.',
+  },
+  {
+    type: 'Podcast',
+    variant: 'warning',
+    title: 'Podcast de CODES',
+    description: 'Conversaciones entre estudiantes sobre la carrera y la vida universitaria. Las fechas se anuncian en los canales de CODES.',
+  },
+] as const;
 ---
 
 <PageLayout
@@ -28,9 +50,51 @@ import { activitiesData, youtubeChannelUrl } from '../features/actividades/data/
       </Callout>
     </div>
 
-    <!-- Grilla de actividades -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {activitiesData.map((activity) => <ActivityCard activity={activity} />)}
+    <!-- Charlas agrupadas por año, cada grupo separado por una línea con el año -->
+    <div class="space-y-10">
+      {
+        activitiesByYear.map(([year, activities]) => (
+          <section class="space-y-5" aria-labelledby={`anio-${year}`}>
+            <div class="flex items-center gap-4">
+              <h2 id={`anio-${year}`} class="text-xl sm:text-2xl font-extrabold tabular-nums text-[var(--brand-700)] dark:text-[var(--brand-300)] m-0">
+                {year}
+              </h2>
+              <span class="flex-1 h-px bg-[var(--color-border)]" aria-hidden="true" />
+              <span class="text-xs text-[var(--color-text-muted)] shrink-0">
+                {activities.length} {activities.length === 1 ? 'charla' : 'charlas'}
+              </span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {activities.map((activity) => <ActivityCard activity={activity} />)}
+            </div>
+          </section>
+        ))
+      }
+
+      <!-- Formatos planeados a futuro: borde punteado para distinguirlos de lo ya publicado -->
+      <section class="space-y-5" aria-labelledby="proximamente">
+        <div class="flex items-center gap-4">
+          <h2 id="proximamente" class="text-xl sm:text-2xl font-extrabold text-[var(--color-text-muted)] m-0">
+            Próximamente
+          </h2>
+          <span class="flex-1 h-px bg-[var(--color-border)]" aria-hidden="true" />
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {
+            upcomingFormats.map((format) => (
+              <article class="rounded-xl border-2 border-dashed border-[var(--color-border)] p-5 sm:p-6 space-y-2">
+                <Badge variant={format.variant}>{format.type}</Badge>
+                <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] leading-snug m-0">
+                  {format.title}
+                </h3>
+                <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed m-0">
+                  {format.description}
+                </p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
     </div>
 
     <!-- Convocatoria a talleres -->
