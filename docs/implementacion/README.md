@@ -58,7 +58,7 @@ Web-CODES/
 │   │   ├── BaseLayout.astro       # Head, SEO, Open Graph, Favicon adaptativo y script anti-FOUC
 │   │   └── PageLayout.astro       # Header + Main slot + Footer
 │   ├── lib/
-│   │   ├── paths.ts               # Utilidad de resolución con base (/Web-CODES/) y rutas activas
+│   │   ├── paths.ts               # Utilidad de resolución con base y rutas activas
 │   │   └── searchData.ts          # Índice estructurado de búsqueda estática
 │   ├── pages/                     # Rutas del sitio (Páginas delgadas orquestadoras)
 │   │   ├── index.astro            # Home / Tablero de orientación estudiantil
@@ -72,7 +72,7 @@ Web-CODES/
 │       ├── tokens.css             # Paleta Teal OKLCH oficial y tokens semánticos
 │       └── global.css             # Integración Tailwind CSS v4, reset y foco accesible
 ├── docs/                          # Documentación del proyecto y auditoría previa
-├── astro.config.mjs               # Configuración Astro (base: '/Web-CODES', vite tailwindcss)
+├── astro.config.mjs               # Configuración Astro (site: codesunlu.com.ar, vite tailwindcss)
 └── package.json
 ```
 
@@ -198,7 +198,7 @@ pnpm install
 ```bash
 pnpm dev
 ```
-*Disponible en `http://localhost:4321/Web-CODES/`.*
+*Disponible en `http://localhost:4321/`.*
 
 Para ejecutarlo en segundo plano:
 ```bash

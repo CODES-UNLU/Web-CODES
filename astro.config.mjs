@@ -5,11 +5,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  // Sitio publicado en GitHub Pages (CODES-UNLU/Web-CODES).
-  site: 'https://codes-unlu.github.io',
-
-  // `base` es obligatorio para project pages: la web vive en /Web-CODES/.
-  base: '/Web-CODES',
+  // Sitio publicado en GitHub Pages (CODES-UNLU/Web-CODES) con dominio propio.
+  // Al servirse desde la raíz del dominio no hace falta `base`.
+  site: 'https://codesunlu.com.ar',
 
   // Precarga cada enlace interno al tocarlo/presionarlo (antes de soltar), así la
   // transición entre páginas se siente inmediata sin gastar datos en páginas que no se abren.

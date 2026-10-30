@@ -1,6 +1,7 @@
 /**
- * Utilidades para resolución de rutas respetando `base` (ej. /Web-CODES/).
- * Garantiza enlaces correctos tanto en desarrollo local como en GitHub Pages.
+ * Utilidades para resolución de rutas respetando `base` (hoy `/`, al servirse
+ * desde codesunlu.com.ar). Si en algún momento se vuelve a publicar bajo un
+ * subdirectorio, los enlaces siguen funcionando sin cambios.
  */
 
 export function withBase(path: string = '/'): string {
