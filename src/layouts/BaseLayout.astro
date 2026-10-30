@@ -14,9 +14,9 @@ const {
   image = '/brand/avatar-1024.png',
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://codes-unlu.github.io');
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://codesunlu.com.ar');
 const fullTitle = title.includes('CODES') ? title : `${title} | CODES UNLu`;
-const ogImageUrl = new URL(withBase(image), Astro.site || 'https://codes-unlu.github.io').href;
+const ogImageUrl = new URL(withBase(image), Astro.site || 'https://codesunlu.com.ar').href;
 ---
 
 <!doctype html>
