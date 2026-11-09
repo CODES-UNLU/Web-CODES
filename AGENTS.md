@@ -54,6 +54,19 @@
 - Si la tarea no toca la UI (configuración de build, scripts, documentación),
   no hace falta.
 
+## Documentación de librerías: Context7 obligatorio
+
+- Antes de escribir o modificar código que dependa de una librería, framework,
+  SDK o API (Astro, Tailwind, etc.), **es obligatorio** consultar la
+  documentación actualizada en [Context7](https://context7.com/), aunque creas
+  conocer la respuesta: tu conocimiento previo puede estar desactualizado.
+- Si tu agente tiene el MCP de Context7, usalo (en Claude Code, el plugin
+  `context7` está disponible: `resolve-library-id` y luego `query-docs`). Si no,
+  consultá el sitio directamente.
+- Aplica a sintaxis de APIs, configuración, migraciones de versión y
+  depuración específica de una librería. No hace falta para lógica propia del
+  proyecto ni conceptos generales de programación.
+
 ## Development
 
 When starting the dev server, use background mode:
