@@ -1,0 +1,40 @@
+# robots.txt de CODES UNLu (https://codesunlu.com.ar)
+# Formato: RFC 9309. Content-Signal: https://contentsignals.org/
+
+# Política de contenido para IA: se puede buscar y citar en respuestas,
+# pero no se usa para entrenar modelos.
+User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+Allow: /
+
+# Crawlers de búsqueda de asistentes de IA: permitidos (así el sitio puede
+# aparecer en sus respuestas).
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# Crawlers de entrenamiento de modelos: bloqueados.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+Sitemap: https://codesunlu.com.ar/sitemap-index.xml

@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
@@ -15,6 +16,9 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: 'tap',
   },
+
+  // Genera sitemap-index.xml y sitemap-0.xml en cada build (referenciados desde robots.txt).
+  integrations: [sitemap()],
 
   vite: {
     plugins: [tailwindcss()],

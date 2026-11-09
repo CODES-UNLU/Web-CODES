@@ -27,6 +27,7 @@ const ogImageUrl = new URL(withBase(image), Astro.site || 'https://codesunlu.com
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Íconos desde Identidad-CODES: .ico (logo claro) como respaldo, logo.svg adaptativo, avatar para iOS y manifest para Android -->
     <link rel="icon" href={withBase('/favicon.ico')} sizes="32x32" />
