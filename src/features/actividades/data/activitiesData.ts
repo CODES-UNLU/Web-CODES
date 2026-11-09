@@ -19,6 +19,19 @@ export const youtubeChannelUrl = 'https://www.youtube.com/@codes_unlu';
 // Charlas grabadas del canal, de la más reciente a la más antigua
 export const activitiesData: ActivityItem[] = [
   {
+    id: 'charla-investigacion-computacion',
+    title: 'La investigación en computación: primeros pasos, industria e IA',
+    type: 'Charla',
+    status: 'Grabación disponible',
+    platform: 'YouTube',
+    dateDisplay: 'Noviembre 2026',
+    speaker: 'Dr. Gabriel Tolosa',
+    description: 'Cómo dar los primeros pasos en la investigación en tecnología, su conexión con la industria actual y el impacto de la inteligencia artificial en el desarrollo de software.',
+    externalUrl: 'https://www.youtube.com/watch?v=t9H4Exwtt7A',
+    youtubeId: 't9H4Exwtt7A',
+    videoDuration: '1:01:02'
+  },
+  {
     id: 'charla-mercado-it',
     title: 'Radiografía del mercado IT',
     type: 'Charla',
