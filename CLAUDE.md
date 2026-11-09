@@ -30,7 +30,25 @@
 - Cambios que rompen compatibilidad: agregá `!` después del tipo/alcance y una
   sección `BREAKING CHANGE:` en el cuerpo.
 - Un commit = un cambio lógico. No mezcles refactors con features.
-- No agregues firmas de herramientas de IA ni líneas `Co-Authored-By` de asistentes.
+- **Atribución obligatoria de IA**: todo commit creado o asistido por un agente
+  de IA (Claude Code, Codex, Gemini CLI, Cursor, Copilot, etc.) **debe** cerrar
+  con una línea `Co-Authored-By` que indique el modelo usado, al final del
+  cuerpo y separada por una línea en blanco:
+
+  ```text
+  Co-Authored-By: <Nombre del modelo y versión> <correo del proveedor>
+  ```
+
+  Ejemplos: `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`,
+  `Co-Authored-By: GPT-5 <noreply@openai.com>`,
+  `Co-Authored-By: Gemini 3 Pro <noreply@google.com>`.
+- Usá el nombre y la versión **reales** del modelo que trabajó; si no los
+  conocés con certeza, indicá el agente o la herramienta. Si intervinieron
+  varios modelos, agregá una línea por cada uno.
+- Si el agente o la plataforma trae su propia plantilla de atribución, usala:
+  esta regla fija el mínimo exigido, no un formato único.
+- En descripciones de Pull Requests creadas por un agente, indicá también qué
+  agente y modelo se usaron.
 
 ## Saltos de línea
 
