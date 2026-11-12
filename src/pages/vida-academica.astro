@@ -12,11 +12,26 @@ import {
   universityProcedures,
   codesInitiatives,
 } from '../features/vida-academica/data/academicData';
+
+const breadcrumbs = [{ label: 'Vida académica', href: '/vida-academica' }];
+
+const faqs = [
+  ...academicTopics.map((topic) => ({
+    question: `¿Cómo funciona: ${topic.title}?`,
+    answer: `${topic.summary} ${topic.content.join(' ')}`,
+  })),
+  ...universityProcedures.map((proc) => ({
+    question: `¿Cómo tramitar: ${proc.title}?`,
+    answer: `${proc.description} Requisitos: ${proc.requirements.join('; ')}. Pasos: ${proc.steps.join(' ')}`,
+  })),
+];
 ---
 
 <PageLayout
-  title="Vida Académica y Trámites"
-  description="Plataformas oficiales de la UNLu (PlatDig, SAWEB, Sistema de Gestión de Estudiantes), cursadas, finales, trámites (Boleto SUBE) y gestiones de CODES."
+  title="Vida Académica y Trámites UNLu | CODES"
+  description="Guía sobre plataformas oficiales de la UNLu (PlatDig, SAWEB), régimen de cursadas, exámenes finales, correlatividades y trámite del Boleto Estudiantil SUBE."
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
 >
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
     <div>

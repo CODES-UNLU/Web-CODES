@@ -23,11 +23,14 @@ const vercel = getTool('vercel');
 const render = getTool('render');
 const railway = getTool('railway');
 const supabase = getTool('supabase');
+
+const breadcrumbs = [{ label: 'Herramientas', href: '/herramientas' }];
 ---
 
 <PageLayout
-  title="Banco de Herramientas y Software"
-  description="Catálogo orientativo de software, servicios y utilidades recomendadas para estudiantes de desarrollo de la UNLu."
+  title="Herramientas y Recursos de Desarrollo para Sistemas UNLu | CODES"
+  description="Catálogo de herramientas, utilidades de desarrollo, hosting gratuito y software recomendado para estudiantes de Sistemas de la UNLu."
+  breadcrumbs={breadcrumbs}
 >
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
     <!-- Encabezado y migas de pan -->

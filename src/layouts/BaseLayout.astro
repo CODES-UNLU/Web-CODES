@@ -1,22 +1,31 @@
 ---
 import '../styles/global.css';
 import { withBase } from '../lib/paths';
+import SEO, { type BreadcrumbItem, type FaqItem } from '../components/seo/SEO.astro';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  robots?: string;
+  breadcrumbs?: BreadcrumbItem[];
+  faqs?: FaqItem[];
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 const {
-  title = 'CODES · Centro Organizado de Estudiantes de Sistemas UNLu',
-  description = 'Web oficial del Centro de Estudiantes de Sistemas de la Universidad Nacional de Luján. Guías para ingresantes, trámites académicos, calendario y comunidad.',
-  image = '/brand/avatar-1024.png',
+  title,
+  description,
+  image,
+  imageAlt,
+  type,
+  robots,
+  breadcrumbs,
+  faqs,
+  jsonLd,
 } = Astro.props;
-
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://codesunlu.com.ar');
-const fullTitle = title.includes('CODES') ? title : `${title} | CODES UNLu`;
-const ogImageUrl = new URL(withBase(image), Astro.site || 'https://codesunlu.com.ar').href;
 ---
 
 <!doctype html>
@@ -24,31 +33,25 @@ const ogImageUrl = new URL(withBase(image), Astro.site || 'https://codesunlu.com
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{fullTitle}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL} />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Metadatos SEO, Open Graph, Twitter Cards y Schema.org JSON-LD -->
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      imageAlt={imageAlt}
+      type={type}
+      robots={robots}
+      breadcrumbs={breadcrumbs}
+      faqs={faqs}
+      jsonLd={jsonLd}
+    />
 
     <!-- Íconos desde Identidad-CODES: .ico (logo claro) como respaldo, logo.svg adaptativo, avatar para iOS y manifest para Android -->
     <link rel="icon" href={withBase('/favicon.ico')} sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href={withBase('/brand/logo.svg')} />
     <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
     <link rel="manifest" href={withBase('/site.webmanifest')} />
-
-    <!-- Open Graph / Redes Sociales -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImageUrl} />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={fullTitle} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImageUrl} />
-
-    <meta name="generator" content={Astro.generator} />
 
     <!-- Script inline para aplicar el tema antes del render (evita FOUC / destello) -->
     <script is:inline>
