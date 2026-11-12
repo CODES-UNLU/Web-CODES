@@ -1,0 +1,198 @@
+---
+import { withBase } from '../../lib/paths';
+
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  robots?: string;
+  breadcrumbs?: BreadcrumbItem[];
+  faqs?: FaqItem[];
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const {
+  title,
+  description = 'Web oficial del Centro de Estudiantes de Sistemas de la Universidad Nacional de Luján (UNLu). Guías para ingresantes, trámites académicos, plataformas virtuales, calendario y comunidad.',
+  image = '/brand/og-banner.png',
+  imageAlt = 'CODES UNLu · Centro Organizado de Estudiantes de Sistemas',
+  type = 'website',
+  robots = 'index, follow',
+  breadcrumbs,
+  faqs,
+  jsonLd,
+} = Astro.props;
+
+const siteUrl = (Astro.site ? Astro.site.href : 'https://codesunlu.com.ar').replace(/\/$/, '');
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+
+// Título optimizado para SEO
+const defaultBrandTitle = 'CODES · Centro Organizado de Estudiantes de Sistemas UNLu';
+let fullTitle: string;
+if (!title || title.trim() === '' || title.toLowerCase() === 'inicio') {
+  fullTitle = `${defaultBrandTitle} | Sitio Oficial`;
+} else if (title.includes('CODES')) {
+  fullTitle = title;
+} else {
+  fullTitle = `${title} | CODES UNLu`;
+}
+
+// URL canónica de la imagen social Open Graph
+const ogImageUrl = new URL(withBase(image), siteUrl).href;
+const isBanner = image.includes('og-banner');
+const imageWidth = isBanner ? '1200' : '1024';
+const imageHeight = isBanner ? '630' : '1024';
+const imageMime = 'image/png';
+
+// Construcción del grafo Schema.org (JSON-LD)
+const schemaGraph: Record<string, unknown>[] = [
+  {
+    '@type': 'EducationalOrganization',
+    '@id': `${siteUrl}/#organization`,
+    name: 'CODES · Centro Organizado de Estudiantes de Sistemas',
+    alternateName: ['CODES UNLu', 'CODES', 'Centro de Estudiantes de Sistemas UNLu'],
+    url: `${siteUrl}/`,
+    logo: {
+      '@type': 'ImageObject',
+      '@id': `${siteUrl}/#logo`,
+      url: `${siteUrl}/brand/avatar-1024.png`,
+      caption: 'Logo oficial de CODES UNLu',
+    },
+    image: `${siteUrl}/brand/og-banner.png`,
+    description: 'Centro Organizado de Estudiantes de Sistemas de la Universidad Nacional de Luján. Espacio estudiantil de asesoramiento académico, difusión de actividades, proyectos de software y comunidad.',
+    sameAs: [
+      'https://www.instagram.com/codesunlu/',
+      'https://github.com/CODES-UNLU',
+      'https://www.youtube.com/@codesunlu',
+    ],
+    parentOrganization: {
+      '@type': 'CollegeOrUniversity',
+      name: 'Universidad Nacional de Luján',
+      alternateName: 'UNLu',
+      url: 'https://www.unlu.edu.ar',
+    },
+  },
+  {
+    '@type': 'WebSite',
+    '@id': `${siteUrl}/#website`,
+    url: `${siteUrl}/`,
+    name: 'CODES UNLu',
+    alternateName: 'Centro de Estudiantes de Sistemas UNLu',
+    publisher: {
+      '@id': `${siteUrl}/#organization`,
+    },
+    inLanguage: 'es-AR',
+  },
+  {
+    '@type': 'WebPage',
+    '@id': `${canonicalURL.href}#webpage`,
+    url: canonicalURL.href,
+    name: fullTitle,
+    description: description,
+    isPartOf: {
+      '@id': `${siteUrl}/#website`,
+    },
+    inLanguage: 'es-AR',
+  },
+];
+
+// Inyección de BreadcrumbList si hay migas de pan
+if (breadcrumbs && breadcrumbs.length > 0) {
+  const itemListElement = [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Inicio',
+      item: `${siteUrl}/`,
+    },
+    ...breadcrumbs.map((crumb, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 2,
+      name: crumb.label,
+      item: crumb.href ? new URL(withBase(crumb.href), siteUrl).href : canonicalURL.href,
+    })),
+  ];
+
+  schemaGraph.push({
+    '@type': 'BreadcrumbList',
+    itemListElement,
+  });
+}
+
+// Inyección de FAQPage si se suministran preguntas frecuentes
+if (faqs && faqs.length > 0) {
+  schemaGraph.push({
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  });
+}
+
+// Agregar esquemas personalizados adicionales si existen
+if (jsonLd) {
+  if (Array.isArray(jsonLd)) {
+    schemaGraph.push(...jsonLd);
+  } else {
+    schemaGraph.push(jsonLd);
+  }
+}
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': schemaGraph,
+};
+---
+
+<!-- Metadatos de documento y SEO -->
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+<meta name="robots" content={robots} />
+<meta name="generator" content={Astro.generator} />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- Metadatos Geográficos para relevancia local UNLu -->
+<meta name="geo.region" content="AR-B" />
+<meta name="geo.placename" content="Luján, Buenos Aires, Argentina" />
+
+<!-- Open Graph / Protocolo Social -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:site_name" content="CODES UNLu" />
+<meta property="og:locale" content="es_AR" />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:secure_url" content={ogImageUrl} />
+<meta property="og:image:width" content={imageWidth} />
+<meta property="og:image:height" content={imageHeight} />
+<meta property="og:image:alt" content={imageAlt} />
+<meta property="og:image:type" content={imageMime} />
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+<!-- Datos Estructurados Schema.org (JSON-LD) -->
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

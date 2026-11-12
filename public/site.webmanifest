@@ -2,7 +2,7 @@
   "name": "CODES · Centro Organizado de Estudiantes de Sistemas UNLu",
   "short_name": "CODES",
   "description": "Web oficial del Centro de Estudiantes de Sistemas de la Universidad Nacional de Luján.",
-  "lang": "es",
+  "lang": "es-AR",
   "start_url": "./",
   "scope": "./",
   "display": "minimal-ui",

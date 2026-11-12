@@ -4,11 +4,14 @@ import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import Callout from '../components/ui/Callout.astro';
 import CalendarTimeline from '../features/calendario/components/CalendarTimeline.astro';
+
+const breadcrumbs = [{ label: 'Calendario', href: '/calendario' }];
 ---
 
 <PageLayout
-  title="Calendario Académico"
-  description="Cronograma del ciclo lectivo de la UNLu: períodos de inscripción a materias, turnos de exámenes finales, receso de invierno y fechas clave."
+  title="Calendario Académico UNLu | Inscripciones y Finales | CODES"
+  description="Cronograma del ciclo lectivo de la UNLu: períodos de inscripción a materias, turnos de exámenes finales, inicio de clases y receso de invierno."
+  breadcrumbs={breadcrumbs}
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
     <div>

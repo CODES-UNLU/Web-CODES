@@ -10,11 +10,14 @@ import {
   communityChannels,
   codeOfConductRules,
 } from '../features/comunidad/data/channelsData';
+
+const breadcrumbs = [{ label: 'Comunidad', href: '/comunidad' }];
 ---
 
 <PageLayout
-  title="Comunidad Estudiantil"
-  description="Canales oficiales, grupos de estudio de WhatsApp por materia y espacios de consulta de la carrera de Sistemas de la UNLu."
+  title="Comunidad Estudiantil y Canales de Contacto | CODES UNLu"
+  description="Canales oficiales, grupos de estudio de WhatsApp por materia y espacios de consulta para estudiantes de Sistemas de la Universidad Nacional de Luján."
+  breadcrumbs={breadcrumbs}
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
     <div>

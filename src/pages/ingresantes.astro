@@ -7,11 +7,19 @@ import Button from '../components/ui/Button.astro';
 import OnboardingStepCard from '../features/ingresantes/components/OnboardingStepCard.astro';
 import { onboardingSteps } from '../features/ingresantes/data/steps';
 import { withBase } from '../lib/paths';
+const breadcrumbs = [{ label: 'Ingresantes', href: '/ingresantes' }];
+
+const faqs = onboardingSteps.map((step) => ({
+  question: `¿${step.title}?`,
+  answer: `${step.summary} ${step.details.join(' ')}`,
+}));
 ---
 
 <PageLayout
-  title="Guía de Ingresantes"
-  description="Recorrido paso a paso para estudiantes que comienzan la carrera de Sistemas en la Universidad Nacional de Luján: plataformas digitales (PlatDig, SAWEB, Gestión de Estudiantes), materias, sedes y comunidad."
+  title="Guía de Ingresantes a Sistemas UNLu | CODES"
+  description="Guía paso a paso para ingresantes a la carrera de Sistemas en la UNLu (Luján, San Miguel, Campana, Chivilcoy): plataformas PlatDig, SAWEB, cursadas y trámites."
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
     <Breadcrumbs items={[{ label: 'Ingresantes' }]} />
