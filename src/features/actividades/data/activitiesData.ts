@@ -29,7 +29,7 @@ export const activitiesData: ActivityItem[] = [
     description: 'Cómo dar los primeros pasos en la investigación en tecnología, su conexión con la industria actual y el impacto de la inteligencia artificial en el desarrollo de software.',
     externalUrl: 'https://www.youtube.com/watch?v=97jmJS-zLd4',
     youtubeId: '97jmJS-zLd4',
-    videoDuration: '1:01:02'
+    videoDuration: '1:38:11'
   },
   {
     id: 'charla-mercado-it',
