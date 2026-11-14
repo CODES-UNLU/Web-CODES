@@ -1,8 +1,12 @@
+export const CALENDAR_YEAR = 2026;
+
 export interface CalendarEvent {
   id: string;
   title: string;
   category: 'Inscripciones' | 'Exámenes Finales' | 'Clases' | 'Receso y Feriados';
   categoryVariant: 'brand' | 'warning' | 'info' | 'neutral';
+  startDate: string;
+  endDate: string;
   dateDisplay: string;
   period: '1° Cuatrimestre' | '2° Cuatrimestre' | 'Receso de Invierno' | 'Cierre de Año';
   month: string;
@@ -17,11 +21,13 @@ export const calendarEvents: CalendarEvent[] = [
     title: 'Inscripción a asignaturas del 1° cuatrimestre',
     category: 'Inscripciones',
     categoryVariant: 'warning',
-    dateDisplay: '02 al 08 de Marzo (Provisorio)',
+    startDate: '2026-03-02',
+    endDate: '2026-03-08',
+    dateDisplay: '2 al 8 de marzo de 2026',
     period: '1° Cuatrimestre',
     month: 'Marzo',
     isConfirmed: false,
-    sourceNote: 'Período habitual según calendario general UNLu. A confirmar publicación oficial.',
+    sourceNote: 'Período habitual según calendario general UNLu.',
     description: 'Inscripción online obligatoria a comisiones y materias a través del sistema académico de tu cohorte (SAWEB para cohortes previas a 2027 / Sistema de Gestión de Estudiantes para cohorte 2027+).'
   },
   {
@@ -29,11 +35,13 @@ export const calendarEvents: CalendarEvent[] = [
     title: 'Inicio del 1° cuatrimestre',
     category: 'Clases',
     categoryVariant: 'brand',
-    dateDisplay: 'Mediados de Marzo (Provisorio)',
+    startDate: '2026-03-16',
+    endDate: '2026-03-20',
+    dateDisplay: '16 de marzo de 2026',
     period: '1° Cuatrimestre',
     month: 'Marzo',
     isConfirmed: false,
-    sourceNote: 'Fecha sujeta a resolución del Consejo Superior de la UNLu.',
+    sourceNote: 'Fecha estimada según resolución habitual del Consejo Superior UNLu.',
     description: 'Comienzo formal del dictado de clases teóricas y prácticas en Sede Central Luján y Centros Regionales.'
   },
   {
@@ -41,7 +49,9 @@ export const calendarEvents: CalendarEvent[] = [
     title: 'Turno especial de exámenes finales (Mayo)',
     category: 'Exámenes Finales',
     categoryVariant: 'info',
-    dateDisplay: 'Primera quincena de Mayo',
+    startDate: '2026-05-04',
+    endDate: '2026-05-15',
+    dateDisplay: '4 al 15 de mayo de 2026',
     period: '1° Cuatrimestre',
     month: 'Mayo',
     isConfirmed: false,
@@ -53,7 +63,9 @@ export const calendarEvents: CalendarEvent[] = [
     title: 'Finalización de clases del 1° cuatrimestre',
     category: 'Clases',
     categoryVariant: 'brand',
-    dateDisplay: 'Primera semana de Julio',
+    startDate: '2026-06-29',
+    endDate: '2026-07-04',
+    dateDisplay: '29 de junio al 4 de julio de 2026',
     period: '1° Cuatrimestre',
     month: 'Julio',
     isConfirmed: false,
@@ -65,7 +77,9 @@ export const calendarEvents: CalendarEvent[] = [
     title: 'Receso académico y administrativo invernal',
     category: 'Receso y Feriados',
     categoryVariant: 'neutral',
-    dateDisplay: 'Segunda quincena de Julio',
+    startDate: '2026-07-13',
+    endDate: '2026-07-25',
+    dateDisplay: '13 al 25 de julio de 2026',
     period: 'Receso de Invierno',
     month: 'Julio',
     isConfirmed: true,
@@ -77,7 +91,9 @@ export const calendarEvents: CalendarEvent[] = [
     title: 'Turno general de exámenes finales (Julio / Agosto)',
     category: 'Exámenes Finales',
     categoryVariant: 'info',
-    dateDisplay: 'Fines de Julio y principios de Agosto',
+    startDate: '2026-07-27',
+    endDate: '2026-08-08',
+    dateDisplay: '27 de julio al 8 de agosto de 2026',
     period: 'Receso de Invierno',
     month: 'Agosto',
     isConfirmed: false,
@@ -89,11 +105,13 @@ export const calendarEvents: CalendarEvent[] = [
     title: 'Inscripción a asignaturas del 2° cuatrimestre',
     category: 'Inscripciones',
     categoryVariant: 'warning',
-    dateDisplay: 'Primera semana de Agosto',
+    startDate: '2026-08-03',
+    endDate: '2026-08-09',
+    dateDisplay: '3 al 9 de agosto de 2026',
     period: '2° Cuatrimestre',
     month: 'Agosto',
     isConfirmed: false,
-    sourceNote: 'A confirmar cronograma exacto por Secretaría Académica UNLu.',
+    sourceNote: 'Según cronograma habitual de Secretaría Académica UNLu.',
     description: 'Período de altas y bajas de materias para la segunda mitad del ciclo lectivo.'
   },
   {
@@ -101,7 +119,9 @@ export const calendarEvents: CalendarEvent[] = [
     title: 'Inicio del 2° cuatrimestre',
     category: 'Clases',
     categoryVariant: 'brand',
-    dateDisplay: 'Mediados de Agosto',
+    startDate: '2026-08-17',
+    endDate: '2026-08-21',
+    dateDisplay: '17 de agosto de 2026',
     period: '2° Cuatrimestre',
     month: 'Agosto',
     isConfirmed: false,
@@ -113,7 +133,9 @@ export const calendarEvents: CalendarEvent[] = [
     title: 'Turno general de exámenes finales (Diciembre)',
     category: 'Exámenes Finales',
     categoryVariant: 'info',
-    dateDisplay: 'Primeras tres semanas de Diciembre',
+    startDate: '2026-11-30',
+    endDate: '2026-12-19',
+    dateDisplay: '30 de noviembre al 19 de diciembre de 2026',
     period: 'Cierre de Año',
     month: 'Diciembre',
     isConfirmed: false,
