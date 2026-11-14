@@ -5,11 +5,13 @@ import { withBase } from '../../lib/paths';
 interface Props {
   placeholder?: string;
   class?: string;
+  idPrefix?: string;
 }
 
 const {
-  placeholder = 'Buscar trámites, ingresantes, SAWEB, PlatDig, fechas...',
+  placeholder = 'Buscar trámites, herramientas, correlativas, fechas...',
   class: className = '',
+  idPrefix = 'site-search',
 } = Astro.props;
 
 // Pasamos el índice serializado con las rutas ya resueltas con base
@@ -17,9 +19,18 @@ const indexedData = searchIndex.map((item) => ({
   ...item,
   resolvedUrl: withBase(item.url),
 }));
+
+const inputId = `${idPrefix}-input`;
+const clearBtnId = `${idPrefix}-clear`;
+const panelId = `${idPrefix}-panel`;
+const statusId = `${idPrefix}-status`;
+const listId = `${idPrefix}-list`;
 ---
 
-<div class={`relative w-full max-w-2xl mx-auto search-container ${className}`}>
+<div
+  class={`relative w-full max-w-2xl mx-auto text-left search-container ${className}`}
+  data-search-root={idPrefix}
+>
   <!-- Input accesible -->
   <div class="relative flex items-center">
     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--color-text-muted)]" aria-hidden="true">
@@ -30,143 +41,274 @@ const indexedData = searchIndex.map((item) => ({
 
     <input
       type="search"
-      id="site-search-input"
-      class="w-full pl-10 pr-10 py-3 sm:py-3.5 bg-[var(--color-surface)] text-[var(--color-text-heading)] placeholder:text-[var(--color-text-muted)] border border-[var(--color-border)] rounded-xl text-sm sm:text-base transition-all shadow-xs focus:border-[var(--brand-400)] focus:ring-2 focus:ring-[var(--brand-200)] dark:focus:ring-[var(--brand-900)] outline-none"
+      id={inputId}
+      data-search-input
+      class="w-full pl-10 pr-11 py-3 sm:py-3.5 bg-[var(--color-surface)] text-[var(--color-text-heading)] placeholder:text-[var(--color-text-muted)] border border-[var(--color-border)] rounded-xl text-sm sm:text-base transition-all shadow-xs focus:border-[var(--brand-400)] focus:ring-2 focus:ring-[var(--brand-200)] dark:focus:ring-[var(--brand-900)] outline-none"
       placeholder={placeholder}
       autocomplete="off"
       spellcheck="false"
       aria-autocomplete="list"
-      aria-controls="search-results-list"
+      aria-controls={listId}
       aria-expanded="false"
       role="combobox"
-      aria-label="Buscar contenidos y trámites en la web de CODES"
+      aria-label="Buscar contenidos, herramientas y trámites en la web de CODES"
     />
 
-    <!-- Botón para limpiar búsqueda -->
+    <!-- Botón único para limpiar búsqueda -->
     <button
       type="button"
-      id="search-clear-btn"
-      class="absolute inset-y-0 right-0 pr-3 flex items-center text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] hidden"
+      id={clearBtnId}
+      data-search-clear
+      class="absolute inset-y-0 right-0 pr-3 flex items-center text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] min-w-[40px] justify-center cursor-pointer hidden"
       aria-label="Limpiar término de búsqueda"
     >
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </button>
   </div>
 
-  <!-- Panel de resultados accesible -->
+  <!-- Panel de resultados accesible (siempre alineado a la izquierda) -->
   <div
-    id="search-results-panel"
-    class="motion-drop absolute left-0 right-0 top-full mt-2 z-50 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl shadow-lg p-2 max-h-96 overflow-y-auto hidden"
+    id={panelId}
+    data-search-panel
+    class="motion-drop absolute left-0 right-0 top-full mt-2 z-50 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl shadow-lg p-2 max-h-96 overflow-y-auto text-left hidden"
     role="region"
-    aria-live="polite"
     aria-label="Resultados de búsqueda"
   >
-    <div id="search-status-message" class="p-3 text-xs text-[var(--color-text-muted)]"></div>
-    <ul id="search-results-list" class="space-y-1 list-none p-0 m-0" role="listbox">
+    <div
+      id={statusId}
+      data-search-status
+      class="px-3 py-2 text-xs text-[var(--color-text-muted)]"
+      role="status"
+      aria-live="polite"
+    ></div>
+    <ul id={listId} data-search-list class="space-y-1 list-none p-0 m-0" role="listbox">
       <!-- Se puebla dinámicamente con JavaScript -->
     </ul>
   </div>
 </div>
 
 <!-- Datos embebidos para búsqueda estática en el cliente -->
-<script is:inline define:vars={{ indexedData }}>
-  window.__CODES_SEARCH_INDEX__ = indexedData;
-</script>
-
-<script is:inline>
+<script is:inline define:vars={{ indexedData, idPrefix }}>
   (() => {
-    const input = document.getElementById('site-search-input');
-    const panel = document.getElementById('search-results-panel');
-    const list = document.getElementById('search-results-list');
-    const statusMsg = document.getElementById('search-status-message');
-    const clearBtn = document.getElementById('search-clear-btn');
+    if (!window.__CODES_SEARCH_INDEX__) {
+      window.__CODES_SEARCH_INDEX__ = indexedData;
+    }
+
+    const root = document.querySelector(`[data-search-root="${idPrefix}"]`);
+    if (!root) return;
+
+    const input = root.querySelector('[data-search-input]');
+    const panel = root.querySelector('[data-search-panel]');
+    const list = root.querySelector('[data-search-list]');
+    const statusMsg = root.querySelector('[data-search-status]');
+    const clearBtn = root.querySelector('[data-search-clear]');
 
     if (!input || !panel || !list || !statusMsg || !clearBtn) return;
 
-    const data = window.__CODES_SEARCH_INDEX__ || [];
+    const data = window.__CODES_SEARCH_INDEX__ || indexedData || [];
     let activeIndex = -1;
 
     function normalizeText(text) {
-      return text
+      return (text || '')
         .toLowerCase()
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function tokenizeWords(text) {
+      return normalizeText(text)
+        .split(/[^a-z0-9]+/)
+        .filter(Boolean);
+    }
+
+    function scoreItem(item, queryNorm, queryTokens) {
+      const titleNorm = normalizeText(item.title);
+      const catNorm = normalizeText(item.category);
+      const descNorm = normalizeText(item.description);
+      const keywordsNormList = item.keywords.map(normalizeText);
+
+      const titleWords = tokenizeWords(item.title);
+      const catWords = tokenizeWords(item.category);
+      const descWords = tokenizeWords(item.description);
+      const keywordWords = keywordsNormList.flatMap(tokenizeWords);
+
+      let totalScore = 0;
+
+      for (const token of queryTokens) {
+        let tokenScore = 0;
+
+        if (titleNorm === queryNorm) {
+          tokenScore = Math.max(tokenScore, 220);
+        } else if (titleWords[0] === token) {
+          tokenScore = Math.max(tokenScore, 190);
+        } else if (titleNorm.startsWith(queryNorm)) {
+          tokenScore = Math.max(tokenScore, 160);
+        }
+
+        if (titleWords.some((w) => w === token)) {
+          tokenScore = Math.max(tokenScore, 130);
+        } else if (titleWords.some((w) => w.startsWith(token))) {
+          tokenScore = Math.max(tokenScore, 95);
+        }
+
+        if (keywordsNormList.some((k) => k === queryNorm || k === token)) {
+          tokenScore = Math.max(tokenScore, 85);
+        } else if (keywordWords.some((w) => w.startsWith(token))) {
+          tokenScore = Math.max(tokenScore, 60);
+        }
+
+        if (catWords.some((w) => w.startsWith(token)) || catNorm === queryNorm) {
+          tokenScore = Math.max(tokenScore, 35);
+        }
+
+        if (descWords.some((w) => w.startsWith(token))) {
+          tokenScore = Math.max(tokenScore, 20);
+        }
+
+        // Subcadena interna solo para términos largos (>= 5 letras) en título o keywords
+        if (tokenScore === 0 && token.length >= 5) {
+          if (titleNorm.includes(token) || keywordsNormList.some((k) => k.includes(token))) {
+            tokenScore = 10;
+          } else if (descNorm.includes(token)) {
+            tokenScore = 5;
+          }
+        }
+
+        if (tokenScore === 0) {
+          return 0;
+        }
+
+        totalScore += tokenScore;
+      }
+
+      return totalScore;
+    }
+
+    function setActiveOption(newIndex) {
+      const options = Array.from(list.querySelectorAll('li[role="option"]'));
+      options.forEach((li, idx) => {
+        const link = li.querySelector('a');
+        if (idx === newIndex) {
+          li.setAttribute('aria-selected', 'true');
+          if (link) {
+            link.classList.add('bg-[var(--color-surface-hover)]', 'outline-1', 'outline-[var(--brand-400)]');
+          }
+          input.setAttribute('aria-activedescendant', li.id);
+          li.scrollIntoView({ block: 'nearest' });
+        } else {
+          li.setAttribute('aria-selected', 'false');
+          if (link) {
+            link.classList.remove('bg-[var(--color-surface-hover)]', 'outline-1', 'outline-[var(--brand-400)]');
+          }
+        }
+      });
+
+      if (newIndex < 0) {
+        input.removeAttribute('aria-activedescendant');
+      }
+      activeIndex = newIndex;
+    }
+
+    function closePanel() {
+      panel.classList.add('hidden');
+      input.setAttribute('aria-expanded', 'false');
+      input.removeAttribute('aria-activedescendant');
+      activeIndex = -1;
     }
 
     function renderResults(query) {
       const q = normalizeText(query.trim());
 
       if (!q) {
-        panel.classList.add('hidden');
+        closePanel();
         clearBtn.classList.add('hidden');
-        input.setAttribute('aria-expanded', 'false');
         list.innerHTML = '';
-        activeIndex = -1;
         return;
       }
 
       clearBtn.classList.remove('hidden');
 
-      const matches = data.filter((item) => {
-        const titleNorm = normalizeText(item.title);
-        const descNorm = normalizeText(item.description);
-        const catNorm = normalizeText(item.category);
-        const keywordsNorm = item.keywords.map(normalizeText).join(' ');
+      const tokens = tokenizeWords(q);
+      if (tokens.length === 0) {
+        closePanel();
+        return;
+      }
 
-        return (
-          titleNorm.includes(q) ||
-          descNorm.includes(q) ||
-          catNorm.includes(q) ||
-          keywordsNorm.includes(q)
-        );
-      });
+      const matches = data
+        .map((item) => ({ item, score: scoreItem(item, q, tokens) }))
+        .filter((entry) => entry.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 10)
+        .map((entry) => entry.item);
 
       list.innerHTML = '';
       activeIndex = -1;
+      input.removeAttribute('aria-activedescendant');
 
       if (matches.length === 0) {
         statusMsg.textContent = 'No encontramos guías ni trámites que coincidan con tu búsqueda.';
         list.innerHTML = `
           <li class="p-3 text-xs text-[var(--color-text-muted)]">
             Probá buscando términos frecuentes como:
-            <span class="inline-flex flex-wrap gap-1 mt-2">
-              <button type="button" class="search-suggestion text-[var(--color-interactive)] hover:underline cursor-pointer bg-[var(--color-bg-subtle)] px-2 py-0.5 rounded border border-[var(--color-border-subtle)]">ingresantes</button>
-              <button type="button" class="search-suggestion text-[var(--color-interactive)] hover:underline cursor-pointer bg-[var(--color-bg-subtle)] px-2 py-0.5 rounded border border-[var(--color-border-subtle)]">saweb</button>
-              <button type="button" class="search-suggestion text-[var(--color-interactive)] hover:underline cursor-pointer bg-[var(--color-bg-subtle)] px-2 py-0.5 rounded border border-[var(--color-border-subtle)]">platdig</button>
-              <button type="button" class="search-suggestion text-[var(--color-interactive)] hover:underline cursor-pointer bg-[var(--color-bg-subtle)] px-2 py-0.5 rounded border border-[var(--color-border-subtle)]">aulas virtuales</button>
-              <button type="button" class="search-suggestion text-[var(--color-interactive)] hover:underline cursor-pointer bg-[var(--color-bg-subtle)] px-2 py-0.5 rounded border border-[var(--color-border-subtle)]">boleto</button>
-              <button type="button" class="search-suggestion text-[var(--color-interactive)] hover:underline cursor-pointer bg-[var(--color-bg-subtle)] px-2 py-0.5 rounded border border-[var(--color-border-subtle)]">finales</button>
+            <span class="inline-flex flex-wrap gap-1.5 mt-2">
+              <button type="button" class="search-suggestion text-[var(--color-interactive)] hover:underline cursor-pointer bg-[var(--color-bg-subtle)] px-2.5 py-1 rounded border border-[var(--color-border-subtle)]">ingresantes</button>
+              <button type="button" class="search-suggestion text-[var(--color-interactive)] hover:underline cursor-pointer bg-[var(--color-bg-subtle)] px-2.5 py-1 rounded border border-[var(--color-border-subtle)]">correlativas</button>
+              <button type="button" class="search-suggestion text-[var(--color-interactive)] hover:underline cursor-pointer bg-[var(--color-bg-subtle)] px-2.5 py-1 rounded border border-[var(--color-border-subtle)]">saweb</button>
+              <button type="button" class="search-suggestion text-[var(--color-interactive)] hover:underline cursor-pointer bg-[var(--color-bg-subtle)] px-2.5 py-1 rounded border border-[var(--color-border-subtle)]">git</button>
+              <button type="button" class="search-suggestion text-[var(--color-interactive)] hover:underline cursor-pointer bg-[var(--color-bg-subtle)] px-2.5 py-1 rounded border border-[var(--color-border-subtle)]">boleto</button>
+              <button type="button" class="search-suggestion text-[var(--color-interactive)] hover:underline cursor-pointer bg-[var(--color-bg-subtle)] px-2.5 py-1 rounded border border-[var(--color-border-subtle)]">finales</button>
             </span>
           </li>
         `;
 
         list.querySelectorAll('.search-suggestion').forEach((btn) => {
           btn.addEventListener('click', (e) => {
-            input.value = e.target.textContent;
+            input.value = e.currentTarget.textContent;
             renderResults(input.value);
             input.focus();
           });
         });
       } else {
-        statusMsg.textContent = `${matches.length} resultado${matches.length > 1 ? 's' : ''} encontrado${matches.length > 1 ? 's' : ''}:`;
+        statusMsg.textContent = `${matches.length} resultado${matches.length > 1 ? 's' : ''} encontrado${matches.length > 1 ? 's' : ''}`;
 
         matches.forEach((item, idx) => {
           const li = document.createElement('li');
           li.setAttribute('role', 'option');
-          li.id = `search-result-${idx}`;
+          li.setAttribute('aria-selected', 'false');
+          li.id = `${idPrefix}-option-${idx}`;
 
-          li.innerHTML = `
-            <a href="${item.resolvedUrl}" class="pressable flex flex-col gap-0.5 p-3 rounded-lg no-underline hover:bg-[var(--color-surface-hover)] focus:bg-[var(--color-surface-hover)] transition">
-              <div class="flex items-center justify-between gap-2">
-                <span class="text-sm font-semibold text-[var(--color-text-heading)]">${item.title}</span>
-                <span class="text-[10px] uppercase font-bold text-[var(--brand-700)] dark:text-[var(--brand-300)] bg-[var(--brand-50)] dark:bg-[var(--brand-950)] px-2 py-0.5 rounded border border-[var(--brand-200)] dark:border-[var(--brand-800)] shrink-0">${item.category}</span>
-              </div>
-              <p class="text-xs text-[var(--color-text-muted)] line-clamp-2 m-0">${item.description}</p>
-            </a>
-          `;
+          const link = document.createElement('a');
+          link.href = item.resolvedUrl;
+          link.tabIndex = -1;
+          link.className = 'pressable flex flex-col gap-0.5 p-3 rounded-lg no-underline hover:bg-[var(--color-surface-hover)] transition text-left';
 
+          const topRow = document.createElement('div');
+          topRow.className = 'flex items-center justify-between gap-2';
+
+          const titleSpan = document.createElement('span');
+          titleSpan.className = 'text-sm font-semibold text-[var(--color-text-heading)]';
+          titleSpan.textContent = item.title;
+
+          const catSpan = document.createElement('span');
+          catSpan.className = 'text-xs font-medium text-[var(--brand-700)] dark:text-[var(--brand-300)] bg-[var(--brand-50)] dark:bg-[var(--brand-950)] px-2 py-0.5 rounded border border-[var(--brand-200)] dark:border-[var(--brand-800)] shrink-0';
+          catSpan.textContent = item.category;
+
+          topRow.appendChild(titleSpan);
+          topRow.appendChild(catSpan);
+
+          const descP = document.createElement('p');
+          descP.className = 'text-xs text-[var(--color-text-muted)] line-clamp-2 m-0 max-w-none';
+          descP.textContent = item.description;
+
+          link.appendChild(topRow);
+          link.appendChild(descP);
+          link.addEventListener('click', () => {
+            closePanel();
+          });
+
+          li.appendChild(link);
           list.appendChild(li);
         });
       }
@@ -185,30 +327,42 @@ const indexedData = searchIndex.map((item) => ({
       input.focus();
     });
 
-    // Navegación por teclado (Flechas, Enter, Escape)
+    // Navegación por teclado WAI-ARIA 1.2: mantiene el foco en el input y usa aria-activedescendant
     input.addEventListener('keydown', (e) => {
-      const items = list.querySelectorAll('li[role="option"] a');
-      if (items.length === 0) return;
+      const options = list.querySelectorAll('li[role="option"]');
+      if (e.key === 'Escape') {
+        if (!panel.classList.contains('hidden')) {
+          e.stopPropagation();
+          closePanel();
+        }
+        return;
+      }
+
+      if (options.length === 0) return;
 
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        activeIndex = (activeIndex + 1) % items.length;
-        items[activeIndex].focus();
+        const nextIdx = activeIndex < options.length - 1 ? activeIndex + 1 : 0;
+        setActiveOption(nextIdx);
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
-        activeIndex = (activeIndex - 1 + items.length) % items.length;
-        items[activeIndex].focus();
-      } else if (e.key === 'Escape') {
-        panel.classList.add('hidden');
-        input.setAttribute('aria-expanded', 'false');
+        const prevIdx = activeIndex > 0 ? activeIndex - 1 : options.length - 1;
+        setActiveOption(prevIdx);
+      } else if (e.key === 'Enter') {
+        const targetIdx = activeIndex >= 0 ? activeIndex : 0;
+        const targetLink = options[targetIdx]?.querySelector('a');
+        if (targetLink) {
+          e.preventDefault();
+          closePanel();
+          window.location.href = targetLink.href;
+        }
       }
     });
 
-    // Cerrar al hacer clic fuera
-    document.addEventListener('click', (e) => {
-      if (!input.contains(e.target) && !panel.contains(e.target)) {
-        panel.classList.add('hidden');
-        input.setAttribute('aria-expanded', 'false');
+    // Cerrar al tocar o hacer clic fuera
+    document.addEventListener('pointerdown', (e) => {
+      if (!root.contains(e.target)) {
+        closePanel();
       }
     });
 
