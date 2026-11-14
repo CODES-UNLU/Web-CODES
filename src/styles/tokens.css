@@ -37,7 +37,7 @@
   /* Color interactivo con contraste garantizado sobre las superficies claras (Teal 700 -> 5.1:1 o más) */
   --color-interactive: #1d6d6f;
   --color-interactive-hover: #125355;
-  --color-interactive-focus: #39c0c3;
+  --color-interactive-focus: #125355;
 
   /* --- ROLES SEMÁNTICOS (Feedback, Estados y Badges) --- */
   --color-success: #15803d;
@@ -96,7 +96,7 @@
   /* Color interactivo con contraste garantizado en oscuro (Teal 300 -> 9.6:1) */
   --color-interactive: #5dd5d8;
   --color-interactive-hover: #95e7e8;
-  --color-interactive-focus: #39c0c3;
+  --color-interactive-focus: #5dd5d8;
 
   --color-success: #4ade80;
   --color-success-bg: #052e16;

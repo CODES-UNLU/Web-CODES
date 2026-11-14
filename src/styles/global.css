@@ -19,6 +19,18 @@
     scroll-behavior: smooth;
     /* Deja lugar para el header fijo (h-16) al saltar a un ancla */
     scroll-padding-top: 5rem;
+    caret-color: var(--color-interactive);
+    scrollbar-color: var(--color-border-strong) var(--color-bg-subtle);
+  }
+
+  ::selection {
+    background-color: var(--brand-200);
+    color: var(--brand-950);
+  }
+
+  :where(.dark) ::selection {
+    background-color: var(--brand-800);
+    color: var(--brand-50);
   }
 
   body {
@@ -50,7 +62,7 @@
   a {
     color: var(--color-interactive);
     text-decoration: underline;
-    text-underline-offset: 2px;
+    text-underline-offset: 3px;
     transition: color 0.15s ease, opacity 0.15s ease;
   }
 
@@ -66,11 +78,30 @@
     color: var(--color-text-heading);
     font-weight: 700;
     line-height: 1.25;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
   }
 
-  p {
-    max-width: 75ch;
+  p, li {
+    max-width: 68ch;
+  }
+
+  p, li, dd {
+    text-wrap: pretty;
+  }
+
+  .callout-body p,
+  .callout-body li {
+    max-width: none;
+  }
+
+  /* Oculta el botón nativo de limpiar en inputs de búsqueda para evitar doble ícono */
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+    appearance: none;
   }
 
   /* Código en línea y bloques */
@@ -321,4 +352,10 @@
 
 .text-interactive {
   color: var(--color-interactive);
+}
+
+/* Etiqueta técnica inspirada en la identidad visual de CODES (siempre en línea, nunca como kicker sobre título) */
+.code-tag {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-variant-numeric: tabular-nums;
 }

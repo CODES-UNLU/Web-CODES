@@ -10,7 +10,8 @@ const { class: className = '' } = Astro.props;
   type="button"
   id="theme-toggle"
   class={`inline-flex items-center justify-center p-2 rounded-lg text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] hover:bg-[var(--color-surface-hover)] border border-transparent hover:border-[var(--color-border)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-interactive-focus)] min-w-[40px] min-h-[40px] cursor-pointer ${className}`}
-  aria-label="Cambiar a modo oscuro o claro"
+  aria-label="Cambiar a tema oscuro (tema actual: claro)"
+  aria-pressed="false"
   title="Cambiar tema"
 >
   <!-- Icono Sol (se muestra en modo oscuro para volver a claro) -->
@@ -52,18 +53,32 @@ const { class: className = '' } = Astro.props;
     const button = document.getElementById('theme-toggle');
     if (!button) return;
 
+    const syncButtonState = (isDarkNow) => {
+      button.setAttribute('aria-pressed', isDarkNow ? 'true' : 'false');
+      button.setAttribute(
+        'aria-label',
+        isDarkNow
+          ? 'Cambiar a tema claro (tema actual: oscuro)'
+          : 'Cambiar a tema oscuro (tema actual: claro)'
+      );
+    };
+
+    syncButtonState(document.documentElement.classList.contains('dark'));
+
     button.addEventListener('click', () => {
       const isDark = document.documentElement.classList.contains('dark');
       const nextTheme = isDark ? 'light' : 'dark';
+      const nextIsDark = nextTheme === 'dark';
 
       const applyTheme = () => {
-        if (nextTheme === 'dark') {
+        if (nextIsDark) {
           document.documentElement.classList.add('dark');
           document.documentElement.setAttribute('data-theme', 'dark');
         } else {
           document.documentElement.classList.remove('dark');
           document.documentElement.setAttribute('data-theme', 'light');
         }
+        syncButtonState(nextIsDark);
       };
 
       // Habilita el giro del ícono solo a partir del primer cambio (no al cargar la página)

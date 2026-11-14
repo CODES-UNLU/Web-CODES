@@ -44,8 +44,8 @@ const current = styles[variant];
 
 <aside class={`flex gap-3.5 p-4 sm:p-5 rounded-xl border text-sm leading-relaxed ${current.container} ${className}`} role="note">
   <div class={`mt-0.5 ${current.title}`} set:html={current.icon} aria-hidden="true" />
-  <div class="flex-1 min-w-0">
-    {title && <h3 class={`text-sm font-bold mb-1 ${current.title}`}>{title}</h3>}
+  <div class="callout-body flex-1 min-w-0 max-w-[70ch]">
+    {title && <h2 class={`text-sm font-bold mb-1 ${current.title}`}>{title}</h2>}
     <div class="prose-sm space-y-1">
       <slot />
     </div>
