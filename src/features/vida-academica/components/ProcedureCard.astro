@@ -1,6 +1,5 @@
 ---
 import type { UniversityProcedure } from '../data/academicData';
-import Badge from '../../../components/ui/Badge.astro';
 
 interface Props {
   procedure: UniversityProcedure;
@@ -10,43 +9,45 @@ const { procedure } = Astro.props;
 ---
 
 <article class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 sm:p-6 shadow-xs transition-all hover:border-[var(--brand-400)]" id={procedure.id}>
-  <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+  <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
     <h3 class="text-lg sm:text-xl font-bold text-[var(--color-text-heading)] m-0">
       {procedure.title}
     </h3>
-    <Badge variant="info">{procedure.category}</Badge>
+    <span class="text-xs font-medium text-[var(--color-info)] shrink-0">
+      {procedure.category}
+    </span>
   </div>
 
-  <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4">
+  <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-3">
     {procedure.description}
   </p>
 
   {
     procedure.statusNote && (
-      <div class="mb-4 p-2.5 rounded-lg bg-[var(--color-bg-subtle)] border border-[var(--color-border-subtle)] text-xs text-[var(--color-text-muted)] flex items-center gap-2">
+      <p class="mb-4 text-xs sm:text-sm text-[var(--color-text-muted)] flex items-center gap-2">
         <span class="inline-block w-2 h-2 rounded-full bg-[var(--color-info)] shrink-0" aria-hidden="true" />
         <span>{procedure.statusNote}</span>
-      </div>
+      </p>
     )
   }
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 text-xs sm:text-sm">
-    <div class="bg-[var(--color-bg-subtle)] p-4 rounded-lg border border-[var(--color-border-subtle)]">
-      <h4 class="font-bold text-[var(--color-text-heading)] mb-2 text-xs uppercase tracking-wider">
+  <div class="pt-4 border-t border-[var(--color-border-subtle)] grid grid-cols-1 md:grid-cols-2 gap-6 mb-4 text-sm">
+    <div>
+      <h4 class="font-bold text-[var(--color-text-heading)] mb-2 text-xs">
         Requisitos
       </h4>
-      <ul class="space-y-1.5 list-disc pl-4 text-[var(--color-text-main)]">
+      <ul class="space-y-1.5 list-disc pl-4 text-sm text-[var(--color-text-main)]">
         {procedure.requirements.map((req) => (
           <li>{req}</li>
         ))}
       </ul>
     </div>
 
-    <div class="bg-[var(--color-bg-subtle)] p-4 rounded-lg border border-[var(--color-border-subtle)]">
-      <h4 class="font-bold text-[var(--color-text-heading)] mb-2 text-xs uppercase tracking-wider">
+    <div>
+      <h4 class="font-bold text-[var(--color-text-heading)] mb-2 text-xs">
         Paso a paso
       </h4>
-      <ol class="space-y-1.5 list-none p-0 m-0 text-[var(--color-text-main)]">
+      <ol class="space-y-1.5 list-none p-0 m-0 text-sm text-[var(--color-text-main)]">
         {procedure.steps.map((st) => (
           <li>{st}</li>
         ))}

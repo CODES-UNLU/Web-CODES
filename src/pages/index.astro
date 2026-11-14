@@ -1,43 +1,98 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import SearchBar from '../components/ui/SearchBar.astro';
-import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import Callout from '../components/ui/Callout.astro';
 import { withBase } from '../lib/paths';
 import ActivityCard from '../features/actividades/components/ActivityCard.astro';
 import { activitiesData } from '../features/actividades/data/activitiesData';
+import { calendarEvents, CALENDAR_YEAR } from '../features/calendario/data/calendarEvents';
 
 const recentActivities = activitiesData.slice(0, 2);
+
+const now = new Date();
+const todayIso = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+const sortedEvents = [...calendarEvents].sort((a, b) => a.startDate.localeCompare(b.startDate));
+const nextCalendarEvent =
+  sortedEvents.find((e) => e.endDate >= todayIso) ?? sortedEvents[sortedEvents.length - 1];
+const isCurrentEvent =
+  nextCalendarEvent.startDate <= todayIso && todayIso <= nextCalendarEvent.endDate;
+
+const sectionsDirectory = [
+  {
+    title: 'Ingresantes',
+    href: '/ingresantes',
+    description:
+      'Recorrido paso a paso para empezar Sistemas: sedes, cómo saber tu cohorte, plataformas, cursadas y beneficios.',
+    shortcuts: [
+      { label: 'Índice de 6 pasos', href: '/ingresantes' },
+      { label: 'Sedes y mesita', href: '/ingresantes#paso-sedes' },
+    ],
+  },
+  {
+    title: 'Vida académica',
+    href: '/vida-academica',
+    description:
+      'Reglas de cursada, promoción, finales, correlatividades, solicitud de readmisión y trámite del Boleto SUBE.',
+    shortcuts: [
+      { label: 'Boleto SUBE', href: '/vida-academica#tramite-boleto' },
+      { label: 'Correlatividades', href: '/vida-academica#orientacion-planes' },
+    ],
+  },
+  {
+    title: 'Calendario',
+    href: '/calendario',
+    description:
+      `Cronograma ${CALENDAR_YEAR} con períodos de inscripción a materias, turnos de finales, inicio de clases y recesos.`,
+    shortcuts: [
+      { label: `Ver cronograma ${CALENDAR_YEAR}`, href: '/calendario' },
+    ],
+  },
+  {
+    title: 'Herramientas',
+    href: '/herramientas',
+    description:
+      'Catálogo de 34 herramientas libres o gratuitas para programar, versionar con Git, diseñar diagramas y publicar proyectos.',
+    shortcuts: [
+      { label: 'Guía de despliegue', href: '/herramientas#guia-despliegue' },
+      { label: 'Empezar a programar', href: '/herramientas?cat=empezar#cat-empezar' },
+    ],
+  },
+  {
+    title: 'Comunidad',
+    href: '/comunidad',
+    description:
+      'Redes oficiales, grupos de estudio por materia, Discord, horarios de la mesita en Luján y San Miguel y contacto.',
+    shortcuts: [
+      { label: 'Dónde está la mesita', href: '/comunidad' },
+    ],
+  },
+];
 ---
 
 <PageLayout
   title="CODES · Centro Organizado de Estudiantes de Sistemas UNLu | Sitio Oficial"
   description="Web oficial de CODES UNLu: Centro de Estudiantes de Sistemas de la Universidad Nacional de Luján. Guías para ingresantes, trámites académicos, plataformas virtuales, calendario y comunidad."
 >
-  <!-- BLOQUE 1: Bienvenida, Orientación y Búsqueda -->
+  <!-- BLOQUE 1: Orientación, búsqueda y respuesta inmediata -->
   <section class="py-10 sm:py-16 px-4 sm:px-6 bg-[var(--color-bg-subtle)] border-b border-[var(--color-border)]">
-    <div class="max-w-4xl mx-auto text-center space-y-4 motion-stagger">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--brand-50)] dark:bg-[var(--brand-950)] border border-[var(--brand-200)] dark:border-[var(--brand-800)] text-xs font-semibold text-[var(--brand-800)] dark:text-[var(--brand-200)]">
-        <span>Comunidad Estudiantil · UNLu Sistemas</span>
-      </div>
-
-      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-[var(--color-text-heading)] leading-tight sm:leading-none">
+    <div class="max-w-4xl mx-auto text-center space-y-5 motion-stagger">
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-[var(--color-text-heading)] leading-tight">
         ¿Qué necesitás resolver hoy?
       </h1>
 
       <p class="text-base sm:text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto leading-relaxed">
-        Orientación, fechas académicas y gestiones universitarias explicadas por y para estudiantes de la Universidad Nacional de Luján.
+        Guías de cursada, fechas académicas y recursos para estudiantes de Sistemas de la Universidad Nacional de Luján.
       </p>
 
       <!-- Barra de búsqueda accesible en tiempo real -->
-      <div class="pt-2 sm:pt-4">
-        <SearchBar />
+      <div class="pt-1 sm:pt-2">
+        <SearchBar idPrefix="home-search" />
       </div>
 
       <!-- Acceso destacado directo a Ingresantes -->
-      <div class="pt-3 flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm">
+      <div class="pt-2 flex flex-wrap items-center justify-center gap-3 text-sm">
         <span class="text-[var(--color-text-muted)]">¿Empezás la carrera este cuatrimestre?</span>
         <Button href={withBase('/ingresantes')} variant="primary" size="sm">
           <span>Ver recorrido para ingresantes</span>
@@ -47,183 +102,133 @@ const recentActivities = activitiesData.slice(0, 2);
     </div>
   </section>
 
-  <!-- BLOQUE 2: Accesos Principales -->
-  <section class="py-12 px-4 sm:px-6 max-w-6xl mx-auto">
-    <SectionHeading
-      title="Accesos principales"
-      subtitle="Elegí la sección según lo que necesites consultar o gestionar en tu vida universitaria."
-    />
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-      <!-- Card Ingresantes -->
-      <Card href={withBase('/ingresantes')} class="flex flex-col justify-between group">
-        <div>
-          <div class="w-10 h-10 rounded-lg bg-[var(--brand-50)] dark:bg-[var(--brand-950)] text-[var(--brand-700)] dark:text-[var(--brand-300)] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform" aria-hidden="true">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-          </div>
-          <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-1 group-hover:text-[var(--brand-700)] dark:group-hover:text-[var(--brand-300)]">
-            Soy Ingresante
-          </h3>
-          <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
-            Primeros pasos: plataformas universitarias (PlatDig, SAWEB / Gestión de Estudiantes), materias de 1° año y sedes.
-          </p>
-        </div>
-        <div class="pt-4 text-xs font-semibold text-[var(--color-interactive)] flex items-center gap-1">
-          <span>Abrir guía paso a paso</span>
-          <span aria-hidden="true">→</span>
-        </div>
-      </Card>
-
-      <!-- Card Vida Académica -->
-      <Card href={withBase('/vida-academica')} class="flex flex-col justify-between group">
-        <div>
-          <div class="w-10 h-10 rounded-lg bg-[var(--color-info-bg)] text-[var(--color-info)] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform" aria-hidden="true">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          </div>
-          <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-1 group-hover:text-[var(--brand-700)] dark:group-hover:text-[var(--brand-300)]">
-            Vida Académica
-          </h3>
-          <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
-            Régimen de cursadas, exámenes finales, trámite del Boleto SUBE y regularidad.
-          </p>
-        </div>
-        <div class="pt-4 text-xs font-semibold text-[var(--color-interactive)] flex items-center gap-1">
-          <span>Ver trámites y normas</span>
-          <span aria-hidden="true">→</span>
-        </div>
-      </Card>
-
-      <!-- Card Calendario -->
-      <Card href={withBase('/calendario')} class="flex flex-col justify-between group">
-        <div>
-          <div class="w-10 h-10 rounded-lg bg-[var(--color-warning-bg)] text-[var(--color-warning)] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform" aria-hidden="true">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-1 group-hover:text-[var(--brand-700)] dark:group-hover:text-[var(--brand-300)]">
-            Calendario Académico
-          </h3>
-          <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
-            Fechas de inscripción a materias, mesas de examen final, recesos y feriados.
-          </p>
-        </div>
-        <div class="pt-4 text-xs font-semibold text-[var(--color-interactive)] flex items-center gap-1">
-          <span>Consultar cronograma</span>
-          <span aria-hidden="true">→</span>
-        </div>
-      </Card>
-
-      <!-- Card Herramientas -->
-      <Card href={withBase('/herramientas')} class="flex flex-col justify-between group">
-        <div>
-          <div class="w-10 h-10 rounded-lg bg-[var(--brand-50)] dark:bg-[var(--brand-950)] text-[var(--brand-700)] dark:text-[var(--brand-300)] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform" aria-hidden="true">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-            </svg>
-          </div>
-          <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-1 group-hover:text-[var(--brand-700)] dark:group-hover:text-[var(--brand-300)]">
-            Banco de Herramientas
-          </h3>
-          <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
-            Catálogo orientativo de software, editores, gestores de bases de datos y servicios para publicar tus proyectos.
-          </p>
-        </div>
-        <div class="pt-4 text-xs font-semibold text-[var(--color-interactive)] flex items-center gap-1">
-          <span>Explorar software y servicios</span>
-          <span aria-hidden="true">→</span>
-        </div>
-      </Card>
-
-      <!-- Card Comunidad -->
-      <Card href={withBase('/comunidad')} class="flex flex-col justify-between group">
-        <div>
-          <div class="w-10 h-10 rounded-lg bg-[var(--color-success-bg)] text-[var(--color-success)] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform" aria-hidden="true">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-          </div>
-          <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-1 group-hover:text-[var(--brand-700)] dark:group-hover:text-[var(--brand-300)]">
-            Comunidad y Grupos
-          </h3>
-          <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
-            Canales oficiales de WhatsApp, grupos de estudio por materia y convivencia universitaria.
-          </p>
-        </div>
-        <div class="pt-4 text-xs font-semibold text-[var(--color-interactive)] flex items-center gap-1">
-          <span>Ver canales y grupos</span>
-          <span aria-hidden="true">→</span>
-        </div>
-      </Card>
-
-      <!-- Card Actividades -->
-      <Card href={withBase('/actividades')} class="flex flex-col justify-between group">
-        <div>
-          <div class="w-10 h-10 rounded-lg bg-[var(--brand-50)] dark:bg-[var(--brand-950)] text-[var(--brand-700)] dark:text-[var(--brand-300)] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform" aria-hidden="true">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-1 group-hover:text-[var(--brand-700)] dark:group-hover:text-[var(--brand-300)]">
-            Actividades y Talleres
-          </h3>
-          <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
-            Charlas técnicas grabadas, talleres de desarrollo y espacios extracurriculares del centro.
-          </p>
-        </div>
-        <div class="pt-4 text-xs font-semibold text-[var(--color-interactive)] flex items-center gap-1">
-          <span>Ver videoteca y talleres</span>
-          <span aria-hidden="true">→</span>
-        </div>
-      </Card>
-    </div>
-  </section>
-
-  <!-- BLOQUE 3: Información Útil y Gestiones Relevantes -->
-  <section class="py-12 px-4 sm:px-6 bg-[var(--color-bg-subtle)] border-y border-[var(--color-border)]">
-    <div class="max-w-6xl mx-auto space-y-6">
-      <SectionHeading
-        title="Información importante y trámites frecuentes"
-        subtitle="Aspectos clave para tener en cuenta durante el ciclo lectivo actual."
-      />
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Callout de Fechas Académicas -->
-        <Callout variant="warning" title="Calendario y Fechas en Proceso de Ratificación">
-          <p>
-            Las fechas de inscripción a asignaturas y turnos de exámenes finales publicadas en este portal son de carácter orientativo hasta que la Secretaría Académica de la UNLu publique la resolución definitiva del ciclo.
-          </p>
-          <div class="pt-2">
-            <a href={withBase('/calendario')} class="text-xs font-semibold underline text-[var(--color-warning)]">
-              Ver cronograma y aclaraciones →
+  <!-- BLOQUE 2: Estado académico actual y acceso directo a portales oficiales UNLu -->
+  <section class="py-8 px-4 sm:px-6 max-w-6xl mx-auto border-b border-[var(--color-border-subtle)]" aria-label="Fecha próxima y portales UNLu">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      <!-- Próxima fecha del calendario -->
+      <div class="lg:col-span-5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 flex flex-col justify-between gap-4 shadow-xs">
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between gap-2 text-xs">
+            <span class="font-bold text-[var(--brand-700)] dark:text-[var(--brand-300)]" data-home-cal-status>
+              {isCurrentEvent ? `En curso · ${CALENDAR_YEAR}` : `Próxima fecha · ${CALENDAR_YEAR}`}
+            </span>
+            <a href={withBase('/calendario')} class="font-semibold text-[var(--color-interactive)] no-underline hover:underline">
+              Ver calendario →
             </a>
           </div>
-        </Callout>
-
-        <!-- Callout de Trámites Frecuentes -->
-        <Callout variant="info" title="Activación del Boleto Estudiantil Universitario">
-          <p>
-            Si viajás en transporte público provincial a la Sede Central Luján o San Miguel, recordá que la solicitud se gestiona desde el sistema académico de tu cohorte (SAWEB o Sistema de Gestión de Estudiantes) y requiere tener la SUBE a tu nombre.
+          <p class="text-base font-extrabold tabular-nums text-[var(--color-text-heading)] m-0" data-home-cal-date>
+            {nextCalendarEvent.dateDisplay}
           </p>
-          <div class="pt-2">
-            <a href={withBase('/vida-academica#tramite-boleto')} class="text-xs font-semibold underline text-[var(--color-info)]">
-              Consultar instructivo paso a paso →
-            </a>
-          </div>
-        </Callout>
+          <p class="text-sm font-medium text-[var(--color-text-main)] m-0" data-home-cal-title>
+            {nextCalendarEvent.title}
+          </p>
+        </div>
+      </div>
+
+      <!-- Acceso directo a portales oficiales UNLu -->
+      <div class="lg:col-span-7 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 flex flex-col justify-between gap-3 shadow-xs">
+        <div class="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 class="text-sm font-bold text-[var(--color-text-heading)] m-0">
+            Portales oficiales de la UNLu
+          </h2>
+          <a href={withBase('/vida-academica#plataformas-unlu')} class="text-xs font-semibold text-[var(--color-interactive)] no-underline hover:underline">
+            ¿Cuál me corresponde? →
+          </a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <a
+            href="https://platdig.unlu.edu.ar/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="pressable flex flex-col justify-between p-3 min-h-[56px] rounded-lg bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border-subtle)] hover:border-[var(--brand-400)] no-underline transition-colors"
+          >
+            <span class="text-sm font-bold text-[var(--color-text-heading)]">PlatDig ↗</span>
+            <span class="text-xs text-[var(--color-text-muted)]">Aulas virtuales</span>
+          </a>
+          <a
+            href="https://saweb.unlu.edu.ar/academica/estudiante-index.php"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="pressable flex flex-col justify-between p-3 min-h-[56px] rounded-lg bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border-subtle)] hover:border-[var(--brand-400)] no-underline transition-colors"
+          >
+            <span class="text-sm font-bold text-[var(--color-text-heading)]">SAWEB ↗</span>
+            <span class="text-xs text-[var(--color-text-muted)]">Cohortes &lt; 2027</span>
+          </a>
+          <a
+            href="https://g3w3.unlu.edu.ar/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="pressable flex flex-col justify-between p-3 min-h-[56px] rounded-lg bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border-subtle)] hover:border-[var(--brand-400)] no-underline transition-colors"
+          >
+            <span class="text-sm font-bold text-[var(--color-text-heading)]">Gestión 2027+ ↗</span>
+            <span class="text-xs text-[var(--color-text-muted)]">Cohorte 2027 en adelante</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- BLOQUE 4: Actividades y Contenido Destacado -->
+  <!-- BLOQUE 3: Directorio de secciones del sitio (sin pilas de íconos ni duplicar Actividades) -->
   <section class="py-12 px-4 sm:px-6 max-w-6xl mx-auto">
     <SectionHeading
-      title="Actividades y talleres"
-      subtitle="Charlas técnicas grabadas, talleres de programación y espacios extracurriculares organizados por el centro."
+      level={2}
+      title="Guías y recursos por tema"
+      subtitle="Elegí un área o entrá directo a los trámites más consultados."
+    />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8">
+      {
+        sectionsDirectory.map((section) => (
+          <article class="pt-4 border-t border-[var(--color-border)] flex flex-col justify-between gap-3">
+            <div class="space-y-2">
+              <h3 class="text-lg font-bold text-[var(--color-text-heading)] m-0">
+                <a
+                  href={withBase(section.href)}
+                  class="no-underline text-[var(--color-text-heading)] hover:text-[var(--color-interactive)] inline-flex items-center gap-1.5"
+                >
+                  <span>{section.title}</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </h3>
+              <p class="text-sm text-[var(--color-text-muted)] leading-relaxed m-0">
+                {section.description}
+              </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-1 text-xs sm:text-sm">
+              {section.shortcuts.map((sc) => (
+                <a
+                  href={withBase(sc.href)}
+                  class="font-semibold text-[var(--color-interactive)] hover:underline py-1"
+                >
+                  {sc.label}
+                </a>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- BLOQUE 4: Boleto Estudiantil (único Callout del inicio) -->
+  <section class="py-8 px-4 sm:px-6 max-w-6xl mx-auto">
+    <Callout variant="info" title="Activación del Boleto Estudiantil Universitario (SUBE)">
+      <p>
+        Si viajás en transporte público provincial a Luján o San Miguel, recordá que la solicitud se gestiona desde el sistema académico de tu cohorte (SAWEB o Gestión de Estudiantes) y requiere tener la SUBE registrada a tu nombre.{' '}
+        <a href={withBase('/vida-academica#tramite-boleto')} class="font-semibold">
+          Ver requisitos y paso a paso →
+        </a>
+      </p>
+    </Callout>
+  </section>
+
+  <!-- BLOQUE 5: Actividades y talleres destacados -->
+  <section class="py-12 px-4 sm:px-6 max-w-6xl mx-auto">
+    <SectionHeading
+      level={2}
+      title="Últimas charlas y actividades"
+      subtitle="Encuentros técnicos grabados organizados por el centro de estudiantes."
     >
       <div slot="action">
         <Button href={withBase('/actividades')} variant="outline" size="sm">
@@ -240,25 +245,43 @@ const recentActivities = activitiesData.slice(0, 2);
     </div>
   </section>
 
-  <!-- BLOQUE 5: Ayuda y Contacto (hacia el final) -->
+  <!-- BLOQUE 6: Ayuda y Contacto -->
   <section class="py-12 px-4 sm:px-6 bg-[var(--color-surface)] border-t border-[var(--color-border)]">
     <div class="max-w-4xl mx-auto text-center space-y-4">
-      <h2 class="text-2xl sm:text-3xl font-bold text-[var(--color-text-heading)]">
+      <h2 class="text-2xl sm:text-3xl font-bold text-[var(--color-text-heading)] m-0">
         ¿No encontraste lo que buscabas?
       </h2>
       <p class="text-sm sm:text-base text-[var(--color-text-muted)] max-w-xl mx-auto leading-relaxed">
-        Acercate a la mesita presencial de CODES en el campus durante los días de cursada o escribinos a través de nuestros canales oficiales de difusión.
+        Acercate a la mesita de CODES en Luján (Sector de Pabellones, lunes a viernes en cambios de turno) o escribinos por nuestros canales.
       </p>
       <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
-        <Button href="https://link.codesunlu.com.ar/" target="_blank" variant="secondary" size="md">
-          <span>Abrir canales de contacto</span>
+        <Button href="https://link.codesunlu.com.ar/" target="_blank" variant="primary" size="md">
+          <span>Abrir los canales de CODES</span>
           <span aria-hidden="true">↗</span>
         </Button>
-        <Button href={withBase('/comunidad')} variant="ghost" size="md">
-          <span>Ver información de comunidad</span>
+        <Button href={withBase('/comunidad')} variant="secondary" size="md">
+          <span>Ver horarios de mesita y comunidad</span>
           <span aria-hidden="true">→</span>
         </Button>
       </div>
     </div>
   </section>
 </PageLayout>
+
+<script is:inline define:vars={{ sortedEvents }}>
+  (() => {
+    const statusEl = document.querySelector('[data-home-cal-status]');
+    const dateEl = document.querySelector('[data-home-cal-date]');
+    const titleEl = document.querySelector('[data-home-cal-title]');
+    if (!statusEl || !dateEl || !titleEl || !Array.isArray(sortedEvents) || !sortedEvents.length) return;
+
+    const now = new Date();
+    const todayIso = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    const event = sortedEvents.find((e) => e.endDate >= todayIso) || sortedEvents[sortedEvents.length - 1];
+    const inProgress = event.startDate <= todayIso && todayIso <= event.endDate;
+
+    statusEl.textContent = inProgress ? 'En curso · 2026' : 'Próxima fecha · 2026';
+    dateEl.textContent = event.dateDisplay;
+    titleEl.textContent = event.title;
+  })();
+</script>

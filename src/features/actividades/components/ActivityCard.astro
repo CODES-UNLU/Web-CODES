@@ -1,6 +1,5 @@
 ---
 import type { ActivityItem } from '../data/activitiesData';
-import Badge from '../../../components/ui/Badge.astro';
 import Button from '../../../components/ui/Button.astro';
 import YouTubeFacade from './YouTubeFacade.astro';
 
@@ -9,14 +8,6 @@ interface Props {
 }
 
 const { activity } = Astro.props;
-
-const typeVariant = {
-  Charla: 'brand',
-  Taller: 'info',
-  Podcast: 'warning',
-  Entrevista: 'success',
-  Evento: 'neutral',
-} as const;
 
 const hasVideo = Boolean(activity.youtubeId);
 ---
@@ -32,37 +23,39 @@ const hasVideo = Boolean(activity.youtubeId);
   }
 
   <div class="flex flex-col flex-1 p-5 sm:p-6">
-    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5 text-xs">
       <div class="flex items-center gap-2">
-        <Badge variant={typeVariant[activity.type] || 'neutral'}>{activity.type}</Badge>
+        <span class="font-semibold text-[var(--brand-700)] dark:text-[var(--brand-300)]">
+          {activity.type}
+        </span>
         {
           !hasVideo && (
-            <span class="text-xs text-[var(--color-text-muted)] font-medium">{activity.platform}</span>
+            <span class="text-[var(--color-text-muted)] font-medium">· {activity.platform}</span>
           )
         }
       </div>
-      <span class="text-xs text-[var(--color-text-muted)]">
+      <span class="text-[var(--color-text-muted)] tabular-nums">
         {activity.dateDisplay}
       </span>
     </div>
 
-    <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-1 leading-snug">
+    <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] mb-1 mt-0 leading-snug">
       {activity.title}
     </h3>
 
     {
       activity.speaker && (
-        <p class="text-xs sm:text-sm font-medium text-[var(--brand-700)] dark:text-[var(--brand-300)] mb-3">
+        <p class="text-xs sm:text-sm font-medium text-[var(--brand-700)] dark:text-[var(--brand-300)] mb-3 mt-0">
           {activity.speaker}
         </p>
       )
     }
 
-    <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed mb-4">
+    <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4 mt-0">
       {activity.description}
     </p>
 
-    <footer class="mt-auto pt-4 border-t border-[var(--color-border-subtle)] flex items-center justify-between gap-3 text-xs">
+    <footer class="mt-auto pt-4 border-t border-[var(--color-border-subtle)] flex items-center justify-between gap-3 text-xs sm:text-sm">
       {
         hasVideo ? (
           // En el teléfono, abrir la app de YouTube suele ser más cómodo que el reproductor embebido
@@ -70,7 +63,7 @@ const hasVideo = Boolean(activity.youtubeId);
             href={activity.externalUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="ml-auto inline-flex items-center gap-1 font-semibold text-[var(--color-interactive)] no-underline hover:underline"
+            class="ml-auto inline-flex items-center gap-1 py-1.5 min-h-[38px] font-semibold text-[var(--color-interactive)] no-underline hover:underline"
           >
             <span>Abrir en YouTube</span>
             <span aria-hidden="true">↗</span>

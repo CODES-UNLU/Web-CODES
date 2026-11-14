@@ -2,7 +2,6 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
-import Callout from '../components/ui/Callout.astro';
 import AcademicGuideCard from '../features/vida-academica/components/AcademicGuideCard.astro';
 import ProcedureCard from '../features/vida-academica/components/ProcedureCard.astro';
 import CodesInitiativeCard from '../features/vida-academica/components/CodesInitiativeCard.astro';
@@ -33,47 +32,46 @@ const faqs = [
   breadcrumbs={breadcrumbs}
   faqs={faqs}
 >
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
     <div>
       <Breadcrumbs items={[{ label: 'Vida académica' }]} />
 
       <SectionHeading
-        title="Vida académica y trámites"
-        subtitle="Información clara sobre el funcionamiento de las materias, plataformas oficiales de la UNLu, gestiones administrativas y reclamos estudiantiles."
+        level={1}
+        title="Vida académica"
+        subtitle="Funcionamiento de las materias, plataformas oficiales de la UNLu, trámites estudiantiles y reclamos colectivos. Para gestiones formales de expedientes, remitite al Departamento de Alumnos."
+        class="mb-2 sm:mb-4"
       />
-
-      <Callout variant="info" title="Fuentes oficiales y asesoramiento estudiantil">
-        <p>
-          Las explicaciones de esta sección buscan traducir la jerga administrativa a un lenguaje claro para estudiantes. Para trámites formales o resoluciones específicas de expedientes, remitite siempre a la Dirección General de Asuntos Académicos o al Departamento de Alumnos de la UNLu.
-        </p>
-      </Callout>
     </div>
 
-    <!-- NAVEGACIÓN RÁPIDA INTERNA -->
-    <nav class="flex flex-wrap gap-2 text-xs sm:text-sm" aria-label="Atajos de la página">
+    <!-- NAVEGACIÓN RÁPIDA INTERNA FIJA (sticky bajo el header en móvil y escritorio) -->
+    <nav
+      class="sticky top-16 z-30 -mx-4 px-4 sm:mx-0 sm:px-3 py-2.5 bg-[var(--color-bg)]/95 backdrop-blur-md border-y sm:border sm:rounded-xl border-[var(--color-border)] flex items-center gap-2 overflow-x-auto whitespace-nowrap text-xs sm:text-sm"
+      aria-label="Atajos de la página"
+    >
       <a
         href="#plataformas-unlu"
-        class="no-underline px-3 py-1.5 rounded-lg bg-[var(--brand-50)] dark:bg-[var(--brand-950)] border border-[var(--brand-200)] dark:border-[var(--brand-800)] text-[var(--brand-800)] dark:text-[var(--brand-200)] font-semibold"
+        class="no-underline px-3 py-2 min-h-[40px] inline-flex items-center shrink-0 rounded-lg bg-[var(--brand-50)] dark:bg-[var(--brand-950)] border border-[var(--brand-200)] dark:border-[var(--brand-800)] text-[var(--brand-800)] dark:text-[var(--brand-200)] font-semibold"
       >
-        Plataformas digitales UNLu ↓
+        Plataformas UNLu
       </a>
       <a
         href="#orientacion-academica"
-        class="no-underline px-3 py-1.5 rounded-lg bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)] text-[var(--color-text-main)] font-medium"
+        class="no-underline px-3 py-2 min-h-[40px] inline-flex items-center shrink-0 rounded-lg bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)] text-[var(--color-text-main)] font-medium"
       >
-        Orientación académica ↓
+        Cursadas y finales
       </a>
       <a
         href="#gestiones-oficiales"
-        class="no-underline px-3 py-1.5 rounded-lg bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)] text-[var(--color-text-main)] font-medium"
+        class="no-underline px-3 py-2 min-h-[40px] inline-flex items-center shrink-0 rounded-lg bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)] text-[var(--color-text-main)] font-medium"
       >
-        Trámites oficiales UNLu ↓
+        Trámites oficiales
       </a>
       <a
         href="#gestiones-codes"
-        class="no-underline px-3 py-1.5 rounded-lg bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)] text-[var(--color-text-main)] font-medium"
+        class="no-underline px-3 py-2 min-h-[40px] inline-flex items-center shrink-0 rounded-lg bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] border border-[var(--color-border)] text-[var(--color-text-main)] font-medium"
       >
-        Gestiones CODES ↓
+        Gestiones CODES
       </a>
     </nav>
 
@@ -81,11 +79,11 @@ const faqs = [
     <DigitalPlatformsGuide id="plataformas-unlu" />
 
     <!-- SECCIÓN 1: Orientación Académica -->
-    <section id="orientacion-academica" class="space-y-6 pt-6 border-t border-[var(--color-border)]">
+    <section id="orientacion-academica" class="space-y-6 pt-8 border-t border-[var(--color-border)]">
       <SectionHeading
+        level={2}
         title="Orientación sobre cursadas y exámenes"
         subtitle="Cómo funciona la cursada, qué significa regularizar o promocionar y cómo planificar los exámenes finales."
-        level={3}
       />
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -94,11 +92,11 @@ const faqs = [
     </section>
 
     <!-- SECCIÓN 2: Gestiones Universitarias Oficiales -->
-    <section id="gestiones-oficiales" class="space-y-6 pt-6 border-t border-[var(--color-border)]">
+    <section id="gestiones-oficiales" class="space-y-6 pt-8 border-t border-[var(--color-border)]">
       <SectionHeading
+        level={2}
         title="Gestiones universitarias (UNLu / Provincia)"
         subtitle="Guías paso a paso para realizar trámites formales en los sistemas de la universidad y acceder a beneficios estudiantiles."
-        level={3}
       />
 
       <div class="space-y-6">
@@ -107,11 +105,11 @@ const faqs = [
     </section>
 
     <!-- SECCIÓN 3: Gestiones Organizadas por CODES -->
-    <section id="gestiones-codes" class="space-y-6 pt-6 border-t border-[var(--color-border)]">
+    <section id="gestiones-codes" class="space-y-6 pt-8 border-t border-[var(--color-border)]">
       <SectionHeading
+        level={2}
         title="Gestiones e iniciativas organizadas por CODES"
         subtitle="Procesos y reclamos colectivos impulsados por el centro de estudiantes ante los departamentos académicos."
-        level={3}
       />
 
       <div class="space-y-6">
