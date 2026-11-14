@@ -31,22 +31,34 @@
   sección `BREAKING CHANGE:` en el cuerpo.
 - Un commit = un cambio lógico. No mezcles refactors con features.
 - **Atribución obligatoria de IA**: todo commit creado o asistido por un agente
-  de IA (Claude Code, Codex, Gemini CLI, Cursor, Copilot, etc.) **debe** cerrar
-  con una línea `Co-Authored-By` que indique el modelo usado, al final del
-  cuerpo y separada por una línea en blanco:
+  de IA (Claude Code, Codex, Gemini CLI, Antigravity, Cursor, Copilot, etc.)
+  **debe** cerrar con una línea `Co-Authored-By` al final del cuerpo, separada
+  por una línea en blanco, indicando el **nombre y versión reales del modelo**
+  junto al **correo oficial vinculado en GitHub** (para que GitHub reconozca el
+  bot/cuenta y no quede un correo genérico sin perfil):
 
   ```text
-  Co-Authored-By: <Nombre del modelo y versión> <correo del proveedor>
+  Co-Authored-By: <Nombre del modelo y versión> <correo de GitHub del proveedor>
   ```
 
-  Ejemplos: `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`,
-  `Co-Authored-By: GPT-5 <noreply@openai.com>`,
-  `Co-Authored-By: Gemini 3 Pro <noreply@google.com>`.
-- Usá el nombre y la versión **reales** del modelo que trabajó; si no los
+  Correos oficiales en GitHub según el proveedor del modelo/agente:
+  - **Anthropic (Claude):** `<noreply@anthropic.com>`
+  - **Google (Gemini):** `<176961590+gemini-code-assist[bot]@users.noreply.github.com>`
+  - **OpenAI (Codex / GPT):** `<199175422+chatgpt-codex-connector[bot]@users.noreply.github.com>`
+  - **GitHub Copilot:** `<167198135+copilot[bot]@users.noreply.github.com>`
+
+  Ejemplos:
+  - `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`
+  - `Co-Authored-By: Gemini 2.5 Pro <176961590+gemini-code-assist[bot]@users.noreply.github.com>`
+  - `Co-Authored-By: GPT-5 <199175422+chatgpt-codex-connector[bot]@users.noreply.github.com>`
+  - `Co-Authored-By: Copilot <167198135+copilot[bot]@users.noreply.github.com>`
+- Usá siempre el nombre y la versión **reales** del modelo que trabajó (no
+  solo el nombre del IDE o herramienta como `Antigravity` o `Cursor`); si no los
   conocés con certeza, indicá el agente o la herramienta. Si intervinieron
   varios modelos, agregá una línea por cada uno.
-- Si el agente o la plataforma trae su propia plantilla de atribución, usala:
-  esta regla fija el mínimo exigido, no un formato único.
+- Si el agente o la plataforma trae su propia plantilla de atribución con un
+  correo válido en GitHub, podés usarla siempre que quede claro el modelo
+  usado (en el `Co-Authored-By` o en el cuerpo del commit).
 - En descripciones de Pull Requests creadas por un agente, indicá también qué
   agente y modelo se usaron.
 
