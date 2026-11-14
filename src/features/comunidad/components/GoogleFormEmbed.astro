@@ -1,5 +1,4 @@
 ---
-import Callout from '../../../components/ui/Callout.astro';
 import Button from '../../../components/ui/Button.astro';
 
 interface Props {
@@ -11,20 +10,20 @@ interface Props {
 
 const {
   formUrl,
-  title = 'Formulario de Solicitud de Acceso a Grupos',
-  description = 'Completá tus datos para que los moderadores de CODES puedan verificar tu pertenencia a la carrera y enviarte los enlaces correspondientes.',
-  alternativeContactEmail,
+  title = 'Cómo sumarte a los grupos de estudio',
+  description = 'Los enlaces a los grupos moderados por materia se comparten en los canales oficiales de CODES y en la mesita presencial.',
+  alternativeContactEmail = 'contacto@codesunlu.com.ar',
 } = Astro.props;
 
 const hasValidUrl = Boolean(formUrl && formUrl.trim().startsWith('http'));
 ---
 
-<div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 sm:p-8 shadow-xs">
-  <div class="max-w-2xl mb-6">
-    <h3 class="text-xl sm:text-2xl font-bold text-[var(--color-text-heading)] mb-2">
+<div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 sm:p-8 shadow-xs space-y-6">
+  <div class="max-w-2xl space-y-2">
+    <h3 class="text-xl sm:text-2xl font-bold text-[var(--color-text-heading)] m-0">
       {title}
     </h3>
-    <p class="text-sm sm:text-base text-[var(--color-text-muted)] leading-relaxed">
+    <p class="text-sm sm:text-base text-[var(--color-text-muted)] leading-relaxed m-0">
       {description}
     </p>
   </div>
@@ -60,28 +59,52 @@ const hasValidUrl = Boolean(formUrl && formUrl.trim().startsWith('http'));
         </div>
       </div>
     ) : (
-      <div class="space-y-4">
-        <Callout variant="info" title="Mecanismo de verificación en etapa de definición">
-          <p>
-            El Centro de Estudiantes se encuentra evaluando un mecanismo simplificado y accesible para moderar el ingreso a los grupos de estudio de WhatsApp (mediante Google Forms o recepción de consultas directas), garantizando que los espacios permanezcan libres de spam y cuidando la privacidad de cada estudiante.
-          </p>
-          <p class="font-medium mt-2">
-            No solicitamos contraseñas de tus plataformas universitarias (SAWEB, Sistema de Gestión de Estudiantes ni PlatDig), certificados médicos ni documentación confidencial.
-          </p>
-        </Callout>
+      <div class="space-y-6">
+        <p class="text-sm text-[var(--color-text-main)] leading-relaxed m-0">
+          CODES nunca te solicita contraseñas de plataformas universitarias (SAWEB, Sistema de Gestión de Estudiantes ni PlatDig), certificados ni datos personales sensibles para ingresar a un grupo.
+        </p>
 
-        <div class="p-4 sm:p-5 rounded-lg bg-[var(--color-bg-subtle)] border border-[var(--color-border-subtle)] text-xs sm:text-sm text-[var(--color-text-muted)] space-y-2">
-          <h4 class="font-bold text-[var(--color-text-heading)] text-sm">
-            ¿Cómo participar mientras tanto?
-          </h4>
-          <p>
-            Podés consultar los enlaces en la mesita presencial de CODES en la Sede Central Luján y San Miguel, o ingresar a través del canal oficial de difusión institucional en nuestras redes.
-          </p>
+        <div class="pt-5 border-t border-[var(--color-border-subtle)] grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-1.5">
+            <h4 class="text-sm font-bold text-[var(--color-text-heading)] m-0">
+              Mesita presencial · Sede Central Luján
+            </h4>
+            <p class="text-sm text-[var(--color-text-muted)] leading-relaxed m-0">
+              Sector de Pabellones / Hall académico junto a las aulas de Sistemas (Cruce de Rutas 5 y 7). Lunes a viernes durante el cuatrimestre en cambios de turno (mañana, tarde y vespertino).
+            </p>
+          </div>
+
+          <div class="space-y-1.5">
+            <h4 class="text-sm font-bold text-[var(--color-text-heading)] m-0">
+              Centro Regional San Miguel
+            </h4>
+            <p class="text-sm text-[var(--color-text-muted)] leading-relaxed m-0">
+              Fariña 2180. Presencia en días de cursada de primeros años y coordinación permanente a través de los canales digitales del centro.
+            </p>
+          </div>
+        </div>
+
+        <div class="pt-5 border-t border-[var(--color-border-subtle)] flex flex-wrap items-center gap-3">
+          <Button
+            href="https://link.codesunlu.com.ar/"
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="primary"
+            size="md"
+          >
+            <span>Abrir los canales de CODES</span>
+            <span aria-hidden="true">↗</span>
+          </Button>
+
           {
             alternativeContactEmail && (
-              <p class="pt-1">
-                Contacto directo verificado: <a href={`mailto:${alternativeContactEmail}`} class="text-[var(--color-interactive)] underline">{alternativeContactEmail}</a>
-              </p>
+              <Button
+                href={`mailto:${alternativeContactEmail}`}
+                variant="outline"
+                size="md"
+              >
+                <span>Escribir a {alternativeContactEmail}</span>
+              </Button>
             )
           }
         </div>

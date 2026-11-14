@@ -4,7 +4,6 @@ import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import Callout from '../components/ui/Callout.astro';
 import Button from '../components/ui/Button.astro';
-import Badge from '../components/ui/Badge.astro';
 import GoogleFormEmbed from '../features/comunidad/components/GoogleFormEmbed.astro';
 import {
   communityChannels,
@@ -16,7 +15,7 @@ const breadcrumbs = [{ label: 'Comunidad', href: '/comunidad' }];
 
 <PageLayout
   title="Comunidad Estudiantil y Canales de Contacto | CODES UNLu"
-  description="Canales oficiales, grupos de estudio de WhatsApp por materia y espacios de consulta para estudiantes de Sistemas de la Universidad Nacional de Luján."
+  description="Canales oficiales, grupos de estudio de WhatsApp por materia, mesita presencial y espacios de consulta para estudiantes de Sistemas de la Universidad Nacional de Luján."
   breadcrumbs={breadcrumbs}
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
@@ -24,14 +23,14 @@ const breadcrumbs = [{ label: 'Comunidad', href: '/comunidad' }];
       <Breadcrumbs items={[{ label: 'Comunidad' }]} />
 
       <SectionHeading
-        title="Comunidad y canales estudiantiles"
-        subtitle="Conectate con otros estudiantes de Sistemas, encontrá grupos de estudio y enterate de las novedades oficiales."
-        badge="Red estudiantil"
+        level={1}
+        title="Comunidad"
+        subtitle="Conectate con otros estudiantes de Sistemas, encontrá grupos de estudio por materia y acercate a la mesita de CODES."
       />
 
       <Callout variant="brand" title="Estudiar en comunidad">
         <p>
-          Los grupos de CODES son espacios solidarios autogestionados por estudiantes. Acá vas a poder consultar dudas de trabajos prácticos, conseguir apuntes y coordinar grupos de estudio para parciales y finales.
+          Los grupos de CODES son espacios solidarios autogestionados por estudiantes. Acá podés consultar dudas de trabajos prácticos, conseguir apuntes y coordinar grupos de estudio para parciales y finales.
         </p>
       </Callout>
     </div>
@@ -39,24 +38,24 @@ const breadcrumbs = [{ label: 'Comunidad', href: '/comunidad' }];
     <!-- CANALES VERIFICADOS -->
     <section class="space-y-4">
       <SectionHeading
+        level={2}
         title="Canales de difusión y estudio"
-        subtitle="Vías oficiales de comunicación mantenidas por el centro de estudiantes."
-        level={3}
+        subtitle="Cómo funciona cada espacio de comunicación mantenido por el centro de estudiantes."
       />
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {
           communityChannels.map((channel) => (
-            <article class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 shadow-xs flex flex-col justify-between">
+            <article class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 shadow-xs flex flex-col justify-between gap-4">
               <div>
-                <div class="flex items-center justify-between gap-2 mb-2">
-                  <Badge variant="neutral">{channel.category}</Badge>
-                  <span class="text-[11px] font-medium text-[var(--color-success)]">{channel.status}</span>
+                <div class="flex items-center justify-between gap-2 mb-2 text-xs">
+                  <span class="font-medium text-[var(--color-text-muted)]">{channel.category}</span>
+                  <span class="font-semibold text-[var(--brand-700)] dark:text-[var(--brand-300)]">{channel.status}</span>
                 </div>
-                <h4 class="text-base font-bold text-[var(--color-text-heading)] mb-2">
+                <h3 class="text-base font-bold text-[var(--color-text-heading)] mb-2">
                   {channel.title}
-                </h4>
-                <p class="text-xs text-[var(--color-text-muted)] leading-relaxed mb-4">
+                </h3>
+                <p class="text-sm text-[var(--color-text-muted)] leading-relaxed m-0">
                   {channel.description}
                 </p>
               </div>
@@ -69,7 +68,7 @@ const breadcrumbs = [{ label: 'Comunidad', href: '/comunidad' }];
                     rel="noopener noreferrer"
                     variant="outline"
                     size="sm"
-                    class="w-full text-center"
+                    class="w-full text-center min-h-[44px]"
                   >
                     <span>{channel.linkLabel || 'Abrir canal'}</span>
                     <span aria-hidden="true">↗</span>
@@ -82,33 +81,33 @@ const breadcrumbs = [{ label: 'Comunidad', href: '/comunidad' }];
       </div>
     </section>
 
-    <!-- FORMULARIO DE ACCESO / ESTADO INFORMATIVO -->
+    <!-- INGRESO Y MESITA PRESENCIAL -->
     <section class="space-y-4">
       <SectionHeading
-        title="Ingreso a grupos moderados"
-        subtitle="Procedimiento para incorporarse a los canales de estudio de la carrera."
-        level={3}
+        level={2}
+        title="Dónde encontrarnos y cómo sumarte"
+        subtitle="Acceso a los grupos por materia, ubicación de la mesita presencial y contacto directo."
       />
 
-      <!-- Componente reutilizable: muestra el estado informativo mientras el formulario se define -->
       <GoogleFormEmbed
-        title="Verificación de pertenencia a la carrera"
-        description="Para mantener los grupos ordenados y evitar spam publicitario o cuentas falsas, la comisión evalúa un formulario simple de validación previa."
+        title="Cómo pedir los enlaces de los grupos por materia"
+        description="Para mantener los grupos de WhatsApp libres de spam comercial y cuentas falsas, el acceso se comparte directamente en nuestros canales y en la mesita presencial."
+        alternativeContactEmail="contacto@codesunlu.com.ar"
       />
     </section>
 
     <!-- NORMAS DE CONVIVENCIA -->
     <section class="bg-[var(--color-bg-subtle)] border border-[var(--color-border)] rounded-xl p-6 sm:p-8 space-y-4">
-      <h3 class="text-lg font-bold text-[var(--color-text-heading)] flex items-center gap-2">
-        <svg class="w-5 h-5 text-[var(--brand-600)] dark:text-[var(--brand-400)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <h2 class="text-lg sm:text-xl font-bold text-[var(--color-text-heading)] flex items-center gap-2 m-0">
+        <svg class="w-5 h-5 text-[var(--brand-600)] dark:text-[var(--brand-400)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
         </svg>
         <span>Pautas de convivencia en los grupos</span>
-      </h3>
-      <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
+      </h2>
+      <p class="text-sm text-[var(--color-text-muted)] leading-relaxed m-0">
         El ingreso a cualquier grupo de CODES implica el compromiso de cuidar el espacio de estudio de todos los compañeros:
       </p>
-      <ul class="space-y-2 list-disc pl-5 text-xs sm:text-sm text-[var(--color-text-main)] leading-relaxed">
+      <ul class="space-y-2 list-disc pl-5 text-sm text-[var(--color-text-main)] leading-relaxed">
         {codeOfConductRules.map((rule) => <li>{rule}</li>)}
       </ul>
     </section>
