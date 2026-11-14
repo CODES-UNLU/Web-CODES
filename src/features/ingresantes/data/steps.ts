@@ -37,11 +37,11 @@ export const onboardingSteps: OnboardingStep[] = [
     id: 'paso-plataformas',
     title: 'Conocé las plataformas de la universidad',
     badge: 'Sistemas digitales',
-    summary: 'La UNLu utiliza plataformas diferentes según la tarea: PlatDig para las aulas virtuales y materiales de cursada, y Servicios Académicos Web o Sistema de Gestión de Estudiantes para inscripciones y notas según tu cohorte.',
+    summary: 'La UNLu utiliza plataformas diferentes según la tarea: Educativa para las aulas virtuales y materiales de cursada, y Servicios Académicos Web o Sistema de Gestión de Estudiantes para inscripciones y notas según tu cohorte.',
     details: [
       '¿Qué es tu cohorte? Es el año en que te inscribiste a la carrera por primera vez (no el año actual). Si ingresaste antes de 2027 usás SAWEB (saweb.unlu.edu.ar); si tu ingreso es cohorte 2027 en adelante usás el Sistema de Gestión de Estudiantes (g3w3.unlu.edu.ar).',
-      'PlatDig (platdig.unlu.edu.ar): Es el campus virtual donde los docentes publican materiales de estudio, guías de trabajos prácticos, fechas de entrega y foros de consulta.',
-      'Educativa Mobile: Aplicación móvil oficial para ingresar a tus aulas virtuales de PlatDig y recibir notificaciones desde tu celular.',
+      'Educativa (Aula Virtual): Es el campus virtual donde los docentes publican materiales de estudio, guías de trabajos prácticos, fechas de entrega y foros de consulta.',
+      'Educativa Mobile: Aplicación móvil oficial para ingresar a tus aulas virtuales de Educativa y recibir notificaciones desde tu celular.',
       'Dónde pedir ayuda: CODES nunca te solicitará tus contraseñas universitarias. Ante problemas de acceso, consultá en la mesita presencial o en el Departamento de Alumnos de la sede.'
     ],
     actionLabel: 'Ver guía de plataformas y servicios',

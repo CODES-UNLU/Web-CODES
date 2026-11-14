@@ -5,7 +5,7 @@
  * - Toda plataforma debe contar con URL oficial de la UNLu y fuente de referencia verificada.
  * - Se distingue estrictamente el acceso para cohortes previas a 2027 (SAWEB)
  *   del acceso para la cohorte 2027 en adelante (Sistema de Gestión de Estudiantes).
- * - No se confunde PlatDig (aulas virtuales E-ducativa) con los sistemas de gestión académica.
+ * - No se confunde Educativa (aulas virtuales) con los sistemas de gestión académica.
  */
 
 export interface AcademicVerification {
@@ -33,7 +33,7 @@ export interface UniversityPlatform {
 export interface PlatformFaq {
   question: string;
   answer: string;
-  highlightPlatform: 'PlatDig' | 'SAWEB' | 'Sistema de Gestión de Estudiantes' | 'Ambos sistemas';
+  highlightPlatform: 'Educativa (Aula Virtual)' | 'SAWEB' | 'Sistema de Gestión de Estudiantes' | 'Ambos sistemas';
   platformUrl?: string;
   appNote?: string;
 }
@@ -86,9 +86,9 @@ export const universityPlatforms: UniversityPlatform[] = [
   },
   {
     id: 'platdig',
-    name: 'PlatDig (Plataforma Digital UNLu)',
-    commonName: 'PlatDig · Aulas Virtuales',
-    purpose: 'Campus virtual de cursadas (basado en E-ducativa) donde los docentes publican materiales, consignas de trabajos prácticos, foros de consulta y actividades.',
+    name: 'Educativa (Aula Virtual)',
+    commonName: 'Campus virtual de cursadas',
+    purpose: 'Campus virtual de cursadas donde los docentes publican materiales, consignas de trabajos prácticos, foros de consulta y actividades.',
     targetAudience: 'Todos los estudiantes y docentes de la universidad durante el dictado de asignaturas.',
     officialUrl: 'https://platdig.unlu.edu.ar/',
     hasMobileApp: true,
@@ -113,13 +113,13 @@ export const universityPlatforms: UniversityPlatform[] = [
 export const platformFaqs: PlatformFaq[] = [
   {
     question: '¿Dónde consulto mis aulas virtuales y materiales de estudio?',
-    answer: 'En PlatDig (platdig.unlu.edu.ar). Es el campus virtual de la UNLu donde cada cátedra sube las guías de ejercicios, diapositivas teóricas, fechas de parciales y foros de consulta.',
-    highlightPlatform: 'PlatDig',
+    answer: 'En Educativa (Aula Virtual). Es el campus virtual de la UNLu donde cada cátedra sube las guías de ejercicios, diapositivas teóricas, fechas de parciales y foros de consulta.',
+    highlightPlatform: 'Educativa (Aula Virtual)',
     platformUrl: 'https://platdig.unlu.edu.ar/'
   },
   {
     question: '¿Dónde me inscribo a materias y exámenes finales?',
-    answer: 'En el sistema académico que corresponde a tu cohorte de ingreso: si ingresaste antes de 2027, usás SAWEB (saweb.unlu.edu.ar). Si sos ingresante cohorte 2027 en adelante, usás el nuevo Sistema de Gestión de Estudiantes (g3w3.unlu.edu.ar). No te inscribís a través de PlatDig.',
+    answer: 'En el sistema académico que corresponde a tu cohorte de ingreso: si ingresaste antes de 2027, usás SAWEB (saweb.unlu.edu.ar). Si sos ingresante cohorte 2027 en adelante, usás el nuevo Sistema de Gestión de Estudiantes (g3w3.unlu.edu.ar). No te inscribís a través de Educativa.',
     highlightPlatform: 'Ambos sistemas'
   },
   {
@@ -133,9 +133,9 @@ export const platformFaqs: PlatformFaq[] = [
     highlightPlatform: 'Ambos sistemas'
   },
   {
-    question: '¿Puedo acceder a las aulas virtuales de PlatDig desde el celular?',
-    answer: 'Sí. Además de acceder mediante cualquier navegador web móvil en platdig.unlu.edu.ar, podés descargar la aplicación oficial Educativa Mobile (Android / iOS) e ingresar la dirección del campus de la UNLu para recibir notificaciones y leer materiales.',
-    highlightPlatform: 'PlatDig',
+    question: '¿Puedo acceder a las aulas virtuales de Educativa desde el celular?',
+    answer: 'Sí. Además de acceder mediante cualquier navegador web móvil, podés descargar la aplicación oficial Educativa Mobile (Android / iOS) e ingresar la dirección del campus de la UNLu para recibir notificaciones y leer materiales.',
+    highlightPlatform: 'Educativa (Aula Virtual)',
     platformUrl: 'https://platdig.unlu.edu.ar/',
     appNote: 'Disponible en Google Play Store y Apple App Store bajo el nombre Educativa Mobile.'
   }

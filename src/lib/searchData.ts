@@ -27,7 +27,7 @@ export interface SearchItem {
 
 const extraKeywordsById: Record<string, string[]> = {
   'paso-sedes': ['sede', 'lujan', 'san miguel', 'chivilcoy', 'campana', 'aulas', 'campus', 'mesita'],
-  'paso-plataformas': ['saweb', 'platdig', 'g3w3', 'gestion de estudiantes', 'cohorte', 'aulas virtuales'],
+  'paso-plataformas': ['saweb', 'educativa', 'platdig', 'aula virtual', 'g3w3', 'gestion de estudiantes', 'cohorte', 'aulas virtuales'],
   'paso-cursadas': ['cursada', 'materias', 'parciales', 'promocion', 'regularidad', 'correlativas', 'plan de estudios'],
   'paso-fechas': ['calendario', 'fechas', 'inscripcion', 'finales', 'receso'],
   'paso-comunidad': ['whatsapp', 'grupos', 'avisos', 'beca', 'becas', 'convocatorias', 'paro'],
@@ -70,14 +70,16 @@ const overviewItems: SearchItem[] = [
   },
   {
     id: 'vida-academica-plataformas',
-    title: 'Plataformas digitales de la UNLu (PlatDig, SAWEB y Gestión de Estudiantes)',
+    title: 'Plataformas digitales de la UNLu (Educativa, SAWEB y Gestión de Estudiantes)',
     category: 'Vida Académica',
     description:
-      'A qué plataforma entrar según tu tarea y cohorte: PlatDig para aulas virtuales, SAWEB (cohortes previas a 2027) y Gestión de Estudiantes (cohorte 2027+).',
+      'A qué plataforma entrar según tu tarea y cohorte: Educativa para aulas virtuales, SAWEB (cohortes previas a 2027) y Gestión de Estudiantes (cohorte 2027+).',
     url: '/vida-academica#plataformas-unlu',
     keywords: [
       'saweb',
+      'educativa',
       'platdig',
+      'aula virtual',
       'g3w3',
       'aulas virtuales',
       'educativa mobile',

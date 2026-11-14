@@ -25,7 +25,7 @@ const { id = 'plataformas-unlu', class: className = '' } = Astro.props;
     </div>
 
     <p class="text-sm sm:text-base text-[var(--color-text-muted)] leading-relaxed max-w-3xl">
-      La Universidad Nacional de Luján cuenta con plataformas específicas para cada necesidad. Distinguí entre el <strong>campus virtual de cursadas (PlatDig)</strong> y los <strong>sistemas de gestión académica</strong>, cuyo acceso depende de tu cohorte de ingreso.
+      La Universidad Nacional de Luján cuenta con plataformas específicas para cada necesidad. Distinguí entre el <strong>campus virtual de cursadas, Educativa (Aula Virtual),</strong> y los <strong>sistemas de gestión académica</strong>, cuyo acceso depende de tu cohorte de ingreso.
     </p>
 
     <!-- Único Callout de la página: distinción crítica por cohorte -->
@@ -55,7 +55,7 @@ const { id = 'plataformas-unlu', class: className = '' } = Astro.props;
           <div>
             <div class="flex items-center justify-between gap-2 mb-3 text-xs">
               <span class="font-semibold text-[var(--brand-700)] dark:text-[var(--brand-300)]">
-                {platform.id === 'platdig' ? 'Aulas Virtuales' : 'Gestión Académica'}
+                {platform.id === 'platdig' ? 'Aula Virtual' : 'Gestión Académica'}
               </span>
               <span class="text-[var(--color-text-muted)] font-medium">UNLu Oficial</span>
             </div>
@@ -106,7 +106,7 @@ const { id = 'plataformas-unlu', class: className = '' } = Astro.props;
               size="sm"
               class="w-full text-center min-h-[42px]"
             >
-              <span>Acceder a {platform.id === 'platdig' ? 'PlatDig' : platform.id === 'saweb' ? 'SAWEB' : 'Gestión Estudiantes'}</span>
+              <span>Acceder a {platform.id === 'platdig' ? 'Educativa' : platform.id === 'saweb' ? 'SAWEB' : 'Gestión Estudiantes'}</span>
               <span aria-hidden="true">↗</span>
             </Button>
 
