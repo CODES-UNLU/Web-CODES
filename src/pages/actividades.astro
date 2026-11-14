@@ -3,7 +3,6 @@ import PageLayout from '../layouts/PageLayout.astro';
 import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import Callout from '../components/ui/Callout.astro';
-import Badge from '../components/ui/Badge.astro';
 import ActivityCard from '../features/actividades/components/ActivityCard.astro';
 import { activitiesData, youtubeChannelUrl } from '../features/actividades/data/activitiesData';
 
@@ -16,13 +15,11 @@ const activitiesByYear = Object.entries(
 const upcomingFormats = [
   {
     type: 'Taller',
-    variant: 'info',
     title: 'Talleres prácticos',
     description: 'Encuentros para aprender herramientas y programación haciendo. Las fechas se anuncian en los canales de CODES.',
   },
   {
     type: 'Podcast',
-    variant: 'warning',
     title: 'Podcast de CODES',
     description: 'Conversaciones entre estudiantes sobre la carrera y la vida universitaria. Las fechas se anuncian en los canales de CODES.',
   },
@@ -41,9 +38,9 @@ const breadcrumbs = [{ label: 'Actividades', href: '/actividades' }];
       <Breadcrumbs items={[{ label: 'Actividades' }]} />
 
       <SectionHeading
-        title="Actividades, charlas y videoteca"
-        subtitle="Contenido audiovisual, talleres prácticos de software y encuentros técnicos organizados por el centro."
-        badge="Formación continua"
+        level={1}
+        title="Actividades"
+        subtitle="Charlas técnicas grabadas, talleres prácticos de software y encuentros extracurriculares organizados por el centro."
       />
 
       <Callout variant="info" title="Pensado para tus datos móviles">
@@ -59,11 +56,11 @@ const breadcrumbs = [{ label: 'Actividades', href: '/actividades' }];
         activitiesByYear.map(([year, activities]) => (
           <section class="space-y-5" aria-labelledby={`anio-${year}`}>
             <div class="flex items-center gap-4">
-              <h2 id={`anio-${year}`} class="text-xl sm:text-2xl font-extrabold tabular-nums text-[var(--brand-700)] dark:text-[var(--brand-300)] m-0">
-                {year}
+              <h2 id={`anio-${year}`} class="code-tag text-xl sm:text-2xl font-extrabold text-[var(--brand-700)] dark:text-[var(--brand-300)] m-0">
+                // {year}
               </h2>
               <span class="flex-1 h-px bg-[var(--color-border)]" aria-hidden="true" />
-              <span class="text-xs text-[var(--color-text-muted)] shrink-0">
+              <span class="text-xs font-medium text-[var(--color-text-muted)] shrink-0 tabular-nums">
                 {activities.length} {activities.length === 1 ? 'charla' : 'charlas'}
               </span>
             </div>
@@ -77,8 +74,8 @@ const breadcrumbs = [{ label: 'Actividades', href: '/actividades' }];
       <!-- Formatos planeados a futuro: borde punteado para distinguirlos de lo ya publicado -->
       <section class="space-y-5" aria-labelledby="proximamente">
         <div class="flex items-center gap-4">
-          <h2 id="proximamente" class="text-xl sm:text-2xl font-extrabold text-[var(--color-text-muted)] m-0">
-            Próximamente
+          <h2 id="proximamente" class="code-tag text-xl sm:text-2xl font-extrabold text-[var(--color-text-muted)] m-0">
+            // Próximamente
           </h2>
           <span class="flex-1 h-px bg-[var(--color-border)]" aria-hidden="true" />
         </div>
@@ -86,11 +83,13 @@ const breadcrumbs = [{ label: 'Actividades', href: '/actividades' }];
           {
             upcomingFormats.map((format) => (
               <article class="rounded-xl border-2 border-dashed border-[var(--color-border)] p-5 sm:p-6 space-y-2">
-                <Badge variant={format.variant}>{format.type}</Badge>
+                <span class="text-xs font-semibold text-[var(--color-text-muted)] block">
+                  {format.type}
+                </span>
                 <h3 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] leading-snug m-0">
                   {format.title}
                 </h3>
-                <p class="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed m-0">
+                <p class="text-sm text-[var(--color-text-muted)] leading-relaxed m-0">
                   {format.description}
                 </p>
               </article>
@@ -102,18 +101,18 @@ const breadcrumbs = [{ label: 'Actividades', href: '/actividades' }];
 
     <!-- Convocatoria a talleres -->
     <section class="bg-[var(--color-bg-subtle)] border border-[var(--color-border)] rounded-xl p-6 sm:p-8 text-center space-y-3">
-      <h3 class="text-lg sm:text-xl font-bold text-[var(--color-text-heading)]">
+      <h2 class="text-lg sm:text-xl font-bold text-[var(--color-text-heading)] m-0">
         ¿Tenés ganas de dictar un taller o dar una charla?
-      </h3>
-      <p class="text-xs sm:text-sm text-[var(--color-text-muted)] max-w-lg mx-auto leading-relaxed">
+      </h2>
+      <p class="text-sm text-[var(--color-text-muted)] max-w-lg mx-auto leading-relaxed">
         CODES promueve que los estudiantes avanzados compartan sus conocimientos en herramientas, desarrollo web, DevOps, robótica o ciencia de datos. Contactanos para coordinar un espacio.
       </p>
       <div class="pt-2">
         <a
           href="mailto:contacto@codesunlu.com.ar"
-          class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[var(--color-interactive)] underline"
+          class="inline-flex items-center gap-1.5 py-2 min-h-[40px] text-sm font-semibold text-[var(--color-interactive)] underline"
         >
-          Escribile al CODES
+          Escribile al CODES (contacto@codesunlu.com.ar)
         </a>
       </div>
     </section>
