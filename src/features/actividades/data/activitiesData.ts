@@ -27,8 +27,8 @@ export const activitiesData: ActivityItem[] = [
     dateDisplay: 'Noviembre 2026',
     speaker: 'Dr. Gabriel Tolosa',
     description: 'Cómo dar los primeros pasos en la investigación en tecnología, su conexión con la industria actual y el impacto de la inteligencia artificial en el desarrollo de software.',
-    externalUrl: 'https://www.youtube.com/watch?v=t9H4Exwtt7A',
-    youtubeId: 't9H4Exwtt7A',
+    externalUrl: 'https://www.youtube.com/watch?v=97jmJS-zLd4',
+    youtubeId: '97jmJS-zLd4',
     videoDuration: '1:01:02'
   },
   {
