@@ -3,7 +3,7 @@ export interface CommunityChannel {
   title: string;
   category: 'Canal de Difusión' | 'Grupo de Estudio' | 'Espacio Virtual';
   description: string;
-  status: 'Disponible' | 'Próximamente' | 'Moderado';
+  status: 'Disponible' | 'Moderado por materia' | 'Comunidad virtual';
   link?: string;
   linkLabel?: string;
 }
@@ -13,28 +13,24 @@ export const communityChannels: CommunityChannel[] = [
     id: 'redes-oficiales',
     title: 'Portal de Redes y Enlaces CODES',
     category: 'Canal de Difusión',
-    description: 'Enlace centralizado con acceso a Instagram, canales de comunicación y avisos urgentes del centro de estudiantes.',
+    description: 'Directorio oficial con acceso a Instagram, canal de avisos y enlaces actualizados del centro de estudiantes.',
     status: 'Disponible',
     link: 'https://link.codesunlu.com.ar/',
-    linkLabel: 'Visitar link.codesunlu.com.ar'
+    linkLabel: 'Abrir los canales de CODES'
   },
   {
     id: 'grupos-materias',
     title: 'Grupos de WhatsApp por Materia y Año',
     category: 'Grupo de Estudio',
-    description: 'Canales organizados para resolver dudas de cursada, compartir apuntes y coordinar grupos de laboratorio para materias de 1° a 5° año.',
-    status: 'Moderado',
-    link: 'https://link.codesunlu.com.ar/',
-    linkLabel: 'Consultar directorio'
+    description: 'Grupos de estudio de 1° a 5° año para resolver dudas de cursada, compartir apuntes y armar equipos de laboratorio. Pedí el enlace de tus materias en la mesita presencial o por nuestras redes.',
+    status: 'Moderado por materia'
   },
   {
     id: 'discord-estudio',
     title: 'Servidor de Discord Estudiantil',
     category: 'Espacio Virtual',
-    description: 'Espacio virtual con salas de voz para estudiar en grupo, debatir sobre programación y compartir proyectos de software libre.',
-    status: 'Disponible',
-    link: 'https://link.codesunlu.com.ar/',
-    linkLabel: 'Unirse al Discord'
+    description: 'Salas de voz y canales de consulta para estudiar en grupo, practicar programación y coordinar proyectos. El acceso actualizado se publica en el portal de enlaces de CODES.',
+    status: 'Comunidad virtual'
   }
 ];
 
