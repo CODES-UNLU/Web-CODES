@@ -7,6 +7,7 @@ import Button from '../components/ui/Button.astro';
 import OnboardingStepCard from '../features/ingresantes/components/OnboardingStepCard.astro';
 import { onboardingSteps } from '../features/ingresantes/data/steps';
 import { withBase } from '../lib/paths';
+
 const breadcrumbs = [{ label: 'Ingresantes', href: '/ingresantes' }];
 
 const faqs = onboardingSteps.map((step) => ({
@@ -25,19 +26,45 @@ const faqs = onboardingSteps.map((step) => ({
     <Breadcrumbs items={[{ label: 'Ingresantes' }]} />
 
     <SectionHeading
-      title="Guía de primeros pasos para ingresantes"
+      level={1}
+      title="Ingresantes"
       subtitle="Todo lo que necesitás saber para comenzar a cursar en la UNLu sin perderte en el intento."
-      badge="Recorrido guiado"
     />
 
-    <div class="mb-10">
+    <div class="mb-8">
       <Callout variant="brand" title="¿Acabás de ingresar a la universidad?">
         <p>
-          Empezar la facultad genera muchas dudas y un vocabulario nuevo (correlatividades, plataformas virtuales, regularidad, comisiones).
-          Este recorrido fue armado por compañeros de años avanzados de CODES para que vayas resolviendo cada paso de forma ordenada, sin apuro y con información clara.
+          Empezar la facultad trae términos nuevos (cohorte, correlatividades, regularidad, comisiones). Este recorrido fue armado por estudiantes avanzados de CODES para que resuelvas cada paso en orden y sin apuro.
         </p>
       </Callout>
     </div>
+
+    <!-- Índice rápido de pasos -->
+    <nav
+      aria-label="Índice de pasos para ingresantes"
+      class="mb-10 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-4 sm:p-5 shadow-xs"
+    >
+      <p class="text-sm font-bold text-[var(--color-text-heading)] m-0 mb-3">
+        Recorrido en 6 pasos
+      </p>
+      <ol class="grid grid-cols-1 sm:grid-cols-2 gap-2 list-none p-0 m-0">
+        {
+          onboardingSteps.map((step) => (
+            <li>
+              <a
+                href={`#${step.id}`}
+                class="flex items-center gap-2.5 px-3 py-2 min-h-[44px] rounded-lg text-sm text-[var(--color-text-main)] no-underline bg-[var(--color-bg-subtle)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-interactive)] transition-colors"
+              >
+                <span class="code-tag text-xs font-bold text-[var(--brand-700)] dark:text-[var(--brand-300)] shrink-0">
+                  {String(step.number).padStart(2, '0')}
+                </span>
+                <span class="font-medium leading-snug">{step.title}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
 
     <!-- Lista de pasos guiados (Mobile-first vertical timeline) -->
     <div class="space-y-2 mb-12">
@@ -53,20 +80,26 @@ const faqs = onboardingSteps.map((step) => ({
 
     <!-- Bloque de cierre y ayuda -->
     <section class="bg-[var(--color-bg-subtle)] border border-[var(--color-border)] rounded-xl p-6 sm:p-8 text-center space-y-4">
-      <h3 class="text-xl font-bold text-[var(--color-text-heading)]">
+      <h2 class="text-xl font-bold text-[var(--color-text-heading)] m-0">
         ¿Tenés dudas que no están en esta guía?
-      </h3>
+      </h2>
       <p class="text-sm text-[var(--color-text-muted)] max-w-lg mx-auto leading-relaxed">
-        Los miembros del centro de estudiantes estamos para acompañarte en los pasillos de la facultad o mediante nuestros grupos de estudio.
+        Los miembros del centro de estudiantes estamos en la mesita presencial durante el cuatrimestre o en nuestros canales digitales.
       </p>
       <div class="pt-2 flex flex-wrap justify-center gap-3">
-        <Button href={withBase('/comunidad')} variant="primary" size="sm">
-          <span>Unirse a la comunidad de WhatsApp</span>
+        <Button href={withBase('/comunidad')} variant="primary" size="md">
+          <span>Ver canales y grupos de estudio</span>
           <span aria-hidden="true">→</span>
         </Button>
-        <Button href={withBase('/vida-academica')} variant="secondary" size="sm">
-          <span>Explorar trámites y normativas</span>
-          <span aria-hidden="true">→</span>
+        <Button
+          href="https://link.codesunlu.com.ar/"
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="secondary"
+          size="md"
+        >
+          <span>Abrir enlaces de CODES</span>
+          <span aria-hidden="true">↗</span>
         </Button>
       </div>
     </section>
