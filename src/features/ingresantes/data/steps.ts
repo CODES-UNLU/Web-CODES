@@ -23,10 +23,12 @@ export const onboardingSteps: OnboardingStep[] = [
     details: [
       'Sede Central Luján: Cruce de Rutas 5 y 7. El Departamento de Ciencias Básicas y las aulas de informática se concentran en los pabellones principales.',
       'Centro Regional San Miguel: Fariña 2180. Se dictan los primeros años de las carreras de informática y sistemas.',
-      'Mesita estudiantil de CODES: Espacio presencial atendido por compañeros de años avanzados para sacarte dudas en persona durante el ciclo lectivo.',
+      'Mesita estudiantil de CODES: En Sede Central Luján nos encontrás en el sector de Pabellones / Hall académico junto a las aulas de Sistemas durante los cambios de turno (mañana, tarde y vespertino). En San Miguel (Fariña 2180) coordinamos en días de cursada y por nuestros canales.',
     ],
+    actionLabel: 'Ver ubicación de la mesita y canales',
+    actionHref: '/comunidad',
     relatedSection: {
-      label: 'Consultar canales y mesita de CODES',
+      label: 'Ver ubicación de la mesita y canales',
       href: '/comunidad'
     }
   },
@@ -37,9 +39,9 @@ export const onboardingSteps: OnboardingStep[] = [
     badge: 'Sistemas digitales',
     summary: 'La UNLu utiliza plataformas diferentes según la tarea: PlatDig para las aulas virtuales y materiales de cursada, y Servicios Académicos Web o Sistema de Gestión de Estudiantes para inscripciones y notas según tu cohorte.',
     details: [
+      '¿Qué es tu cohorte? Es el año en que te inscribiste a la carrera por primera vez (no el año actual). Si ingresaste antes de 2027 usás SAWEB (saweb.unlu.edu.ar); si tu ingreso es cohorte 2027 en adelante usás el Sistema de Gestión de Estudiantes (g3w3.unlu.edu.ar).',
       'PlatDig (platdig.unlu.edu.ar): Es el campus virtual donde los docentes publican materiales de estudio, guías de trabajos prácticos, fechas de entrega y foros de consulta.',
       'Educativa Mobile: Aplicación móvil oficial para ingresar a tus aulas virtuales de PlatDig y recibir notificaciones desde tu celular.',
-      'Inscripción a materias y finales: Si pertenecés a cohortes anteriores a 2027, utilizás SAWEB (saweb.unlu.edu.ar). Si sos ingresante de la cohorte 2027 en adelante, utilizás el Sistema de Gestión de Estudiantes (g3w3.unlu.edu.ar).',
       'Dónde pedir ayuda: CODES nunca te solicitará tus contraseñas universitarias. Ante problemas de acceso, consultá en la mesita presencial o en el Departamento de Alumnos de la sede.'
     ],
     actionLabel: 'Ver guía de plataformas y servicios',
