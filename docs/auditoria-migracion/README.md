@@ -11,7 +11,7 @@
 > Varios documentos históricos de esta auditoría (01, 05, 06, 14) asumieron erróneamente que la UNLu utiliza genéricamente «SIU Guaraní» para todos los estudiantes de Sistemas. Esta suposición fue **formalmente superada y rectificada** en la implementación final:
 > 1. **SAWEB:** Acceso vigente para consultas, trámites, cursadas y exámenes para estudiantes de grado/pregrado de **cohortes anteriores a 2027**.
 > 2. **Nuevo Sistema de Gestión de Estudiantes (`g3w3.unlu.edu.ar`):** Acceso oficial para estudiantes a partir de la **cohorte 2027**.
-> 3. **PlatDig (E-ducativa) y Educativa Mobile:** Plataforma exclusiva de aulas virtuales y recursos de cursada (no para inscripciones a materias o exámenes).
+> 3. **Educativa y Educativa Mobile:** Plataforma exclusiva de aulas virtuales y recursos de cursada (no para inscripciones a materias o exámenes).
 >
 > Para las especificaciones y normativas vigentes, consultar [`docs/implementacion/README.md`](../implementacion/README.md#8-reglas-de-verificación-académica-y-plataformas-oficiales-de-la-unlu).
 

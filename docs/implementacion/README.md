@@ -251,13 +251,13 @@ Para garantizar la veracidad y calidad de la información brindada al estudianta
    - **Funciones:** Autogestión de materias, finales, seguimiento de plan y certificados.
    - **Fuentes oficiales:** [unlu.edu.ar/acceso-inf-acad.html](https://www.unlu.edu.ar/acceso-inf-acad.html) e [ingresouniversitario.unlu.edu.ar/?q=node/4](https://www.ingresouniversitario.unlu.edu.ar/?q=node/4).
 
-3. **PlatDig (Aulas Virtuales E-ducativa):**
+3. **Educativa (aulas virtuales):**
    - **URL Oficial:** `https://platdig.unlu.edu.ar/`
    - **Público:** Todas las cohortes y docentes durante el dictado de materias.
    - **Acceso móvil:** Aplicación **Educativa Mobile** (Android / iOS).
    - **Funciones:** Descarga de materiales de estudio, guías prácticas, foros de consulta y entrega de tareas.
    - **Fuente oficial:** [basicas.unlu.edu.ar/?q=node/917](https://www.basicas.unlu.edu.ar/?q=node/917).
-   - *Nota estricta:* PlatDig no se utiliza para inscripciones formales a materias ni a exámenes.
+   - *Nota estricta:* Educativa no se utiliza para inscripciones formales a materias ni a exámenes.
 
 ### B. Prohibición de Términos Genéricos
 - **Queda prohibido** utilizar «SIU Guaraní» como denominación genérica o recomendación automática para todos los estudiantes de la UNLu.
