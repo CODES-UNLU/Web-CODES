@@ -33,7 +33,7 @@ const highlightBadgeText = isCurrentEvent
       : `Próximo · Faltan ${daysUntilNext} días`
     : `Último hito ${CALENDAR_YEAR}`;
 
-// Cada fecha se clasifica por separado: si ya terminó va a "períodos anteriores",
+// Cada fecha se clasifica por separado: si ya terminó va a "fechas anteriores",
 // aunque su período todavía tenga fechas vigentes (p. ej. el 2° cuatrimestre).
 // El script del cliente repite esta clasificación con la fecha real del visitante,
 // porque el sitio es estático y el build puede ser anterior a la visita.
@@ -138,8 +138,7 @@ const pastCount = pastGroups.reduce((acc, g) => acc + g.events.length, 0);
   >
     <summary class="flex items-center justify-between gap-3 cursor-pointer list-none select-none font-semibold text-sm sm:text-base text-[var(--color-text-heading)] min-h-[40px]">
       <span>
-        Ver períodos anteriores de {CALENDAR_YEAR} (<span data-past-count>{pastCount}</span>{' '}
-        <span data-past-count-label>{pastCount === 1 ? 'fecha ya pasada' : 'fechas ya pasadas'}</span>)
+        Ver fechas anteriores de {CALENDAR_YEAR} (<span data-past-count>{pastCount}</span>)
       </span>
       <span class="shrink-0 text-[var(--color-text-muted)] transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -179,12 +178,11 @@ const pastCount = pastGroups.reduce((acc, g) => acc + g.events.length, 0);
     const now = new Date();
     const todayIso = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
-    // El HTML se genera en el build: movemos a "períodos anteriores" cada fecha que
+    // El HTML se genera en el build: movemos a "fechas anteriores" cada fecha que
     // haya terminado desde entonces, respetando su período y el orden cronológico.
     const upcomingRoot = document.querySelector('[data-upcoming-root]');
     const pastRoot = document.querySelector('[data-past-root]');
     const countEl = document.querySelector('[data-past-count]');
-    const countLabelEl = document.querySelector('[data-past-count-label]');
 
     if (upcomingRoot && pastRoot && pastDetails) {
       upcomingRoot.querySelectorAll('[data-calendar-event]').forEach((card) => {
@@ -210,7 +208,6 @@ const pastCount = pastGroups.reduce((acc, g) => acc + g.events.length, 0);
       const pastTotal = pastRoot.querySelectorAll('[data-calendar-event]').length;
       pastDetails.hidden = pastTotal === 0;
       if (countEl) countEl.textContent = String(pastTotal);
-      if (countLabelEl) countLabelEl.textContent = pastTotal === 1 ? 'fecha ya pasada' : 'fechas ya pasadas';
     }
 
     // Actualiza el bloque destacado según la fecha actual real del navegador
