@@ -1,0 +1,81 @@
+---
+import Badge from '../../../components/ui/Badge.astro';
+import type { CalendarEvent } from '../data/calendarEvents';
+
+interface Props {
+  event: CalendarEvent;
+  isPast: boolean;
+}
+
+const { event, isPast } = Astro.props;
+---
+
+<article
+  class="event-card relative bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-4 sm:p-5 shadow-xs transition-colors"
+  id={event.id}
+  data-calendar-event
+  data-past={isPast ? '' : undefined}
+  data-start-date={event.startDate}
+  data-end-date={event.endDate}
+  data-event-title={event.title}
+  data-event-date={event.dateDisplay}
+  data-event-desc={event.description}
+>
+  <!-- Punto en la línea de tiempo -->
+  <div class="event-dot absolute -left-[25px] sm:-left-[33px] top-5 w-3.5 h-3.5 rounded-full" aria-hidden="true"></div>
+
+  <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+    <p class="event-date text-sm sm:text-base font-bold tabular-nums m-0">
+      {event.dateDisplay}
+    </p>
+    <div class="flex items-center gap-2 text-xs">
+      <span class="code-tag text-[var(--color-text-muted)]">{event.category}</span>
+      {event.isConfirmed && (
+        <Badge variant="success" size="sm">Confirmada</Badge>
+      )}
+    </div>
+  </div>
+
+  <h3 class="font-bold text-base sm:text-lg text-[var(--color-text-heading)] mb-2 mt-0">
+    {event.title}
+  </h3>
+
+  <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-3 mt-0">
+    {event.description}
+  </p>
+
+  <footer class="pt-2.5 border-t border-[var(--color-border-subtle)] text-xs text-[var(--color-text-muted)]">
+    <span class="font-medium text-[var(--color-text-heading)]">Referencia:</span>{' '}
+    <span>{event.sourceNote}</span>
+  </footer>
+</article>
+
+<style>
+  /* El estado (vigente o pasado) se controla con data-past, que también cambia
+     el script del calendario cuando la fecha vence después del build. */
+  .event-dot {
+    background-color: var(--brand-500);
+    box-shadow: 0 0 0 4px var(--color-bg);
+  }
+
+  .event-date {
+    color: var(--brand-700);
+  }
+
+  :global(.dark) .event-date {
+    color: var(--brand-300);
+  }
+
+  .event-card:not([data-past]):hover {
+    border-color: var(--brand-400);
+  }
+
+  .event-card[data-past] .event-dot {
+    background-color: var(--color-border-strong);
+    box-shadow: 0 0 0 4px var(--color-bg-subtle);
+  }
+
+  .event-card[data-past] .event-date {
+    color: var(--color-text-heading);
+  }
+</style>

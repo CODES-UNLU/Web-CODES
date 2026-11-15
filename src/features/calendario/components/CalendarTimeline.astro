@@ -1,6 +1,7 @@
 ---
 import { calendarEvents, CALENDAR_YEAR, type CalendarEvent } from '../data/calendarEvents';
 import Badge from '../../../components/ui/Badge.astro';
+import CalendarEventCard from './CalendarEventCard.astro';
 import Button from '../../../components/ui/Button.astro';
 
 const now = new Date();
@@ -32,29 +33,26 @@ const highlightBadgeText = isCurrentEvent
       : `Próximo · Faltan ${daysUntilNext} días`
     : `Último hito ${CALENDAR_YEAR}`;
 
-// Agrupamos por período preservando orden cronológico y separando períodos pasados de los vigentes/próximos
+// Cada fecha se clasifica por separado: si ya terminó va a "períodos anteriores",
+// aunque su período todavía tenga fechas vigentes (p. ej. el 2° cuatrimestre).
+// El script del cliente repite esta clasificación con la fecha real del visitante,
+// porque el sitio es estático y el build puede ser anterior a la visita.
 const periods = Array.from(new Set(sortedEvents.map((e) => e.period)));
 
-interface PeriodGroup {
-  period: CalendarEvent['period'];
-  events: CalendarEvent[];
-  maxEndDate: string;
-  isPast: boolean;
-}
+const isEventPast = (event: CalendarEvent) => event.endDate < todayIso;
 
-const periodGroups: PeriodGroup[] = periods.map((period) => {
-  const events = sortedEvents.filter((e) => e.period === period);
-  const maxEndDate = events.reduce((max, ev) => (ev.endDate > max ? ev.endDate : max), '');
-  return {
+const periodLabel = (period: CalendarEvent['period']) =>
+  period.includes('2027') ? period : `${period} · ${CALENDAR_YEAR}`;
+
+const groupBy = (past: boolean) =>
+  periods.map((period) => ({
     period,
-    events,
-    maxEndDate,
-    isPast: maxEndDate < todayIso,
-  };
-});
+    events: sortedEvents.filter((e) => e.period === period && isEventPast(e) === past),
+  }));
 
-const pastGroups = periodGroups.filter((g) => g.isPast);
-const upcomingGroups = periodGroups.filter((g) => !g.isPast);
+const upcomingGroups = groupBy(false);
+const pastGroups = groupBy(true);
+const pastCount = pastGroups.reduce((acc, g) => acc + g.events.length, 0);
 ---
 
 <div class="space-y-8" data-calendar-root>
@@ -112,141 +110,62 @@ const upcomingGroups = periodGroups.filter((g) => !g.isPast);
     </div>
   </section>
 
-  <!-- Períodos actuales y próximos -->
-  {
-    upcomingGroups.map((group) => (
-      <section class="space-y-4" data-period-group data-max-end={group.maxEndDate}>
-        <div class="sticky top-16 z-20 py-2 bg-[var(--color-bg)]/95 backdrop-blur-sm border-b border-[var(--color-border-subtle)]">
-          <h2 class="text-lg sm:text-xl font-bold text-[var(--brand-700)] dark:text-[var(--brand-300)] flex items-center gap-2 m-0">
-            <span class="inline-block w-2.5 h-2.5 rounded-full bg-[var(--brand-500)]" aria-hidden="true" />
-            <span>{group.period.includes('2027') ? group.period : `${group.period} · ${CALENDAR_YEAR}`}</span>
-          </h2>
-        </div>
+  <!-- Períodos actuales y próximos: solo las fechas que todavía no terminaron -->
+  <div class="flex flex-col gap-8" data-upcoming-root>
+    {
+      upcomingGroups.map((group) => (
+        <section class="space-y-4" data-period-section={group.period} hidden={group.events.length === 0}>
+          <div class="sticky top-16 z-20 py-2 bg-[var(--color-bg)]/95 backdrop-blur-sm border-b border-[var(--color-border-subtle)]">
+            <h2 class="text-lg sm:text-xl font-bold text-[var(--brand-700)] dark:text-[var(--brand-300)] flex items-center gap-2 m-0">
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-[var(--brand-500)]" aria-hidden="true" />
+              <span>{periodLabel(group.period)}</span>
+            </h2>
+          </div>
 
-        <div class="relative pl-4 sm:pl-6 space-y-4 border-l-2 border-[var(--color-border)] ml-2">
-          {group.events.map((event) => (
-            <article
-              class="relative bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-4 sm:p-5 shadow-xs transition-all hover:border-[var(--brand-400)]"
-              id={event.id}
-              data-start-date={event.startDate}
-              data-end-date={event.endDate}
-              data-event-title={event.title}
-              data-event-date={event.dateDisplay}
-              data-event-desc={event.description}
-            >
-              <!-- Punto en la línea de tiempo -->
-              <div
-                class="absolute -left-[25px] sm:-left-[33px] top-5 w-3.5 h-3.5 rounded-full bg-[var(--brand-500)] ring-4 ring-[var(--color-bg)]"
-                aria-hidden="true"
-              />
+          <div class="relative pl-4 sm:pl-6 space-y-4 border-l-2 border-[var(--color-border)] ml-2" data-period-events>
+            {group.events.map((event) => <CalendarEventCard event={event} isPast={false} />)}
+          </div>
+        </section>
+      ))
+    }
+  </div>
 
-              <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
-                <p class="text-sm sm:text-base font-bold tabular-nums text-[var(--brand-700)] dark:text-[var(--brand-300)] m-0">
-                  {event.dateDisplay}
-                </p>
-                <div class="flex items-center gap-2 text-xs">
-                  <span class="code-tag text-[var(--color-text-muted)]">{event.category}</span>
-                  {event.isConfirmed && (
-                    <Badge variant="success" size="sm">Confirmada</Badge>
-                  )}
-                </div>
-              </div>
+  <!-- Fechas ya pasadas del año, agrupadas por período y colapsadas por defecto -->
+  <details
+    id="past-periods-details"
+    class="group rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-subtle)] p-4 sm:p-5"
+    hidden={pastCount === 0}
+  >
+    <summary class="flex items-center justify-between gap-3 cursor-pointer list-none select-none font-semibold text-sm sm:text-base text-[var(--color-text-heading)] min-h-[40px]">
+      <span>
+        Ver períodos anteriores de {CALENDAR_YEAR} (<span data-past-count>{pastCount}</span>{' '}
+        <span data-past-count-label>{pastCount === 1 ? 'fecha ya pasada' : 'fechas ya pasadas'}</span>)
+      </span>
+      <span class="shrink-0 text-[var(--color-text-muted)] transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </span>
+    </summary>
 
-              <h3 class="font-bold text-base sm:text-lg text-[var(--color-text-heading)] mb-2 mt-0">
-                {event.title}
-              </h3>
+    <div class="pt-6 flex flex-col gap-8" data-past-root>
+      {
+        pastGroups.map((group) => (
+          <section class="space-y-4" data-period-section={group.period} hidden={group.events.length === 0}>
+            <div class="py-1.5 border-b border-[var(--color-border)]">
+              <h2 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] m-0">
+                {periodLabel(group.period)}
+              </h2>
+            </div>
 
-              <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-3 mt-0">
-                {event.description}
-              </p>
-
-              <footer class="pt-2.5 border-t border-[var(--color-border-subtle)] text-xs text-[var(--color-text-muted)]">
-                <span class="font-medium text-[var(--color-text-heading)]">Referencia:</span>{' '}
-                <span>{event.sourceNote}</span>
-              </footer>
-            </article>
-          ))}
-        </div>
-      </section>
-    ))
-  }
-
-  <!-- Períodos anteriores del año colapsados por defecto -->
-  {
-    pastGroups.length > 0 && (
-      <details
-        id="past-periods-details"
-        class="group rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-subtle)] p-4 sm:p-5"
-      >
-        <summary class="flex items-center justify-between gap-3 cursor-pointer list-none select-none font-semibold text-sm sm:text-base text-[var(--color-text-heading)] min-h-[40px]">
-          <span>
-            Ver períodos anteriores de {CALENDAR_YEAR} ({pastGroups.reduce((acc, g) => acc + g.events.length, 0)} fechas ya pasadas)
-          </span>
-          <span class="shrink-0 text-[var(--color-text-muted)] transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
-          </span>
-        </summary>
-
-        <div class="pt-6 space-y-8">
-          {pastGroups.map((group) => (
-            <section class="space-y-4" data-period-group data-max-end={group.maxEndDate}>
-              <div class="py-1.5 border-b border-[var(--color-border)]">
-                <h2 class="text-base sm:text-lg font-bold text-[var(--color-text-heading)] m-0">
-                  {group.period.includes('2027') ? group.period : `${group.period} · ${CALENDAR_YEAR}`}
-                </h2>
-              </div>
-
-              <div class="relative pl-4 sm:pl-6 space-y-4 border-l-2 border-[var(--color-border)] ml-2">
-                {group.events.map((event) => (
-                  <article
-                    class="relative bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-4 sm:p-5 shadow-xs"
-                    id={event.id}
-                    data-start-date={event.startDate}
-                    data-end-date={event.endDate}
-                    data-event-title={event.title}
-                    data-event-date={event.dateDisplay}
-                    data-event-desc={event.description}
-                  >
-                    <div
-                      class="absolute -left-[25px] sm:-left-[33px] top-5 w-3.5 h-3.5 rounded-full bg-[var(--color-border-strong)] ring-4 ring-[var(--color-bg-subtle)]"
-                      aria-hidden="true"
-                    />
-
-                    <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
-                      <p class="text-sm sm:text-base font-bold tabular-nums text-[var(--color-text-heading)] m-0">
-                        {event.dateDisplay}
-                      </p>
-                      <div class="flex items-center gap-2 text-xs">
-                        <span class="code-tag text-[var(--color-text-muted)]">{event.category}</span>
-                        {event.isConfirmed && (
-                          <Badge variant="success" size="sm">Confirmada</Badge>
-                        )}
-                      </div>
-                    </div>
-
-                    <h3 class="font-bold text-base sm:text-lg text-[var(--color-text-heading)] mb-2 mt-0">
-                      {event.title}
-                    </h3>
-
-                    <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-3 mt-0">
-                      {event.description}
-                    </p>
-
-                    <footer class="pt-2.5 border-t border-[var(--color-border-subtle)] text-xs text-[var(--color-text-muted)]">
-                      <span class="font-medium text-[var(--color-text-heading)]">Referencia:</span>{' '}
-                      <span>{event.sourceNote}</span>
-                    </footer>
-                  </article>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
-      </details>
-    )
-  }
+            <div class="relative pl-4 sm:pl-6 space-y-4 border-l-2 border-[var(--color-border)] ml-2" data-period-events>
+              {group.events.map((event) => <CalendarEventCard event={event} isPast={true} />)}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </details>
 </div>
 
 <script is:inline>
@@ -257,9 +176,44 @@ const upcomingGroups = periodGroups.filter((g) => !g.isPast);
     const titleEl = document.querySelector('[data-highlight-title]');
     const descEl = document.querySelector('[data-highlight-desc]');
 
-    // Actualiza la etiqueta relativa según la fecha actual real del navegador
     const now = new Date();
     const todayIso = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+    // El HTML se genera en el build: movemos a "períodos anteriores" cada fecha que
+    // haya terminado desde entonces, respetando su período y el orden cronológico.
+    const upcomingRoot = document.querySelector('[data-upcoming-root]');
+    const pastRoot = document.querySelector('[data-past-root]');
+    const countEl = document.querySelector('[data-past-count]');
+    const countLabelEl = document.querySelector('[data-past-count-label]');
+
+    if (upcomingRoot && pastRoot && pastDetails) {
+      upcomingRoot.querySelectorAll('[data-calendar-event]').forEach((card) => {
+        if ((card.getAttribute('data-end-date') || '') >= todayIso) return;
+        const period = card.closest('[data-period-section]')?.getAttribute('data-period-section');
+        const pastSection = Array.from(pastRoot.querySelectorAll('[data-period-section]')).find(
+          (section) => section.getAttribute('data-period-section') === period
+        );
+        const list = pastSection?.querySelector('[data-period-events]');
+        if (!list) return;
+        const start = card.getAttribute('data-start-date') || '';
+        const next = Array.from(list.children).find(
+          (el) => (el.getAttribute('data-start-date') || '') > start
+        );
+        card.setAttribute('data-past', '');
+        list.insertBefore(card, next || null);
+      });
+
+      document.querySelectorAll('[data-period-section]').forEach((section) => {
+        section.hidden = !section.querySelector('[data-calendar-event]');
+      });
+
+      const pastTotal = pastRoot.querySelectorAll('[data-calendar-event]').length;
+      pastDetails.hidden = pastTotal === 0;
+      if (countEl) countEl.textContent = String(pastTotal);
+      if (countLabelEl) countLabelEl.textContent = pastTotal === 1 ? 'fecha ya pasada' : 'fechas ya pasadas';
+    }
+
+    // Actualiza el bloque destacado según la fecha actual real del navegador
     const articles = Array.from(document.querySelectorAll('[data-start-date]')).sort((a, b) =>
       (a.getAttribute('data-start-date') || '').localeCompare(b.getAttribute('data-start-date') || '')
     );
